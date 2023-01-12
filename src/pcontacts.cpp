@@ -34,7 +34,19 @@ void ParticleContact::solveVelocity(float dt)
   if (vSep > 0) // objects are moving apart
     return;
 
-  float newVSep = -restitution * vSep, dv = newVSep - vSep;
+  float newVSep = -vSep;
+
+  // separating velocity as a result of acceleration
+  float vAcc = (particles[0]->getAcc() - particles[1]->getAcc()) * contactNormal * dt;
+  if (vAcc < 0) // acceleration causes inward velocity
+  {
+    newVSep += vAcc;
+    if (newVSep < 0) // positions still can't be converging
+      newVSep = 0;
+  }
+  newVSep *= restitution;
+
+  float dv = newVSep - vSep;
 
   float sumInvMass = particles[0]->getInvMass() + particles[1]->getInvMass();
 

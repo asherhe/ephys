@@ -28,6 +28,51 @@ interface Vec2 {
   [Operator="*=", Ref] Vec2 mult(float k);
 };
 
+[Prefix="ephys::"]
+interface Mat2 {
+  attribute float[] data;
+
+  void Mat2();
+  void Mat2(float d11, float d12,
+            float d21, float d22);
+  void Mat2([Const, Ref] Mat2 m);
+
+  [Value] static Mat2 zero();
+  [Value] static Mat2 identity();
+
+  float at(unsigned long m, unsigned long n);
+  void set(unsigned long m, unsigned long n, float val);
+
+  [Operator="+=", Ref] Mat2 add([Const, Ref] Mat2 m);
+  [Operator="-=", Ref] Mat2 sub([Const, Ref] Mat2 m);
+  [Operator="*=", Ref] Mat2 mult([Const, Ref] Mat2 m);
+
+  float determinant();
+
+  [Value] Mat2 inverse();
+  [Ref] Mat2 invert();
+
+  [Value] Mat2 transpose();
+};
+
+[Prefix="ephys::"]
+interface Mat3 {
+  void Mat3();
+  void Mat3(float d11, float d12, float d13,
+            float d21, float d22, float d23);
+  void Mat3([Const, Ref] Mat3 m);
+
+  [Value] static Mat3 identity();
+
+  float at(unsigned long m, unsigned long n);
+  void set(unsigned long m, unsigned long n, float val);
+
+  float determinant();
+
+  [Value] Mat3 inverse();
+  [Ref] Mat3 invert();
+};
+
 //////// Particles ////////
 
 [Prefix="ephys::"]

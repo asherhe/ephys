@@ -128,6 +128,168 @@ Module['ready'] = new Promise(function(resolve, reject) {
       }
     
 
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_Mat2_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_Mat2_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_Mat2_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_Mat2_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_Mat2_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_Mat2_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_Mat2_4')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_4', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_Mat2_4 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_4', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_Mat2_4 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_zero_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_zero_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_zero_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_zero_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_zero_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_identity_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_identity_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_identity_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_identity_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_identity_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_at_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_at_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_at_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_at_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_at_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_set_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_set_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_set_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_set_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_set_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_add_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_add_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_add_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_add_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_add_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_sub_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_sub_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_sub_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_sub_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_sub_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_mult_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_mult_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_mult_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_mult_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_mult_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_determinant_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_determinant_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_determinant_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_determinant_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_determinant_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_inverse_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_inverse_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_inverse_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_inverse_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_inverse_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_invert_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_invert_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_invert_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_invert_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_invert_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_transpose_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_transpose_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_transpose_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_transpose_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_transpose_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_get_data_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_get_data_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_get_data_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_get_data_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_get_data_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_set_data_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_set_data_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_set_data_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_set_data_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_set_data_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_Mat3_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_Mat3_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_Mat3_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_Mat3_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_Mat3_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_Mat3_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_Mat3_6')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_6', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_Mat3_6 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_6', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_Mat3_6 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_identity_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_identity_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_identity_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_identity_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_identity_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_at_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_at_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_at_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_at_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_at_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_set_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_set_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_set_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_set_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_set_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_determinant_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_determinant_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_determinant_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_determinant_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_determinant_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_inverse_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_inverse_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_inverse_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_inverse_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_inverse_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_invert_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_invert_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_invert_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_invert_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_invert_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_Particle_0')) {
         Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_Particle_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_Particle_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_Particle_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_Particle_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
@@ -2591,6 +2753,87 @@ var _emscripten_bind_Vec2_set_y_1 = Module["_emscripten_bind_Vec2_set_y_1"] = cr
 var _emscripten_bind_Vec2___destroy___0 = Module["_emscripten_bind_Vec2___destroy___0"] = createExportWrapper("emscripten_bind_Vec2___destroy___0");
 
 /** @type {function(...*):?} */
+var _emscripten_bind_Mat2_Mat2_0 = Module["_emscripten_bind_Mat2_Mat2_0"] = createExportWrapper("emscripten_bind_Mat2_Mat2_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_Mat2_1 = Module["_emscripten_bind_Mat2_Mat2_1"] = createExportWrapper("emscripten_bind_Mat2_Mat2_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_Mat2_4 = Module["_emscripten_bind_Mat2_Mat2_4"] = createExportWrapper("emscripten_bind_Mat2_Mat2_4");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_zero_0 = Module["_emscripten_bind_Mat2_zero_0"] = createExportWrapper("emscripten_bind_Mat2_zero_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_identity_0 = Module["_emscripten_bind_Mat2_identity_0"] = createExportWrapper("emscripten_bind_Mat2_identity_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_at_2 = Module["_emscripten_bind_Mat2_at_2"] = createExportWrapper("emscripten_bind_Mat2_at_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_set_3 = Module["_emscripten_bind_Mat2_set_3"] = createExportWrapper("emscripten_bind_Mat2_set_3");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_add_1 = Module["_emscripten_bind_Mat2_add_1"] = createExportWrapper("emscripten_bind_Mat2_add_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_sub_1 = Module["_emscripten_bind_Mat2_sub_1"] = createExportWrapper("emscripten_bind_Mat2_sub_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_mult_1 = Module["_emscripten_bind_Mat2_mult_1"] = createExportWrapper("emscripten_bind_Mat2_mult_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_determinant_0 = Module["_emscripten_bind_Mat2_determinant_0"] = createExportWrapper("emscripten_bind_Mat2_determinant_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_inverse_0 = Module["_emscripten_bind_Mat2_inverse_0"] = createExportWrapper("emscripten_bind_Mat2_inverse_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_invert_0 = Module["_emscripten_bind_Mat2_invert_0"] = createExportWrapper("emscripten_bind_Mat2_invert_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_transpose_0 = Module["_emscripten_bind_Mat2_transpose_0"] = createExportWrapper("emscripten_bind_Mat2_transpose_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_get_data_1 = Module["_emscripten_bind_Mat2_get_data_1"] = createExportWrapper("emscripten_bind_Mat2_get_data_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2_set_data_2 = Module["_emscripten_bind_Mat2_set_data_2"] = createExportWrapper("emscripten_bind_Mat2_set_data_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat2___destroy___0 = Module["_emscripten_bind_Mat2___destroy___0"] = createExportWrapper("emscripten_bind_Mat2___destroy___0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3_Mat3_0 = Module["_emscripten_bind_Mat3_Mat3_0"] = createExportWrapper("emscripten_bind_Mat3_Mat3_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3_Mat3_1 = Module["_emscripten_bind_Mat3_Mat3_1"] = createExportWrapper("emscripten_bind_Mat3_Mat3_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3_Mat3_6 = Module["_emscripten_bind_Mat3_Mat3_6"] = createExportWrapper("emscripten_bind_Mat3_Mat3_6");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3_identity_0 = Module["_emscripten_bind_Mat3_identity_0"] = createExportWrapper("emscripten_bind_Mat3_identity_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3_at_2 = Module["_emscripten_bind_Mat3_at_2"] = createExportWrapper("emscripten_bind_Mat3_at_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3_set_3 = Module["_emscripten_bind_Mat3_set_3"] = createExportWrapper("emscripten_bind_Mat3_set_3");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3_determinant_0 = Module["_emscripten_bind_Mat3_determinant_0"] = createExportWrapper("emscripten_bind_Mat3_determinant_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3_inverse_0 = Module["_emscripten_bind_Mat3_inverse_0"] = createExportWrapper("emscripten_bind_Mat3_inverse_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3_invert_0 = Module["_emscripten_bind_Mat3_invert_0"] = createExportWrapper("emscripten_bind_Mat3_invert_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Mat3___destroy___0 = Module["_emscripten_bind_Mat3___destroy___0"] = createExportWrapper("emscripten_bind_Mat3___destroy___0");
+
+/** @type {function(...*):?} */
 var _emscripten_bind_Particle_Particle_0 = Module["_emscripten_bind_Particle_Particle_0"] = createExportWrapper("emscripten_bind_Particle_Particle_0");
 
 /** @type {function(...*):?} */
@@ -3553,6 +3796,167 @@ Vec2.prototype['mult'] = Vec2.prototype.mult = /** @suppress {undefinedVars, dup
   Vec2.prototype['__destroy__'] = Vec2.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
   var self = this.ptr;
   _emscripten_bind_Vec2___destroy___0(self);
+};
+// Mat2
+/** @suppress {undefinedVars, duplicate} @this{Object} */function Mat2(d11, d12, d21, d22) {
+  if (d11 && typeof d11 === 'object') d11 = d11.ptr;
+  if (d12 && typeof d12 === 'object') d12 = d12.ptr;
+  if (d21 && typeof d21 === 'object') d21 = d21.ptr;
+  if (d22 && typeof d22 === 'object') d22 = d22.ptr;
+  if (d11 === undefined) { this.ptr = _emscripten_bind_Mat2_Mat2_0(); getCache(Mat2)[this.ptr] = this;return }
+  if (d12 === undefined) { this.ptr = _emscripten_bind_Mat2_Mat2_1(d11); getCache(Mat2)[this.ptr] = this;return }
+  if (d21 === undefined) { this.ptr = _emscripten_bind_Mat2_Mat2_2(d11, d12); getCache(Mat2)[this.ptr] = this;return }
+  if (d22 === undefined) { this.ptr = _emscripten_bind_Mat2_Mat2_3(d11, d12, d21); getCache(Mat2)[this.ptr] = this;return }
+  this.ptr = _emscripten_bind_Mat2_Mat2_4(d11, d12, d21, d22);
+  getCache(Mat2)[this.ptr] = this;
+};;
+Mat2.prototype = Object.create(WrapperObject.prototype);
+Mat2.prototype.constructor = Mat2;
+Mat2.prototype.__class__ = Mat2;
+Mat2.__cache__ = {};
+Module['Mat2'] = Mat2;
+
+Mat2.prototype['zero'] = Mat2.prototype.zero = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Mat2_zero_0(self), Mat2);
+};;
+
+Mat2.prototype['identity'] = Mat2.prototype.identity = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Mat2_identity_0(self), Mat2);
+};;
+
+Mat2.prototype['at'] = Mat2.prototype.at = /** @suppress {undefinedVars, duplicate} @this{Object} */function(m, n) {
+  var self = this.ptr;
+  if (m && typeof m === 'object') m = m.ptr;
+  if (n && typeof n === 'object') n = n.ptr;
+  return _emscripten_bind_Mat2_at_2(self, m, n);
+};;
+
+Mat2.prototype['set'] = Mat2.prototype.set = /** @suppress {undefinedVars, duplicate} @this{Object} */function(m, n, val) {
+  var self = this.ptr;
+  if (m && typeof m === 'object') m = m.ptr;
+  if (n && typeof n === 'object') n = n.ptr;
+  if (val && typeof val === 'object') val = val.ptr;
+  _emscripten_bind_Mat2_set_3(self, m, n, val);
+};;
+
+Mat2.prototype['add'] = Mat2.prototype.add = /** @suppress {undefinedVars, duplicate} @this{Object} */function(m) {
+  var self = this.ptr;
+  if (m && typeof m === 'object') m = m.ptr;
+  return wrapPointer(_emscripten_bind_Mat2_add_1(self, m), Mat2);
+};;
+
+Mat2.prototype['sub'] = Mat2.prototype.sub = /** @suppress {undefinedVars, duplicate} @this{Object} */function(m) {
+  var self = this.ptr;
+  if (m && typeof m === 'object') m = m.ptr;
+  return wrapPointer(_emscripten_bind_Mat2_sub_1(self, m), Mat2);
+};;
+
+Mat2.prototype['mult'] = Mat2.prototype.mult = /** @suppress {undefinedVars, duplicate} @this{Object} */function(m) {
+  var self = this.ptr;
+  if (m && typeof m === 'object') m = m.ptr;
+  return wrapPointer(_emscripten_bind_Mat2_mult_1(self, m), Mat2);
+};;
+
+Mat2.prototype['determinant'] = Mat2.prototype.determinant = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Mat2_determinant_0(self);
+};;
+
+Mat2.prototype['inverse'] = Mat2.prototype.inverse = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Mat2_inverse_0(self), Mat2);
+};;
+
+Mat2.prototype['invert'] = Mat2.prototype.invert = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Mat2_invert_0(self), Mat2);
+};;
+
+Mat2.prototype['transpose'] = Mat2.prototype.transpose = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Mat2_transpose_0(self), Mat2);
+};;
+
+  Mat2.prototype['get_data'] = Mat2.prototype.get_data = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  return _emscripten_bind_Mat2_get_data_1(self, arg0);
+};
+    Mat2.prototype['set_data'] = Mat2.prototype.set_data = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0, arg1) {
+  var self = this.ptr;
+  ensureCache.prepare();
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  if (arg1 && typeof arg1 === 'object') arg1 = arg1.ptr;
+  _emscripten_bind_Mat2_set_data_2(self, arg0, arg1);
+};
+    Object.defineProperty(Mat2.prototype, 'data', { get: Mat2.prototype.get_data, set: Mat2.prototype.set_data });
+  Mat2.prototype['__destroy__'] = Mat2.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_Mat2___destroy___0(self);
+};
+// Mat3
+/** @suppress {undefinedVars, duplicate} @this{Object} */function Mat3(d11, d12, d13, d21, d22, d23) {
+  if (d11 && typeof d11 === 'object') d11 = d11.ptr;
+  if (d12 && typeof d12 === 'object') d12 = d12.ptr;
+  if (d13 && typeof d13 === 'object') d13 = d13.ptr;
+  if (d21 && typeof d21 === 'object') d21 = d21.ptr;
+  if (d22 && typeof d22 === 'object') d22 = d22.ptr;
+  if (d23 && typeof d23 === 'object') d23 = d23.ptr;
+  if (d11 === undefined) { this.ptr = _emscripten_bind_Mat3_Mat3_0(); getCache(Mat3)[this.ptr] = this;return }
+  if (d12 === undefined) { this.ptr = _emscripten_bind_Mat3_Mat3_1(d11); getCache(Mat3)[this.ptr] = this;return }
+  if (d13 === undefined) { this.ptr = _emscripten_bind_Mat3_Mat3_2(d11, d12); getCache(Mat3)[this.ptr] = this;return }
+  if (d21 === undefined) { this.ptr = _emscripten_bind_Mat3_Mat3_3(d11, d12, d13); getCache(Mat3)[this.ptr] = this;return }
+  if (d22 === undefined) { this.ptr = _emscripten_bind_Mat3_Mat3_4(d11, d12, d13, d21); getCache(Mat3)[this.ptr] = this;return }
+  if (d23 === undefined) { this.ptr = _emscripten_bind_Mat3_Mat3_5(d11, d12, d13, d21, d22); getCache(Mat3)[this.ptr] = this;return }
+  this.ptr = _emscripten_bind_Mat3_Mat3_6(d11, d12, d13, d21, d22, d23);
+  getCache(Mat3)[this.ptr] = this;
+};;
+Mat3.prototype = Object.create(WrapperObject.prototype);
+Mat3.prototype.constructor = Mat3;
+Mat3.prototype.__class__ = Mat3;
+Mat3.__cache__ = {};
+Module['Mat3'] = Mat3;
+
+Mat3.prototype['identity'] = Mat3.prototype.identity = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Mat3_identity_0(self), Mat3);
+};;
+
+Mat3.prototype['at'] = Mat3.prototype.at = /** @suppress {undefinedVars, duplicate} @this{Object} */function(m, n) {
+  var self = this.ptr;
+  if (m && typeof m === 'object') m = m.ptr;
+  if (n && typeof n === 'object') n = n.ptr;
+  return _emscripten_bind_Mat3_at_2(self, m, n);
+};;
+
+Mat3.prototype['set'] = Mat3.prototype.set = /** @suppress {undefinedVars, duplicate} @this{Object} */function(m, n, val) {
+  var self = this.ptr;
+  if (m && typeof m === 'object') m = m.ptr;
+  if (n && typeof n === 'object') n = n.ptr;
+  if (val && typeof val === 'object') val = val.ptr;
+  _emscripten_bind_Mat3_set_3(self, m, n, val);
+};;
+
+Mat3.prototype['determinant'] = Mat3.prototype.determinant = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Mat3_determinant_0(self);
+};;
+
+Mat3.prototype['inverse'] = Mat3.prototype.inverse = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Mat3_inverse_0(self), Mat3);
+};;
+
+Mat3.prototype['invert'] = Mat3.prototype.invert = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Mat3_invert_0(self), Mat3);
+};;
+
+  Mat3.prototype['__destroy__'] = Mat3.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_Mat3___destroy___0(self);
 };
 // Particle
 /** @suppress {undefinedVars, duplicate} @this{Object} */function Particle(mass, damping) {

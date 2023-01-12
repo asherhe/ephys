@@ -10,9 +10,9 @@ namespace ephys
   class Particle
   {
   protected:
-    Vec2 pos;
-    Vec2 vel;
-    Vec2 acc;
+    Vec2 pos,
+        vel,
+        acc;
 
     // the net force applied to the particle during this tick
     Vec2 forceAccum;
