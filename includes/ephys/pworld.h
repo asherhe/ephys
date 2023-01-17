@@ -26,13 +26,32 @@ namespace ephys
   public:
     ParticleWorld(unsigned iterations = CALCULATE_SOLVER_ITERATIONS) : pcSolver(iterations), iterations(iterations) {}
 
-    inline ParticleForceRegistry &getPFReg() { return pfReg; }
+    inline void addParticle(Particle &particle)
+    {
+      particles.push_back(&particle);
+    }
+    inline void removeParticle(Particle &particle)
+    {
+      particles.remove(&particle);
+    }
 
-    void addParticle(Particle &particle);
-    void removeParticle(Particle &particle);
+    inline void addPFGen(Particle &particle, ParticleForceGenerator &fgen)
+    {
+      pfReg.add(particle, fgen);
+    }
+    inline void removePFGen(Particle &particle, ParticleForceGenerator &fgen)
+    {
+      pfReg.remove(particle, fgen);
+    }
 
-    void addPContactGenerator(ParticleContactGenerator &pcg);
-    void removePContactGenerator(ParticleContactGenerator &pcg);
+    inline void addPContactGenerator(ParticleContactGenerator &pcg)
+    {
+      pcGenerators.push_back(&pcg);
+    }
+    inline void removePContactGenerator(ParticleContactGenerator &pcg)
+    {
+      pcGenerators.remove(&pcg);
+    }
 
     // invokes contact generators and generates a list of contacts
     std::list<ParticleContact> &generateContacts() const;

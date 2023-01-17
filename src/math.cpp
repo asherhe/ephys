@@ -96,6 +96,11 @@ float Vec2::operator*(const Vec2 &v) const
   return x * v.x + y * v.y;
 }
 
+float Vec2::cross(const Vec2 &v) const
+{
+  return x * v.y - y * v.x;
+}
+
 Mat2 Mat2::operator+(const Mat2 &m) const
 {
   return Mat2(data[0] + m.data[0],

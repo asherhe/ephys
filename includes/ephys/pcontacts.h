@@ -11,7 +11,7 @@ namespace ephys
   class ParticleContactSolver;
 
   // represents a contact between two particles
-  class ParticleContact
+  struct ParticleContact
   {
     // allow access to protected methods
     friend class ParticleContactSolver;

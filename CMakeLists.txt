@@ -1,11 +1,3 @@
-# NOTE:
-# -----
-# when creating the build directory (cmake ..), append the flags
-#
-# -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=emcc
-#
-# to use the emscripten compiler
-
 cmake_minimum_required(VERSION 3.10)
 
 project(ephys VERSION 0.1)
@@ -27,11 +19,14 @@ set(EPHYS_WASM ${OUTPUT_DIR}/ephys.wasm)
 
 set(EPHYS_SOURCES
   math.cpp
+  rigidbody.cpp
+  world.cpp
+  forcegen.cpp
   particle.cpp
+  pworld.cpp
   pcontacts.cpp
   pforcegen.cpp
   plinks.cpp
-  pworld.cpp
 )
 list(TRANSFORM EPHYS_SOURCES PREPEND ${EPHYS_SRC_DIR})
 

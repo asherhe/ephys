@@ -73,6 +73,95 @@ interface Mat3 {
   [Ref] Mat3 invert();
 };
 
+//////// Rigidbodies ////////
+
+[Prefix="ephys::"]
+interface RigidBody {
+  void RigidBody();
+
+  [Value] Vec2 getPos();
+  [Value] Vec2 getVel();
+  [Value] Vec2 getAcc();
+  float getAngle();
+  float getAngVel();
+  float getMass();
+  float getInvMass();
+  float getInertia();
+  float getInvInertia();
+  [Value] Mat3 getTransform();
+  [Value] Mat3 getInvTransform();
+
+  void setPos([Const, Ref] Vec2 pos);
+  void setVel([Const, Ref] Vec2 vel);
+  void setAcc([Const, Ref] Vec2 acc);
+  void setAngle(float angle);
+  void setAngVel(float angVel);
+  void setMass(float mass);
+  void setInvMass(float invMass);
+  void setInertia(float inertia);
+  void setInvInertia(float invInertia);
+
+  [Value] Vec2 world2Local([Const, Ref] Vec2 pos);
+  [Value] Vec2 local2World([Const, Ref] Vec2 pos);
+
+  void addForce([Const, Ref] Vec2 force);
+  void addForceAt([Const, Ref] Vec2 force, [Const, Ref] Vec2 point);
+  void addForceAtLocal([Const, Ref] Vec2 force, [Const, Ref] Vec2 point);
+
+  void addTorque(float torque);
+
+  void clearAccums();
+
+  void step(float dt);
+};
+
+//////// Physics World ////////
+
+[Prefix="ephys::"]
+interface World {
+  void World();
+
+  void addBody([Ref] RigidBody body);
+  void removeBody([Ref] RigidBody body);
+
+  void step(float dt);
+};
+
+//////// Force Generators ////////
+[Prefix="ephys::", NoDelete]
+interface ForceGenerator {
+  void updateForce([Ref] RigidBody body, float dt);
+};
+
+[Prefix="ephys::", NoDelete]
+interface ForceRegistry {
+  void ForceRegistry();
+
+  void add([Ref] RigidBody body, [Ref] ForceGenerator fgen);
+  void remove([Ref] RigidBody body, [Ref] ForceGenerator fgen);
+  void clear();
+};
+
+[Prefix="ephys::"]
+interface Gravity : ForceGenerator {
+  void Gravity([Const, Ref] Vec2 gravity);
+  
+  void updateForce([Ref] RigidBody body, float dt);
+};
+
+[Prefix="ephys::"]
+interface Spring : ForceGenerator {
+  attribute float k;
+  attribute float length;
+
+  void Spring([Ref] RigidBody end, [Const, Ref] Vec2 anchor, [Const, Ref] Vec2 endAnchor, float k, float length);
+
+  [Value] RigidBody getEnd();
+  void setEnd([Const, Ref] RigidBody body);
+
+  void updateForce([Ref] RigidBody body, float dt);
+};
+
 //////// Particles ////////
 
 [Prefix="ephys::"]
@@ -211,10 +300,11 @@ interface ParticleRod : ParticleLink {
 interface ParticleWorld {
   void ParticleWorld(optional unsigned long iterations);
 
-  [Ref] ParticleForceRegistry getPFReg();
-
   void addParticle([Ref] Particle particle);
   void removeParticle([Ref] Particle particle);
+
+  void addPFGen([Ref] Particle particle, [Ref] ParticleForceGenerator fgen);
+  void removePFGen([Ref] Particle particle, [Ref] ParticleForceGenerator fgen);
 
   void addPContactGenerator([Ref] ParticleContactGenerator pcg);
   void removePContactGenerator([Ref] ParticleContactGenerator pcg);

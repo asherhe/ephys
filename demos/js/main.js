@@ -48,13 +48,13 @@ const ephysWrapper = async function () {
     if (e.button == 0 && hoverParticle) {
       grabParticle = hoverParticle;
       grabSpring.k = grabParticle.getMass() * 5;
-      pWorld.getPFReg().add(grabParticle, grabSpring);
+      pWorld.addPFGen(grabParticle, grabSpring);
       canvas.style.cursor = "grabbing";
     }
   });
   canvas.addEventListener("mouseup", (e) => {
     if (e.button == 0 && grabParticle) {
-      pWorld.getPFReg().remove(grabParticle, grabSpring);
+      pWorld.removePFGen(grabParticle, grabSpring);
       grabParticle = false;
       canvas.style.cursor = "initial";
     }
@@ -182,21 +182,21 @@ const ephysWrapper = async function () {
       pWorld.removeParticle(particle);
       delete particles[particles.findIndex(particle)];
     },
-    addSpring: function (particle, pfgen) {
-      pWorld.getPFReg().add(particle, pfgen);
+    addPFGen: function (particle, pfgen) {
+      pWorld.addPFGen(particle, pfgen);
       pfgens.push([pfgen, particle]);
     },
-    removeSpring: function (particle, pfgen) {
-      pWorld.getPFReg().remove(particle, pfgen);
+    removePFGen: function (particle, pfgen) {
+      pWorld.removePFGen(particle, pfgen);
       delete pfgens[pfgens.findIndex([pfgen, particle])];
     },
     addSpring: function (particle, spring) {
-      pWorld.getPFReg().add(particle, spring);
+      pWorld.addPFGen(particle, spring);
       pfgens.push([spring, particle]);
       springs.push([spring, particle]);
     },
     removeSpring: function (particle, spring) {
-      pWorld.getPFReg().remove(particle, spring);
+      pWorld.removePFGen(particle, spring);
       delete pfgens[pfgens.findIndex([spring, particle])];
       delete springs[springs.findIndex([spring, particle])];
     },

@@ -7,12 +7,11 @@ using namespace ephys;
 
 void ParticleForceRegistry::add(Particle &particle, ParticleForceGenerator &pfgen)
 {
-  ParticleForceRegistry::ParticleForcePairs pair;
-  pair.particle = &particle;
-  pair.pfgen = &pfgen;
-  reg.push_back(pair);
+  ParticleForcePair *pair = new ParticleForcePair;
+  pair->particle = &particle;
+  pair->pfgen = &pfgen;
+  reg.push_back(*pair);
 }
-
 void ParticleForceRegistry::remove(Particle &particle, ParticleForceGenerator &pfgen)
 {
   for (auto it = reg.begin(); it != reg.end(); ++it)
@@ -22,12 +21,10 @@ void ParticleForceRegistry::remove(Particle &particle, ParticleForceGenerator &p
       return;
     }
 }
-
 void ParticleForceRegistry::clear()
 {
   reg.clear();
 }
-
 void ParticleForceRegistry::step(float dt)
 {
   for (auto it = reg.begin(); it != reg.end(); ++it)

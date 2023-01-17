@@ -49,11 +49,12 @@ void Particle::step(float dt)
 {
   assert(dt > 0);
 
-  Vec2 totalAcc(acc);
-  totalAcc += forceAccum * invMass;
+  Vec2 totalAcc = acc + forceAccum * invMass;
 
   vel += totalAcc * dt;
   vel *= powf(damping, dt);
 
   pos += vel * dt;
+
+  clearForceAccum();
 }

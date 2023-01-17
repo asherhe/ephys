@@ -17,13 +17,13 @@ namespace ephys
   class ParticleForceRegistry
   {
   protected:
-    struct ParticleForcePairs
+    struct ParticleForcePair
     {
       Particle *particle;
       ParticleForceGenerator *pfgen;
     };
 
-    std::list<ParticleForcePairs> reg;
+    std::list<ParticleForcePair> reg;
 
   public:
     ParticleForceRegistry() {}
@@ -77,9 +77,12 @@ namespace ephys
     float k;
     // rest length
     float length;
+
+    ParticleSpring(Particle &end, float k, float length) : end(end), k(k), length(length) {}
+
     inline void setEnd(const Particle &particle) { end = particle; }
     inline Particle getEnd() const { return end; }
-    ParticleSpring(Particle &end, float k, float length) : end(end), k(k), length(length) {}
+
     void updateForce(Particle &particle, float dt) const;
   };
 }

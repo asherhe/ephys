@@ -51,6 +51,9 @@ namespace ephys
     // dot product
     float operator*(const Vec2 &v) const;
 
+    // z-component of cross product
+    float cross(const Vec2 &v) const;
+
     friend std::ostream &operator<<(std::ostream &out, const Vec2 &v) { return out << v.x << ", " << v.y; }
   };
 
