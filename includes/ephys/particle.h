@@ -1,5 +1,5 @@
-#ifndef _EPHYS_PARTICLE_H
-#define _EPHYS_PARTICLE_H
+#ifndef EPHYS_PARTICLE_H
+#define EPHYS_PARTICLE_H
 
 #include "ephys/math.h"
 
@@ -62,4 +62,4 @@ namespace ephys
   };
 }
 
-#endif // _EPHYS_PARTICLE_H
+#endif // EPHYS_PARTICLE_H

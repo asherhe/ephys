@@ -1,5 +1,5 @@
-#ifndef _EPHYS_WORLD_H
-#define _EPHYS_WORLD_H
+#ifndef EPHYS_WORLD_H
+#define EPHYS_WORLD_H
 
 #include "ephys/rigidbody.h"
 #include "ephys/forcegen.h"
@@ -11,18 +11,18 @@ namespace ephys
   class World
   {
   protected:
-    std::list<RigidBody *> bodies;
+    std::list<Rigidbody *> bodies;
 
     ForceRegistry freg;
 
   public:
     World() {}
 
-    inline void addBody(RigidBody &body)
+    inline void addBody(Rigidbody &body)
     {
       bodies.push_back(&body);
     }
-    inline void removeBody(RigidBody &body)
+    inline void removeBody(Rigidbody &body)
     {
       bodies.remove(&body);
     }
@@ -31,4 +31,4 @@ namespace ephys
   };
 }
 
-#endif // _EPHYS_WORLD_H
+#endif // EPHYS_WORLD_H

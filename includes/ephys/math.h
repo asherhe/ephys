@@ -1,7 +1,8 @@
-#ifndef _EPHYS_MATH_H
-#define _EPHYS_MATH_H
+#ifndef EPHYS_MATH_H
+#define EPHYS_MATH_H
 
-#include <math.h>
+#include <cmath>
+#include <cassert>
 #include <ostream>
 
 namespace ephys
@@ -18,7 +19,7 @@ namespace ephys
     Vec2(const Vec2 &v) : x(v.x), y(v.y) {}
     Vec2 &operator=(const Vec2 &v);
 
-    void set(const float x, const float y);
+    Vec2 &set(const float x, const float y);
 
     inline float norm() const
     {
@@ -130,7 +131,14 @@ namespace ephys
     inline float &at(size_t m, size_t n) { return data[3 * m + n]; }
     inline void set(size_t m, size_t n, float val) { at(m, n) = val; }
 
-    Mat3 operator*(const Mat3 &m) const;
+    // get the i-th column as a column vector
+    inline Vec2 getColumn(size_t i) const { return Vec2(data[i], data[i + 3]); }
+
+    // obtains a matrix representing the rotational portion of this transformatoin
+    inline Mat2 getRotation() const { return Mat2(data[0], data[1], data[3], data[4]); }
+
+    Mat3
+    operator*(const Mat3 &m) const;
     Mat3 operator*=(const Mat3 &m);
     Vec2 operator*(const Vec2 &v) const;
 
@@ -144,4 +152,4 @@ namespace ephys
   };
 }
 
-#endif // _EPHYS_MATH_H
+#endif // EPHYS_MATH_H

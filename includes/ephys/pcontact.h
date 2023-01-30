@@ -1,5 +1,5 @@
-#ifndef _EPHYS_PCONTACTS_H
-#define _EPHYS_PCONTACTS_H
+#ifndef EPHYS_PCONTACTS_H
+#define EPHYS_PCONTACTS_H
 
 #include "ephys/math.h"
 #include "ephys/particle.h"
@@ -26,7 +26,7 @@ namespace ephys
     float restitution;
 
     // from the first particle to the second
-    Vec2 contactNormal;
+    Vec2 normal;
 
     // how much the two particles are intersecting
     float penetration;
@@ -67,4 +67,4 @@ namespace ephys
   };
 }
 
-#endif // _EPHYS_PCONTACTS_H
+#endif // EPHYS_PCONTACTS_H

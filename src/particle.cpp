@@ -1,8 +1,8 @@
 #include "ephys/math.h"
 #include "ephys/particle.h"
 
-#include <assert.h>
-#include <math.h>
+#include <cassert>
+#include <cmath>
 
 using namespace ephys;
 
@@ -51,10 +51,10 @@ void Particle::step(float dt)
 
   Vec2 totalAcc = acc + forceAccum * invMass;
 
+  pos += (vel + 0.5 * totalAcc * dt) * dt;
+
   vel += totalAcc * dt;
   vel *= powf(damping, dt);
-
-  pos += vel * dt;
 
   clearForceAccum();
 }

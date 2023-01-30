@@ -1,8 +1,8 @@
-#ifndef _EPHYS_PLINKS_H
-#define _EPHYS_PLINKS_H
+#ifndef EPHYS_PLINKS_H
+#define EPHYS_PLINKS_H
 
 #include "ephys/particle.h"
-#include "ephys/pcontacts.h"
+#include "ephys/pcontact.h"
 
 #include <list>
 
@@ -13,6 +13,8 @@ namespace ephys
   {
   protected:
     Particle *particles[2];
+
+    ParticleLink() : particles{nullptr, nullptr} {}
 
   public:
     inline void setParticle(size_t index, Particle &particle)
@@ -34,14 +36,11 @@ namespace ephys
   // holds particles within a maximum distance
   class ParticleCable : public ParticleLink
   {
-  protected:
-    Particle *particles[2];
-
   public:
     float length;
     float restitution;
 
-    ParticleCable(float length, float restitution) : length(length), restitution(restitution), particles{nullptr, nullptr} {}
+    ParticleCable(float length, float restitution) : length(length), restitution(restitution) {}
 
     float currentLength() const;
 
@@ -60,13 +59,10 @@ namespace ephys
   // holds particles at an exact ditance
   class ParticleRod : public ParticleLink
   {
-  protected:
-    Particle *particles[2];
-
   public:
     float length;
 
-    ParticleRod(float length) : length(length), particles{nullptr, nullptr} {}
+    ParticleRod(float length) : length(length) {}
 
     float currentLength() const;
 
@@ -83,4 +79,4 @@ namespace ephys
   };
 }
 
-#endif // _EPHYS_PLINKS_H
+#endif // EPHYS_PLINKS_H

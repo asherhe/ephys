@@ -1,7 +1,7 @@
 #include "ephys/math.h"
 
-#include <math.h>
-#include <assert.h>
+#include <cmath>
+#include <cassert>
 
 using namespace ephys;
 
@@ -12,10 +12,11 @@ Vec2 &Vec2::operator=(const Vec2 &v)
   return *this;
 }
 
-void Vec2::set(const float x, const float y)
+Vec2 &Vec2::set(const float x, const float y)
 {
   this->x = x;
   this->y = y;
+  return *this;
 }
 
 Vec2 &Vec2::normalize()
@@ -222,10 +223,10 @@ Mat3 Mat3::operator*(const Mat3 &m) const
 {
   return Mat3(data[0] * m.data[0] + data[1] * m.data[3],
               data[0] * m.data[1] + data[1] * m.data[4],
-              data[0] * m.data[2] + data[1] * m.data[5],
+              data[0] * m.data[2] + data[1] * m.data[5] + data[2],
               data[3] * m.data[0] + data[4] * m.data[3],
               data[3] * m.data[1] + data[4] * m.data[4],
-              data[3] * m.data[2] + data[4] * m.data[5]);
+              data[3] * m.data[2] + data[4] * m.data[5] + data[5]);
 }
 Mat3 Mat3::operator*=(const Mat3 &m)
 {

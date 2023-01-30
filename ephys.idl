@@ -76,8 +76,8 @@ interface Mat3 {
 //////// Rigidbodies ////////
 
 [Prefix="ephys::"]
-interface RigidBody {
-  void RigidBody();
+interface Rigidbody {
+  void Rigidbody();
 
   [Value] Vec2 getPos();
   [Value] Vec2 getVel();
@@ -121,24 +121,67 @@ interface RigidBody {
 interface World {
   void World();
 
-  void addBody([Ref] RigidBody body);
-  void removeBody([Ref] RigidBody body);
+  void addBody([Ref] Rigidbody body);
+  void removeBody([Ref] Rigidbody body);
 
   void step(float dt);
+};
+
+//////// Collision ////////
+
+[Prefix="ephys::", NoDelete]
+interface BoundingVolume {
+  boolean overlaps([Const, Ref] BoundingVolume bv);
+  float size();
+  float growth([Const, Ref] BoundingVolume bv);
+};
+
+[Prefix="ephys::"]
+interface BoundingCircle : BoundingVolume {
+  [Value] attribute Vec2 center;
+  attribute float radius;
+
+  void BoundingCircle([Const, Ref] Vec2 center, float radius);
+  // void BoundingCircle([Const, Ref] BoundingCircle b1, [Const, Ref] BoundingCircle b2);
+  boolean overlaps([Const, Ref] BoundingVolume bc);
+  float size();
+  float growth([Const, Ref] BoundingVolume bc);
+};
+
+[Prefix="ephys::"]
+interface PotentialContact {
+  attribute Rigidbody[] bodies;
+
+  void PotentialContact([Ref] Rigidbody b1, [Ref] Rigidbody b2);
+};
+
+[NoDelete]
+interface BVHCircleNode {
+  attribute Rigidbody body;
+  [Value] attribute BoundingCircle volume;
+  attribute BVHCircleNode parent;
+  attribute BVHCircleNode[] children; 
+
+  void BVHCircleNode([Const, Ref] BoundingCircle volume, Rigidbody body);
+
+  boolean isLeaf();
+  boolean overlaps([Const, Ref] BVHCircleNode bvh);
+
+  void insert([Ref] Rigidbody body, [Ref] BoundingCircle volume);
 };
 
 //////// Force Generators ////////
 [Prefix="ephys::", NoDelete]
 interface ForceGenerator {
-  void updateForce([Ref] RigidBody body, float dt);
+  void updateForce([Ref] Rigidbody body, float dt);
 };
 
 [Prefix="ephys::", NoDelete]
 interface ForceRegistry {
   void ForceRegistry();
 
-  void add([Ref] RigidBody body, [Ref] ForceGenerator fgen);
-  void remove([Ref] RigidBody body, [Ref] ForceGenerator fgen);
+  void add([Ref] Rigidbody body, [Ref] ForceGenerator fgen);
+  void remove([Ref] Rigidbody body, [Ref] ForceGenerator fgen);
   void clear();
 };
 
@@ -146,7 +189,7 @@ interface ForceRegistry {
 interface Gravity : ForceGenerator {
   void Gravity([Const, Ref] Vec2 gravity);
   
-  void updateForce([Ref] RigidBody body, float dt);
+  void updateForce([Ref] Rigidbody body, float dt);
 };
 
 [Prefix="ephys::"]
@@ -154,12 +197,12 @@ interface Spring : ForceGenerator {
   attribute float k;
   attribute float length;
 
-  void Spring([Ref] RigidBody end, [Const, Ref] Vec2 anchor, [Const, Ref] Vec2 endAnchor, float k, float length);
+  void Spring([Ref] Rigidbody end, [Const, Ref] Vec2 anchor, [Const, Ref] Vec2 endAnchor, float k, float length);
 
-  [Value] RigidBody getEnd();
-  void setEnd([Const, Ref] RigidBody body);
+  [Value] Rigidbody getEnd();
+  void setEnd([Const, Ref] Rigidbody body);
 
-  void updateForce([Ref] RigidBody body, float dt);
+  void updateForce([Ref] Rigidbody body, float dt);
 };
 
 //////// Particles ////////
@@ -236,7 +279,7 @@ interface ParticleSpring : ParticleForceGenerator {
 interface ParticleContact {
   attribute Particle[] particles;
   attribute float restitution;
-  [Value] attribute Vec2 contactNormal;
+  [Value] attribute Vec2 normal;
   attribute float penetration;
 
   float separatingVelocity();

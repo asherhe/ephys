@@ -1,5 +1,5 @@
 #include "ephys/math.h"
-#include "ephys/pcontacts.h"
+#include "ephys/pcontact.h"
 
 #include <algorithm>
 
@@ -25,7 +25,7 @@ void ParticleContact::solve(float dt)
 float ParticleContact::separatingVelocity() const
 {
   Vec2 vRelative = particles[0]->getVel() - particles[1]->getVel();
-  return vRelative * contactNormal;
+  return vRelative * normal;
 }
 
 void ParticleContact::solveVelocity(float dt)
@@ -37,7 +37,7 @@ void ParticleContact::solveVelocity(float dt)
   float newVSep = -vSep;
 
   // separating velocity as a result of acceleration
-  float vAcc = (particles[0]->getAcc() - particles[1]->getAcc()) * contactNormal * dt;
+  float vAcc = (particles[0]->getAcc() - particles[1]->getAcc()) * normal * dt;
   if (vAcc < 0) // acceleration causes inward velocity
   {
     newVSep += vAcc;
@@ -53,7 +53,7 @@ void ParticleContact::solveVelocity(float dt)
   if (sumInvMass <= 0) // one of the particles has infinite mass
     return;
 
-  Vec2 impulse = contactNormal * dv / sumInvMass;
+  Vec2 impulse = normal * dv / sumInvMass;
   particles[0]->addImpulse(impulse);
   particles[1]->addImpulse(-impulse);
 }
@@ -68,7 +68,7 @@ void ParticleContact::solvePenetration(float dt)
     return;
 
   // (m1 * m2) / (m1 + m2) * d * n
-  Vec2 displacementPerInvMass = penetration / sumInvMass * contactNormal;
+  Vec2 displacementPerInvMass = penetration / sumInvMass * normal;
 
   particles[0]->setPos(particles[0]->getPos() - particles[0]->getInvMass() * displacementPerInvMass);
   particles[1]->setPos(particles[1]->getPos() + particles[1]->getInvMass() * displacementPerInvMass);

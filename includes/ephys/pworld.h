@@ -1,9 +1,9 @@
-#ifndef _EPHYS_PWORLD_H
-#define _EPHYS_PWORLD_H
+#ifndef EPHYS_PWORLD_H
+#define EPHYS_PWORLD_H
 
 #include "ephys/particle.h"
 #include "ephys/pforcegen.h"
-#include "ephys/pcontacts.h"
+#include "ephys/pcontact.h"
 
 #include <list>
 
@@ -61,4 +61,4 @@ namespace ephys
   };
 }
 
-#endif // _EPHYS_PWORLD_H
+#endif // EPHYS_PWORLD_H

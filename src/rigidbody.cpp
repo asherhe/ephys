@@ -1,16 +1,16 @@
 #include "ephys/rigidbody.h"
 #include "ephys/math.h"
 
-#include <assert.h>
+#include <cassert>
 
 using namespace ephys;
 
-void RigidBody::calcDerivedData()
+void Rigidbody::calcDerivedData()
 {
   calcTransform();
 }
 
-void RigidBody::calcTransform()
+void Rigidbody::calcTransform()
 {
   transform[0] = cosf(angle);
   transform[1] = sinf(angle);
@@ -24,46 +24,48 @@ void RigidBody::calcTransform()
   invTransform = transform.inverse();
 }
 
-void RigidBody::addForce(const Vec2 &force)
+void Rigidbody::addForce(const Vec2 &force)
 {
   forceAccum += force;
 }
 
-void RigidBody::addForceAt(const Vec2 &force, const Vec2 &pos)
+void Rigidbody::addForceAt(const Vec2 &force, const Vec2 &pos)
 {
   addForceAtLocal(force, world2Local(pos));
 }
 
-void RigidBody::addForceAtLocal(const Vec2 &force, const Vec2 &pos)
+void Rigidbody::addForceAtLocal(const Vec2 &force, const Vec2 &pos)
 {
   forceAccum += force;
   torqueAccum += pos.cross(force);
 }
 
-void RigidBody::addTorque(float torque)
+void Rigidbody::addTorque(float torque)
 {
   torqueAccum += torque;
 }
 
-void RigidBody::clearAccums()
+void Rigidbody::clearAccums()
 {
   forceAccum.set(0, 0);
   torqueAccum = 0;
 }
 
-void RigidBody::step(float dt)
+void Rigidbody::step(float dt)
 {
   assert(dt > 0);
 
   Vec2 totalAcc = acc + forceAccum * invMass;
+
+  pos += (vel + 0.5 * totalAcc * dt) * dt;
+
   vel += totalAcc * dt;
   vel *= powf(linearDamping, dt);
-  pos += vel * dt;
 
   float angAcc = torqueAccum * invInertia;
+  angle += (angVel + 0.5 * angAcc * dt) * dt;
   angVel += angAcc * dt;
   angVel *= powf(angularDamping, dt);
-  angle += angVel * dt;
 
   // calculate new data since objects have moved
   calcDerivedData();

@@ -24,8 +24,9 @@ void ParticleWorld::step(float dt)
     (*it)->step(dt);
   }
 
-  std::list<ParticleContact> contacts = generateContacts();
+  std::list<ParticleContact> &contacts = generateContacts();
   if (iterations == CALCULATE_SOLVER_ITERATIONS)
     pcSolver.setIterations(contacts.size() * 2);
   pcSolver.solveContacts(contacts, dt);
+  delete &contacts;
 }

@@ -1,5 +1,5 @@
-#ifndef _EPHYS_PFORCEGEN_H
-#define _EPHYS_PFORCEGEN_H
+#ifndef EPHYS_PFORCEGEN_H
+#define EPHYS_PFORCEGEN_H
 
 #include "particle.h"
 
@@ -87,4 +87,4 @@ namespace ephys
   };
 }
 
-#endif // _EPHYS_PFORCEGEN_H
+#endif // EPHYS_PFORCEGEN_H

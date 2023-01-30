@@ -1,10 +1,9 @@
 #include "ephys/math.h"
 #include "ephys/plinks.h"
 #include "ephys/particle.h"
-#include "ephys/pcontacts.h"
+#include "ephys/pcontact.h"
 
 #include <list>
-#include <malloc.h>
 
 using namespace ephys;
 
@@ -34,7 +33,7 @@ std::list<ParticleContact> &ParticleCable::generateContacts() const
   // flip normal so instead of pushing the two objects apart they are pulled back together
   Vec2 normal = particles[0]->getPos() - particles[1]->getPos();
   normal.normalize();
-  contact.contactNormal = normal;
+  contact.normal = normal;
 
   contact.penetration = currLength - length;
   contact.restitution = restitution;
@@ -66,12 +65,12 @@ std::list<ParticleContact> &ParticleRod::generateContacts() const
 
   if (currLength > length)
   {
-    contact.contactNormal = -normal;
+    contact.normal = -normal;
     contact.penetration = currLength - length;
   }
   else
   {
-    contact.contactNormal = normal;
+    contact.normal = normal;
     contact.penetration = length - currLength;
   }
   contact.restitution = 0; // rod shouldn't be bouncy

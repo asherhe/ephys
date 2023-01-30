@@ -21,6 +21,7 @@ set(EPHYS_SOURCES
   math.cpp
   rigidbody.cpp
   world.cpp
+  collision.cpp
   forcegen.cpp
   particle.cpp
   pworld.cpp

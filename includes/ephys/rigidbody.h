@@ -1,11 +1,11 @@
-#ifndef _EPHYS_RIGIDBODY_H
-#define _EPHYS_RIGIDBODY_H
+#ifndef EPHYS_RIGIDBODY_H
+#define EPHYS_RIGIDBODY_H
 
 #include "ephys/math.h"
 
 namespace ephys
 {
-  class RigidBody
+  class Rigidbody
   {
   protected:
     Vec2 pos, vel, acc;
@@ -31,7 +31,7 @@ namespace ephys
     void calcTransform();
 
   public:
-    RigidBody() {}
+    Rigidbody() {}
 
     inline Vec2 getPos() const { return pos; }
     inline Vec2 getVel() const { return vel; }
@@ -42,14 +42,18 @@ namespace ephys
     inline float getInvMass() const { return invMass; }
     inline float getInertia() const { return inertia; }
     inline float getInvInertia() const { return invInertia; }
+
     inline Mat3 getTransform() const { return transform; }
     inline Mat3 getInvTransform() const { return invTransform; }
+    inline Mat2 getTransformRot() const { return transform.getRotation(); }
+    inline Mat2 getInvTransformRot() const { return invTransform.getRotation(); }
 
     inline void setPos(const Vec2 &pos) { this->pos = pos; }
     inline void setVel(const Vec2 &vel) { this->vel = vel; }
     inline void setAcc(const Vec2 &acc) { this->acc = acc; }
     inline void setAngle(float angle) { this->angle = angle; }
     inline void setAngVel(float angVel) { this->angVel = angVel; }
+
     inline void setMass(float mass)
     {
       this->mass = mass;
@@ -71,14 +75,11 @@ namespace ephys
       this->inertia = 1 / invInertia;
     }
 
-    inline Vec2 world2Local(const Vec2 &pos) const
-    {
-      return invTransform * pos;
-    }
-    inline Vec2 local2World(const Vec2 &pos) const
-    {
-      return transform * pos;
-    }
+    inline Vec2 local2World(const Vec2 &pos) const { return transform * pos; }
+    inline Vec2 world2Local(const Vec2 &pos) const { return invTransform * pos; }
+
+    inline Vec2 rotLocal2World(const Vec2 &pos) const { return transform.getRotation() * pos; }
+    inline Vec2 rotWorld2Local(const Vec2 &pos) const { return invTransform.getRotation() * pos; }
 
     // applies a force at the center of mass
     void addForce(const Vec2 &force);
@@ -95,4 +96,4 @@ namespace ephys
   };
 }
 
-#endif // _EPHYS_RIGIDBODY_H
+#endif // EPHYS_RIGIDBODY_H

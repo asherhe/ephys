@@ -3,14 +3,14 @@
 
 using namespace ephys;
 
-void ForceRegistry::add(RigidBody &body, ForceGenerator &fgen)
+void ForceRegistry::add(Rigidbody &body, ForceGenerator &fgen)
 {
   ForcePair *pair = new ForcePair;
   pair->body = &body;
   pair->fgen = &fgen;
   reg.push_back(*pair);
 }
-void ForceRegistry::remove(RigidBody &body, ForceGenerator &fgen)
+void ForceRegistry::remove(Rigidbody &body, ForceGenerator &fgen)
 {
   for (auto it = reg.begin(); it != reg.end(); ++it)
     if (it->body == &body && it->fgen == &fgen)
@@ -29,12 +29,12 @@ void ForceRegistry::step(float dt)
     it->fgen->updateForce(*(it->body), dt);
 }
 
-void Gravity::updateForce(RigidBody &body, float dt)
+void Gravity::updateForce(Rigidbody &body, float dt)
 {
   body.addForce(body.getMass() * gravity);
 }
 
-void Spring::updateForce(RigidBody &body, float dt)
+void Spring::updateForce(Rigidbody &body, float dt)
 {
   // get anchors in world space
   Vec2 anchorWS = body.local2World(anchor), endAnchorWS = end.local2World(anchor);

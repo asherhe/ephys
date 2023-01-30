@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "emcc",
+            "includePath": [
+                "${workspaceFolder}/includes/"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.22000.0",
+            "compilerPath": "${EMSDK}/upstream/emscripten/emcc",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "gcc-x64",
+            "compilerArgs": [
+                "-O3",
+                "--no-entry"
+            ]
+        }
+    ],
+    "version": 4
+}
