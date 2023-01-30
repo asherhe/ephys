@@ -211,9 +211,9 @@ bool IntersectionDetector::boxBox(const BoxCollider &b1, const BoxCollider &b2)
   return false;
 }
 
-std::list<Contact *> &CollisionDetector::circleCircle(const CircleCollider &c1, const CircleCollider &c2, const CollisionProperties &properties)
+std::list<Contact> &CollisionDetector::circleCircle(const CircleCollider &c1, const CircleCollider &c2, const CollisionProperties &properties)
 {
-  auto contacts = new std::list<Contact *>;
+  auto contacts = new std::list<Contact>;
 
   Vec2 c1Center = c1.body->local2World(c1.origin()),
        c2Center = c2.body->local2World(c2.origin()),
@@ -224,26 +224,26 @@ std::list<Contact *> &CollisionDetector::circleCircle(const CircleCollider &c1, 
   if (circleSpace > 0)
     return *contacts;
 
-  Contact *contact = new Contact;
-  contact->body[0] = c1.body;
-  contact->body[1] = c2.body;
-  contact->normal = displacement / distance;
-  contact->contactPoint = c1Center + contact->normal * (c1.radius + circleSpace / 2);
-  contact->penetration = -circleSpace;
-  contact->restitution = properties.restitution;
+  Contact contact;
+  contact.body[0] = c1.body;
+  contact.body[1] = c2.body;
+  contact.normal = displacement / distance;
+  contact.contactPoint = c1Center + contact.normal * (c1.radius + circleSpace / 2);
+  contact.penetration = -circleSpace;
+  contact.restitution = properties.restitution;
 
   contacts->push_back(contact);
   return *contacts;
 }
 
-std::list<Contact *> &boxCircle(const BoxCollider &bc, const CircleCollider &cc, const CollisionProperties &properties)
+std::list<Contact> &boxCircle(const BoxCollider &bc, const CircleCollider &cc, const CollisionProperties &properties)
 {
-  auto contacts = new std::list<Contact *>;
+  auto contacts = new std::list<Contact>;
 
-  Contact *contact = new Contact;
-  contact->body[0] = bc.body;
-  contact->body[1] = cc.body;
-  contact->restitution = properties.restitution;
+  Contact contact;
+  contact.body[0] = bc.body;
+  contact.body[1] = cc.body;
+  contact.restitution = properties.restitution;
 
   Vec2 center = bc.object2Collider(bc.body->world2Local(cc.body->local2World(cc.origin())));
 
@@ -263,9 +263,9 @@ std::list<Contact *> &boxCircle(const BoxCollider &bc, const CircleCollider &cc,
       isCorner = true;
     else if (center.y - bc.halfSize.y < cc.radius) // center above box
     {
-      contact->contactPoint.set(center.x, bc.halfSize.y);
-      contact->normal.set(0, 1);
-      contact->penetration = (center.y - bc.halfSize.y) - cc.radius;
+      contact.contactPoint.set(center.x, bc.halfSize.y);
+      contact.normal.set(0, 1);
+      contact.penetration = (center.y - bc.halfSize.y) - cc.radius;
       hasContact = true;
     }
   }
@@ -276,9 +276,9 @@ std::list<Contact *> &boxCircle(const BoxCollider &bc, const CircleCollider &cc,
       isCorner = true;
     else if (center.y + bc.halfSize.y > -cc.radius) // center below box
     {
-      contact->contactPoint.set(center.x, -bc.halfSize.y);
-      contact->normal.set(0, -1);
-      contact->penetration = cc.radius - (bc.halfSize.y + center.y);
+      contact.contactPoint.set(center.x, -bc.halfSize.y);
+      contact.normal.set(0, -1);
+      contact.penetration = cc.radius - (bc.halfSize.y + center.y);
       hasContact = true;
     }
   }
@@ -287,21 +287,21 @@ std::list<Contact *> &boxCircle(const BoxCollider &bc, const CircleCollider &cc,
     // center to the right/left
     if (right && center.x - bc.halfSize.x < cc.radius)
     {
-      contact->contactPoint.set(bc.halfSize.x, center.y);
-      contact->normal.set(1, 0);
-      contact->penetration = (center.x - bc.halfSize.x) - cc.radius;
+      contact.contactPoint.set(bc.halfSize.x, center.y);
+      contact.normal.set(1, 0);
+      contact.penetration = (center.x - bc.halfSize.x) - cc.radius;
       hasContact = true;
     }
     else if (left && center.x + bc.halfSize.x > -cc.radius)
     {
-      contact->contactPoint.set(-bc.halfSize.x, center.y);
-      contact->normal.set(-1, 0);
-      contact->penetration = cc.radius - (center.x + bc.halfSize.x);
+      contact.contactPoint.set(-bc.halfSize.x, center.y);
+      contact.normal.set(-1, 0);
+      contact.penetration = cc.radius - (center.x + bc.halfSize.x);
       hasContact = true;
     }
     else // center inside of box
     {
-      contact->contactPoint = center;
+      contact.contactPoint = center;
 
       float toRight = bc.halfSize.x - center.x,
             toLeft = center.x + bc.halfSize.x,
@@ -314,18 +314,18 @@ std::list<Contact *> &boxCircle(const BoxCollider &bc, const CircleCollider &cc,
       if (minDistanceX < minDistanceY)
       {
         if (minDistanceX == toRight)
-          contact->normal.set(1, 0);
+          contact.normal.set(1, 0);
         else
-          contact->normal.set(-1, 0);
-        contact->penetration = minDistanceX;
+          contact.normal.set(-1, 0);
+        contact.penetration = minDistanceX;
       }
       else
       {
         if (minDistanceY == toTop)
-          contact->normal.set(0, 1);
+          contact.normal.set(0, 1);
         else
-          contact->normal.set(0, -1);
-        contact->penetration = minDistanceY;
+          contact.normal.set(0, -1);
+        contact.penetration = minDistanceY;
       }
 
       hasContact = true;
@@ -334,24 +334,22 @@ std::list<Contact *> &boxCircle(const BoxCollider &bc, const CircleCollider &cc,
 
   if (isCorner)
   {
-    contact->contactPoint = corner;
+    contact.contactPoint = corner;
     Vec2 displacement = center - corner;
     float distance = displacement.norm();
-    contact->normal = displacement / distance;
-    contact->penetration = cc.radius - distance;
+    contact.normal = displacement / distance;
+    contact.penetration = cc.radius - distance;
     hasContact = true;
   }
 
   if (hasContact)
   {
     // convert contact point and normal to world coords
-    contact->contactPoint = bc.body->local2World(bc.collider2Object(contact->contactPoint));
-    contact->normal = bc.body->rotLocal2World(bc.rotCollider2Object(contact->normal));
+    contact.contactPoint = bc.body->local2World(bc.collider2Object(contact.contactPoint));
+    contact.normal = bc.body->rotLocal2World(bc.rotCollider2Object(contact.normal));
 
     contacts->push_back(contact);
   }
-  else
-    delete contact;
 
   return *contacts;
 }
@@ -390,11 +388,9 @@ bool clipPoints(Vec2 v1, Vec2 v2, Vec2 normal, float distance, Vec2 *v1Out, Vec2
   return true;
 }
 
-std::list<Contact *> &CollisionDetector::boxBox(const BoxCollider &b1, const BoxCollider &b2, const CollisionProperties &properties)
+std::list<Contact> &CollisionDetector::boxBox(const BoxCollider &b1, const BoxCollider &b2, const CollisionProperties &properties)
 {
-  // collision algorithm as seen in https://box2d.org/files/ErinCatto_SequentialImpulses_GDC2006.pdf
-
-  auto contacts = new std::list<Contact *>;
+  auto contacts = new std::list<Contact>;
 
   Vec2 bv[2][4];
   bv[0][0] = b1.halfSize;
@@ -594,22 +590,22 @@ std::list<Contact *> &CollisionDetector::boxBox(const BoxCollider &b1, const Box
 
   if (incV1 * axisNormal < faceDist)
   {
-    Contact *contact = new Contact;
-    contact->body[0] = b1.body;
-    contact->body[1] = b2.body;
-    contact->contactPoint = b1.body->local2World(b1.collider2Object(incV1));
-    contact->normal = b1.body->rotLocal2World(b1.rotCollider2Object(axisNormal));
-    contact->restitution = properties.restitution;
+    Contact contact;
+    contact.body[0] = b1.body;
+    contact.body[1] = b2.body;
+    contact.contactPoint = b1.body->local2World(b1.collider2Object(incV1));
+    contact.normal = b1.body->rotLocal2World(b1.rotCollider2Object(axisNormal));
+    contact.restitution = properties.restitution;
     contacts->push_back(contact);
   }
   if (incV2 * axisNormal < faceDist)
   {
-    Contact *contact = new Contact;
-    contact->body[0] = b1.body;
-    contact->body[1] = b2.body;
-    contact->contactPoint = b1.body->local2World(b1.collider2Object(incV2));
-    contact->normal = b1.body->rotLocal2World(b1.rotCollider2Object(axisNormal));
-    contact->restitution = properties.restitution;
+    Contact contact;
+    contact.body[0] = b1.body;
+    contact.body[1] = b2.body;
+    contact.contactPoint = b1.body->local2World(b1.collider2Object(incV2));
+    contact.normal = b1.body->rotLocal2World(b1.rotCollider2Object(axisNormal));
+    contact.restitution = properties.restitution;
     contacts->push_back(contact);
   }
 

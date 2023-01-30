@@ -162,9 +162,9 @@ namespace ephys
   class CollisionDetector
   {
   public:
-    static std::list<Contact *> &circleCircle(const CircleCollider &c1, const CircleCollider &c2, const CollisionProperties &properties);
-    static std::list<Contact *> &boxCircle(const BoxCollider &bc, const CircleCollider &cc, const CollisionProperties &properties);
-    static std::list<Contact *> &boxBox(const BoxCollider &b1, const BoxCollider &b2, const CollisionProperties &properties);
+    static std::list<Contact> &circleCircle(const CircleCollider &c1, const CircleCollider &c2, const CollisionProperties &properties);
+    static std::list<Contact> &boxCircle(const BoxCollider &bc, const CircleCollider &cc, const CollisionProperties &properties);
+    static std::list<Contact> &boxBox(const BoxCollider &b1, const BoxCollider &b2, const CollisionProperties &properties);
   };
 
   // template class implementations
