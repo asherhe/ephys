@@ -8,12 +8,14 @@ namespace ephys
 {
   struct Contact
   {
-    Rigidbody *body[2];
+    Rigidbody *bodies[2];
 
     Vec2 contactPoint,
         normal;
 
     float penetration, restitution;
+
+    Contact() : bodies{nullptr, nullptr} {}
   };
 }
 

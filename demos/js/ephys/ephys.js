@@ -500,6 +500,72 @@ Module['ready'] = new Promise(function(resolve, reject) {
       }
     
 
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_Contact_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_Contact_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_Contact_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_Contact_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_Contact_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_get_bodies_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_bodies_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_get_bodies_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_bodies_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_get_bodies_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_set_bodies_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_bodies_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_set_bodies_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_bodies_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_set_bodies_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_get_contactPoint_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_contactPoint_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_get_contactPoint_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_contactPoint_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_get_contactPoint_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_set_contactPoint_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_contactPoint_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_set_contactPoint_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_contactPoint_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_set_contactPoint_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_get_normal_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_normal_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_get_normal_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_normal_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_get_normal_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_set_normal_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_normal_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_set_normal_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_normal_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_set_normal_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_get_penetration_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_penetration_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_get_penetration_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_penetration_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_get_penetration_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_set_penetration_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_penetration_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_set_penetration_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_penetration_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_set_penetration_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_get_restitution_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_restitution_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_get_restitution_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_get_restitution_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_get_restitution_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact_set_restitution_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_restitution_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact_set_restitution_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact_set_restitution_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact_set_restitution_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoundingVolume_overlaps_1')) {
         Object.defineProperty(Module['ready'], '_emscripten_bind_BoundingVolume_overlaps_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoundingVolume_overlaps_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '_emscripten_bind_BoundingVolume_overlaps_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoundingVolume_overlaps_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
@@ -665,6 +731,324 @@ Module['ready'] = new Promise(function(resolve, reject) {
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BVHCircleNode_set_children_2')) {
         Object.defineProperty(Module['ready'], '_emscripten_bind_BVHCircleNode_set_children_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BVHCircleNode_set_children_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '_emscripten_bind_BVHCircleNode_set_children_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BVHCircleNode_set_children_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CollisionProperties_get_restitution_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionProperties_get_restitution_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CollisionProperties_get_restitution_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionProperties_get_restitution_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CollisionProperties_get_restitution_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CollisionProperties_set_restitution_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionProperties_set_restitution_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CollisionProperties_set_restitution_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionProperties_set_restitution_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CollisionProperties_set_restitution_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CollisionProperties___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionProperties___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CollisionProperties___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionProperties___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CollisionProperties___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_origin_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_origin_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_origin_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_getTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_getInvTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getInvTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getInvTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_setTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_setTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_setTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_setInvTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_setInvTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_setInvTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_collider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_collider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_collider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_object2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_object2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_object2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_rotCollider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_rotCollider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_rotCollider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_rotObject2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_rotObject2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_rotObject2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_get_body_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_get_body_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_get_body_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_get_body_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_get_body_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_set_body_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_set_body_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_set_body_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_set_body_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_set_body_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_CircleCollider_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_CircleCollider_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_CircleCollider_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_CircleCollider_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_origin_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_origin_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_origin_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_getTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_getInvTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getInvTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getInvTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_setTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_setTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_setTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_setInvTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_setInvTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_setInvTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_collider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_collider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_collider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_object2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_object2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_object2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_rotCollider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_rotCollider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_rotCollider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_rotObject2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_rotObject2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_rotObject2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_get_radius_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_get_radius_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_get_radius_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_get_radius_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_get_radius_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_set_radius_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_set_radius_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_set_radius_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_set_radius_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_set_radius_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_get_body_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_get_body_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_get_body_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_get_body_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_get_body_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_set_body_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_set_body_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_set_body_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_set_body_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_set_body_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_BoxCollider_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_BoxCollider_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_BoxCollider_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_BoxCollider_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_origin_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_origin_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_origin_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_getTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_getInvTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getInvTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getInvTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_setTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_setTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_setTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_setInvTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_setInvTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_setInvTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_collider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_collider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_collider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_object2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_object2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_object2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_rotCollider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_rotCollider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_rotCollider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_rotObject2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_rotObject2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_rotObject2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_get_halfSize_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_get_halfSize_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_get_halfSize_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_get_halfSize_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_get_halfSize_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_set_halfSize_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_set_halfSize_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_set_halfSize_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_set_halfSize_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_set_halfSize_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_get_body_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_get_body_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_get_body_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_get_body_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_get_body_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_set_body_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_set_body_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_set_body_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_set_body_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_set_body_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_IntersectionDetector_circleCircle_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_circleCircle_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_IntersectionDetector_circleCircle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_circleCircle_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_IntersectionDetector_circleCircle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_IntersectionDetector_boxCircle_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_boxCircle_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_IntersectionDetector_boxCircle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_boxCircle_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_IntersectionDetector_boxCircle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_IntersectionDetector_boxBox_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_boxBox_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_IntersectionDetector_boxBox_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_boxBox_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_IntersectionDetector_boxBox_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CollisionDetector_circleCircle_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionDetector_circleCircle_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CollisionDetector_circleCircle_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionDetector_circleCircle_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CollisionDetector_circleCircle_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CollisionDetector_boxCircle_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionDetector_boxCircle_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CollisionDetector_boxCircle_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionDetector_boxCircle_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CollisionDetector_boxCircle_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CollisionDetector_boxBox_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionDetector_boxBox_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CollisionDetector_boxBox_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CollisionDetector_boxBox_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CollisionDetector_boxBox_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
       }
     
 
@@ -3532,6 +3916,39 @@ var _emscripten_bind_World_step_1 = Module["_emscripten_bind_World_step_1"] = cr
 var _emscripten_bind_World___destroy___0 = Module["_emscripten_bind_World___destroy___0"] = createExportWrapper("emscripten_bind_World___destroy___0");
 
 /** @type {function(...*):?} */
+var _emscripten_bind_Contact_Contact_0 = Module["_emscripten_bind_Contact_Contact_0"] = createExportWrapper("emscripten_bind_Contact_Contact_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_get_bodies_1 = Module["_emscripten_bind_Contact_get_bodies_1"] = createExportWrapper("emscripten_bind_Contact_get_bodies_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_set_bodies_2 = Module["_emscripten_bind_Contact_set_bodies_2"] = createExportWrapper("emscripten_bind_Contact_set_bodies_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_get_contactPoint_0 = Module["_emscripten_bind_Contact_get_contactPoint_0"] = createExportWrapper("emscripten_bind_Contact_get_contactPoint_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_set_contactPoint_1 = Module["_emscripten_bind_Contact_set_contactPoint_1"] = createExportWrapper("emscripten_bind_Contact_set_contactPoint_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_get_normal_0 = Module["_emscripten_bind_Contact_get_normal_0"] = createExportWrapper("emscripten_bind_Contact_get_normal_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_set_normal_1 = Module["_emscripten_bind_Contact_set_normal_1"] = createExportWrapper("emscripten_bind_Contact_set_normal_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_get_penetration_0 = Module["_emscripten_bind_Contact_get_penetration_0"] = createExportWrapper("emscripten_bind_Contact_get_penetration_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_set_penetration_1 = Module["_emscripten_bind_Contact_set_penetration_1"] = createExportWrapper("emscripten_bind_Contact_set_penetration_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_get_restitution_0 = Module["_emscripten_bind_Contact_get_restitution_0"] = createExportWrapper("emscripten_bind_Contact_get_restitution_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Contact_set_restitution_1 = Module["_emscripten_bind_Contact_set_restitution_1"] = createExportWrapper("emscripten_bind_Contact_set_restitution_1");
+
+/** @type {function(...*):?} */
 var _emscripten_bind_BoundingVolume_overlaps_1 = Module["_emscripten_bind_BoundingVolume_overlaps_1"] = createExportWrapper("emscripten_bind_BoundingVolume_overlaps_1");
 
 /** @type {function(...*):?} */
@@ -3614,6 +4031,165 @@ var _emscripten_bind_BVHCircleNode_get_children_1 = Module["_emscripten_bind_BVH
 
 /** @type {function(...*):?} */
 var _emscripten_bind_BVHCircleNode_set_children_2 = Module["_emscripten_bind_BVHCircleNode_set_children_2"] = createExportWrapper("emscripten_bind_BVHCircleNode_set_children_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CollisionProperties_get_restitution_0 = Module["_emscripten_bind_CollisionProperties_get_restitution_0"] = createExportWrapper("emscripten_bind_CollisionProperties_get_restitution_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CollisionProperties_set_restitution_1 = Module["_emscripten_bind_CollisionProperties_set_restitution_1"] = createExportWrapper("emscripten_bind_CollisionProperties_set_restitution_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CollisionProperties___destroy___0 = Module["_emscripten_bind_CollisionProperties___destroy___0"] = createExportWrapper("emscripten_bind_CollisionProperties___destroy___0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_origin_0 = Module["_emscripten_bind_Collider_origin_0"] = createExportWrapper("emscripten_bind_Collider_origin_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_getTransform_0 = Module["_emscripten_bind_Collider_getTransform_0"] = createExportWrapper("emscripten_bind_Collider_getTransform_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_getInvTransform_0 = Module["_emscripten_bind_Collider_getInvTransform_0"] = createExportWrapper("emscripten_bind_Collider_getInvTransform_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_setTransform_1 = Module["_emscripten_bind_Collider_setTransform_1"] = createExportWrapper("emscripten_bind_Collider_setTransform_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_setInvTransform_1 = Module["_emscripten_bind_Collider_setInvTransform_1"] = createExportWrapper("emscripten_bind_Collider_setInvTransform_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_collider2Object_1 = Module["_emscripten_bind_Collider_collider2Object_1"] = createExportWrapper("emscripten_bind_Collider_collider2Object_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_object2Collider_1 = Module["_emscripten_bind_Collider_object2Collider_1"] = createExportWrapper("emscripten_bind_Collider_object2Collider_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_rotCollider2Object_1 = Module["_emscripten_bind_Collider_rotCollider2Object_1"] = createExportWrapper("emscripten_bind_Collider_rotCollider2Object_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_rotObject2Collider_1 = Module["_emscripten_bind_Collider_rotObject2Collider_1"] = createExportWrapper("emscripten_bind_Collider_rotObject2Collider_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_get_body_0 = Module["_emscripten_bind_Collider_get_body_0"] = createExportWrapper("emscripten_bind_Collider_get_body_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider_set_body_1 = Module["_emscripten_bind_Collider_set_body_1"] = createExportWrapper("emscripten_bind_Collider_set_body_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_Collider___destroy___0 = Module["_emscripten_bind_Collider___destroy___0"] = createExportWrapper("emscripten_bind_Collider___destroy___0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_CircleCollider_2 = Module["_emscripten_bind_CircleCollider_CircleCollider_2"] = createExportWrapper("emscripten_bind_CircleCollider_CircleCollider_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_CircleCollider_3 = Module["_emscripten_bind_CircleCollider_CircleCollider_3"] = createExportWrapper("emscripten_bind_CircleCollider_CircleCollider_3");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_origin_0 = Module["_emscripten_bind_CircleCollider_origin_0"] = createExportWrapper("emscripten_bind_CircleCollider_origin_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_getTransform_0 = Module["_emscripten_bind_CircleCollider_getTransform_0"] = createExportWrapper("emscripten_bind_CircleCollider_getTransform_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_getInvTransform_0 = Module["_emscripten_bind_CircleCollider_getInvTransform_0"] = createExportWrapper("emscripten_bind_CircleCollider_getInvTransform_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_setTransform_1 = Module["_emscripten_bind_CircleCollider_setTransform_1"] = createExportWrapper("emscripten_bind_CircleCollider_setTransform_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_setInvTransform_1 = Module["_emscripten_bind_CircleCollider_setInvTransform_1"] = createExportWrapper("emscripten_bind_CircleCollider_setInvTransform_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_collider2Object_1 = Module["_emscripten_bind_CircleCollider_collider2Object_1"] = createExportWrapper("emscripten_bind_CircleCollider_collider2Object_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_object2Collider_1 = Module["_emscripten_bind_CircleCollider_object2Collider_1"] = createExportWrapper("emscripten_bind_CircleCollider_object2Collider_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_rotCollider2Object_1 = Module["_emscripten_bind_CircleCollider_rotCollider2Object_1"] = createExportWrapper("emscripten_bind_CircleCollider_rotCollider2Object_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_rotObject2Collider_1 = Module["_emscripten_bind_CircleCollider_rotObject2Collider_1"] = createExportWrapper("emscripten_bind_CircleCollider_rotObject2Collider_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_get_radius_0 = Module["_emscripten_bind_CircleCollider_get_radius_0"] = createExportWrapper("emscripten_bind_CircleCollider_get_radius_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_set_radius_1 = Module["_emscripten_bind_CircleCollider_set_radius_1"] = createExportWrapper("emscripten_bind_CircleCollider_set_radius_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_get_body_0 = Module["_emscripten_bind_CircleCollider_get_body_0"] = createExportWrapper("emscripten_bind_CircleCollider_get_body_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider_set_body_1 = Module["_emscripten_bind_CircleCollider_set_body_1"] = createExportWrapper("emscripten_bind_CircleCollider_set_body_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CircleCollider___destroy___0 = Module["_emscripten_bind_CircleCollider___destroy___0"] = createExportWrapper("emscripten_bind_CircleCollider___destroy___0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_BoxCollider_2 = Module["_emscripten_bind_BoxCollider_BoxCollider_2"] = createExportWrapper("emscripten_bind_BoxCollider_BoxCollider_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_BoxCollider_3 = Module["_emscripten_bind_BoxCollider_BoxCollider_3"] = createExportWrapper("emscripten_bind_BoxCollider_BoxCollider_3");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_origin_0 = Module["_emscripten_bind_BoxCollider_origin_0"] = createExportWrapper("emscripten_bind_BoxCollider_origin_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_getTransform_0 = Module["_emscripten_bind_BoxCollider_getTransform_0"] = createExportWrapper("emscripten_bind_BoxCollider_getTransform_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_getInvTransform_0 = Module["_emscripten_bind_BoxCollider_getInvTransform_0"] = createExportWrapper("emscripten_bind_BoxCollider_getInvTransform_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_setTransform_1 = Module["_emscripten_bind_BoxCollider_setTransform_1"] = createExportWrapper("emscripten_bind_BoxCollider_setTransform_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_setInvTransform_1 = Module["_emscripten_bind_BoxCollider_setInvTransform_1"] = createExportWrapper("emscripten_bind_BoxCollider_setInvTransform_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_collider2Object_1 = Module["_emscripten_bind_BoxCollider_collider2Object_1"] = createExportWrapper("emscripten_bind_BoxCollider_collider2Object_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_object2Collider_1 = Module["_emscripten_bind_BoxCollider_object2Collider_1"] = createExportWrapper("emscripten_bind_BoxCollider_object2Collider_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_rotCollider2Object_1 = Module["_emscripten_bind_BoxCollider_rotCollider2Object_1"] = createExportWrapper("emscripten_bind_BoxCollider_rotCollider2Object_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_rotObject2Collider_1 = Module["_emscripten_bind_BoxCollider_rotObject2Collider_1"] = createExportWrapper("emscripten_bind_BoxCollider_rotObject2Collider_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_get_halfSize_0 = Module["_emscripten_bind_BoxCollider_get_halfSize_0"] = createExportWrapper("emscripten_bind_BoxCollider_get_halfSize_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_set_halfSize_1 = Module["_emscripten_bind_BoxCollider_set_halfSize_1"] = createExportWrapper("emscripten_bind_BoxCollider_set_halfSize_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_get_body_0 = Module["_emscripten_bind_BoxCollider_get_body_0"] = createExportWrapper("emscripten_bind_BoxCollider_get_body_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider_set_body_1 = Module["_emscripten_bind_BoxCollider_set_body_1"] = createExportWrapper("emscripten_bind_BoxCollider_set_body_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_BoxCollider___destroy___0 = Module["_emscripten_bind_BoxCollider___destroy___0"] = createExportWrapper("emscripten_bind_BoxCollider___destroy___0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_IntersectionDetector_circleCircle_2 = Module["_emscripten_bind_IntersectionDetector_circleCircle_2"] = createExportWrapper("emscripten_bind_IntersectionDetector_circleCircle_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_IntersectionDetector_boxCircle_2 = Module["_emscripten_bind_IntersectionDetector_boxCircle_2"] = createExportWrapper("emscripten_bind_IntersectionDetector_boxCircle_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_IntersectionDetector_boxBox_2 = Module["_emscripten_bind_IntersectionDetector_boxBox_2"] = createExportWrapper("emscripten_bind_IntersectionDetector_boxBox_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CollisionDetector_circleCircle_3 = Module["_emscripten_bind_CollisionDetector_circleCircle_3"] = createExportWrapper("emscripten_bind_CollisionDetector_circleCircle_3");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CollisionDetector_boxCircle_3 = Module["_emscripten_bind_CollisionDetector_boxCircle_3"] = createExportWrapper("emscripten_bind_CollisionDetector_boxCircle_3");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_CollisionDetector_boxBox_3 = Module["_emscripten_bind_CollisionDetector_boxBox_3"] = createExportWrapper("emscripten_bind_CollisionDetector_boxBox_3");
 
 /** @type {function(...*):?} */
 var _emscripten_bind_ForceGenerator_updateForce_2 = Module["_emscripten_bind_ForceGenerator_updateForce_2"] = createExportWrapper("emscripten_bind_ForceGenerator_updateForce_2");
@@ -5006,6 +5582,70 @@ World.prototype['step'] = World.prototype.step = /** @suppress {undefinedVars, d
   var self = this.ptr;
   _emscripten_bind_World___destroy___0(self);
 };
+// Contact
+/** @suppress {undefinedVars, duplicate} @this{Object} */function Contact() {
+  this.ptr = _emscripten_bind_Contact_Contact_0();
+  getCache(Contact)[this.ptr] = this;
+};;
+Contact.prototype = Object.create(WrapperObject.prototype);
+Contact.prototype.constructor = Contact;
+Contact.prototype.__class__ = Contact;
+Contact.__cache__ = {};
+Module['Contact'] = Contact;
+
+  Contact.prototype['get_bodies'] = Contact.prototype.get_bodies = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  return wrapPointer(_emscripten_bind_Contact_get_bodies_1(self, arg0), Rigidbody);
+};
+    Contact.prototype['set_bodies'] = Contact.prototype.set_bodies = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0, arg1) {
+  var self = this.ptr;
+  ensureCache.prepare();
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  if (arg1 && typeof arg1 === 'object') arg1 = arg1.ptr;
+  _emscripten_bind_Contact_set_bodies_2(self, arg0, arg1);
+};
+    Object.defineProperty(Contact.prototype, 'bodies', { get: Contact.prototype.get_bodies, set: Contact.prototype.set_bodies });
+  Contact.prototype['get_contactPoint'] = Contact.prototype.get_contactPoint = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Contact_get_contactPoint_0(self), Vec2);
+};
+    Contact.prototype['set_contactPoint'] = Contact.prototype.set_contactPoint = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_Contact_set_contactPoint_1(self, arg0);
+};
+    Object.defineProperty(Contact.prototype, 'contactPoint', { get: Contact.prototype.get_contactPoint, set: Contact.prototype.set_contactPoint });
+  Contact.prototype['get_normal'] = Contact.prototype.get_normal = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Contact_get_normal_0(self), Vec2);
+};
+    Contact.prototype['set_normal'] = Contact.prototype.set_normal = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_Contact_set_normal_1(self, arg0);
+};
+    Object.defineProperty(Contact.prototype, 'normal', { get: Contact.prototype.get_normal, set: Contact.prototype.set_normal });
+  Contact.prototype['get_penetration'] = Contact.prototype.get_penetration = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Contact_get_penetration_0(self);
+};
+    Contact.prototype['set_penetration'] = Contact.prototype.set_penetration = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_Contact_set_penetration_1(self, arg0);
+};
+    Object.defineProperty(Contact.prototype, 'penetration', { get: Contact.prototype.get_penetration, set: Contact.prototype.set_penetration });
+  Contact.prototype['get_restitution'] = Contact.prototype.get_restitution = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Contact_get_restitution_0(self);
+};
+    Contact.prototype['set_restitution'] = Contact.prototype.set_restitution = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_Contact_set_restitution_1(self, arg0);
+};
+    Object.defineProperty(Contact.prototype, 'restitution', { get: Contact.prototype.get_restitution, set: Contact.prototype.set_restitution });
 // BoundingVolume
 /** @suppress {undefinedVars, duplicate} @this{Object} */function BoundingVolume() { throw "cannot construct a BoundingVolume, no constructor in IDL" }
 BoundingVolume.prototype = Object.create(WrapperObject.prototype);
@@ -5189,6 +5829,350 @@ BVHCircleNode.prototype['insert'] = BVHCircleNode.prototype.insert = /** @suppre
   _emscripten_bind_BVHCircleNode_set_children_2(self, arg0, arg1);
 };
     Object.defineProperty(BVHCircleNode.prototype, 'children', { get: BVHCircleNode.prototype.get_children, set: BVHCircleNode.prototype.set_children });
+// CollisionProperties
+/** @suppress {undefinedVars, duplicate} @this{Object} */function CollisionProperties() { throw "cannot construct a CollisionProperties, no constructor in IDL" }
+CollisionProperties.prototype = Object.create(WrapperObject.prototype);
+CollisionProperties.prototype.constructor = CollisionProperties;
+CollisionProperties.prototype.__class__ = CollisionProperties;
+CollisionProperties.__cache__ = {};
+Module['CollisionProperties'] = CollisionProperties;
+
+  CollisionProperties.prototype['get_restitution'] = CollisionProperties.prototype.get_restitution = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_CollisionProperties_get_restitution_0(self);
+};
+    CollisionProperties.prototype['set_restitution'] = CollisionProperties.prototype.set_restitution = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_CollisionProperties_set_restitution_1(self, arg0);
+};
+    Object.defineProperty(CollisionProperties.prototype, 'restitution', { get: CollisionProperties.prototype.get_restitution, set: CollisionProperties.prototype.set_restitution });
+  CollisionProperties.prototype['__destroy__'] = CollisionProperties.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_CollisionProperties___destroy___0(self);
+};
+// Collider
+/** @suppress {undefinedVars, duplicate} @this{Object} */function Collider() { throw "cannot construct a Collider, no constructor in IDL" }
+Collider.prototype = Object.create(WrapperObject.prototype);
+Collider.prototype.constructor = Collider;
+Collider.prototype.__class__ = Collider;
+Collider.__cache__ = {};
+Module['Collider'] = Collider;
+
+Collider.prototype['origin'] = Collider.prototype.origin = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Collider_origin_0(self), Vec2);
+};;
+
+Collider.prototype['getTransform'] = Collider.prototype.getTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Collider_getTransform_0(self), Mat3);
+};;
+
+Collider.prototype['getInvTransform'] = Collider.prototype.getInvTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Collider_getInvTransform_0(self), Mat3);
+};;
+
+Collider.prototype['setTransform'] = Collider.prototype.setTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function(transform) {
+  var self = this.ptr;
+  if (transform && typeof transform === 'object') transform = transform.ptr;
+  _emscripten_bind_Collider_setTransform_1(self, transform);
+};;
+
+Collider.prototype['setInvTransform'] = Collider.prototype.setInvTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function(invTransform) {
+  var self = this.ptr;
+  if (invTransform && typeof invTransform === 'object') invTransform = invTransform.ptr;
+  _emscripten_bind_Collider_setInvTransform_1(self, invTransform);
+};;
+
+Collider.prototype['collider2Object'] = Collider.prototype.collider2Object = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_Collider_collider2Object_1(self, v), Vec2);
+};;
+
+Collider.prototype['object2Collider'] = Collider.prototype.object2Collider = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_Collider_object2Collider_1(self, v), Vec2);
+};;
+
+Collider.prototype['rotCollider2Object'] = Collider.prototype.rotCollider2Object = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_Collider_rotCollider2Object_1(self, v), Vec2);
+};;
+
+Collider.prototype['rotObject2Collider'] = Collider.prototype.rotObject2Collider = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_Collider_rotObject2Collider_1(self, v), Vec2);
+};;
+
+  Collider.prototype['get_body'] = Collider.prototype.get_body = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_Collider_get_body_0(self), Rigidbody);
+};
+    Collider.prototype['set_body'] = Collider.prototype.set_body = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_Collider_set_body_1(self, arg0);
+};
+    Object.defineProperty(Collider.prototype, 'body', { get: Collider.prototype.get_body, set: Collider.prototype.set_body });
+  Collider.prototype['__destroy__'] = Collider.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_Collider___destroy___0(self);
+};
+// CircleCollider
+/** @suppress {undefinedVars, duplicate} @this{Object} */function CircleCollider(radius, body, transform) {
+  if (radius && typeof radius === 'object') radius = radius.ptr;
+  if (body && typeof body === 'object') body = body.ptr;
+  if (transform && typeof transform === 'object') transform = transform.ptr;
+  if (transform === undefined) { this.ptr = _emscripten_bind_CircleCollider_CircleCollider_2(radius, body); getCache(CircleCollider)[this.ptr] = this;return }
+  this.ptr = _emscripten_bind_CircleCollider_CircleCollider_3(radius, body, transform);
+  getCache(CircleCollider)[this.ptr] = this;
+};;
+CircleCollider.prototype = Object.create(WrapperObject.prototype);
+CircleCollider.prototype.constructor = CircleCollider;
+CircleCollider.prototype.__class__ = CircleCollider;
+CircleCollider.__cache__ = {};
+Module['CircleCollider'] = CircleCollider;
+
+CircleCollider.prototype['origin'] = CircleCollider.prototype.origin = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_CircleCollider_origin_0(self), Vec2);
+};;
+
+CircleCollider.prototype['getTransform'] = CircleCollider.prototype.getTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_CircleCollider_getTransform_0(self), Mat3);
+};;
+
+CircleCollider.prototype['getInvTransform'] = CircleCollider.prototype.getInvTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_CircleCollider_getInvTransform_0(self), Mat3);
+};;
+
+CircleCollider.prototype['setTransform'] = CircleCollider.prototype.setTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function(transform) {
+  var self = this.ptr;
+  if (transform && typeof transform === 'object') transform = transform.ptr;
+  _emscripten_bind_CircleCollider_setTransform_1(self, transform);
+};;
+
+CircleCollider.prototype['setInvTransform'] = CircleCollider.prototype.setInvTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function(invTransform) {
+  var self = this.ptr;
+  if (invTransform && typeof invTransform === 'object') invTransform = invTransform.ptr;
+  _emscripten_bind_CircleCollider_setInvTransform_1(self, invTransform);
+};;
+
+CircleCollider.prototype['collider2Object'] = CircleCollider.prototype.collider2Object = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_CircleCollider_collider2Object_1(self, v), Vec2);
+};;
+
+CircleCollider.prototype['object2Collider'] = CircleCollider.prototype.object2Collider = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_CircleCollider_object2Collider_1(self, v), Vec2);
+};;
+
+CircleCollider.prototype['rotCollider2Object'] = CircleCollider.prototype.rotCollider2Object = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_CircleCollider_rotCollider2Object_1(self, v), Vec2);
+};;
+
+CircleCollider.prototype['rotObject2Collider'] = CircleCollider.prototype.rotObject2Collider = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_CircleCollider_rotObject2Collider_1(self, v), Vec2);
+};;
+
+  CircleCollider.prototype['get_radius'] = CircleCollider.prototype.get_radius = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_CircleCollider_get_radius_0(self);
+};
+    CircleCollider.prototype['set_radius'] = CircleCollider.prototype.set_radius = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_CircleCollider_set_radius_1(self, arg0);
+};
+    Object.defineProperty(CircleCollider.prototype, 'radius', { get: CircleCollider.prototype.get_radius, set: CircleCollider.prototype.set_radius });
+  CircleCollider.prototype['get_body'] = CircleCollider.prototype.get_body = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_CircleCollider_get_body_0(self), Rigidbody);
+};
+    CircleCollider.prototype['set_body'] = CircleCollider.prototype.set_body = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_CircleCollider_set_body_1(self, arg0);
+};
+    Object.defineProperty(CircleCollider.prototype, 'body', { get: CircleCollider.prototype.get_body, set: CircleCollider.prototype.set_body });
+  CircleCollider.prototype['__destroy__'] = CircleCollider.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_CircleCollider___destroy___0(self);
+};
+// BoxCollider
+/** @suppress {undefinedVars, duplicate} @this{Object} */function BoxCollider(halfSize, body, transform) {
+  if (halfSize && typeof halfSize === 'object') halfSize = halfSize.ptr;
+  if (body && typeof body === 'object') body = body.ptr;
+  if (transform && typeof transform === 'object') transform = transform.ptr;
+  if (transform === undefined) { this.ptr = _emscripten_bind_BoxCollider_BoxCollider_2(halfSize, body); getCache(BoxCollider)[this.ptr] = this;return }
+  this.ptr = _emscripten_bind_BoxCollider_BoxCollider_3(halfSize, body, transform);
+  getCache(BoxCollider)[this.ptr] = this;
+};;
+BoxCollider.prototype = Object.create(WrapperObject.prototype);
+BoxCollider.prototype.constructor = BoxCollider;
+BoxCollider.prototype.__class__ = BoxCollider;
+BoxCollider.__cache__ = {};
+Module['BoxCollider'] = BoxCollider;
+
+BoxCollider.prototype['origin'] = BoxCollider.prototype.origin = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_BoxCollider_origin_0(self), Vec2);
+};;
+
+BoxCollider.prototype['getTransform'] = BoxCollider.prototype.getTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_BoxCollider_getTransform_0(self), Mat3);
+};;
+
+BoxCollider.prototype['getInvTransform'] = BoxCollider.prototype.getInvTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_BoxCollider_getInvTransform_0(self), Mat3);
+};;
+
+BoxCollider.prototype['setTransform'] = BoxCollider.prototype.setTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function(transform) {
+  var self = this.ptr;
+  if (transform && typeof transform === 'object') transform = transform.ptr;
+  _emscripten_bind_BoxCollider_setTransform_1(self, transform);
+};;
+
+BoxCollider.prototype['setInvTransform'] = BoxCollider.prototype.setInvTransform = /** @suppress {undefinedVars, duplicate} @this{Object} */function(invTransform) {
+  var self = this.ptr;
+  if (invTransform && typeof invTransform === 'object') invTransform = invTransform.ptr;
+  _emscripten_bind_BoxCollider_setInvTransform_1(self, invTransform);
+};;
+
+BoxCollider.prototype['collider2Object'] = BoxCollider.prototype.collider2Object = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_BoxCollider_collider2Object_1(self, v), Vec2);
+};;
+
+BoxCollider.prototype['object2Collider'] = BoxCollider.prototype.object2Collider = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_BoxCollider_object2Collider_1(self, v), Vec2);
+};;
+
+BoxCollider.prototype['rotCollider2Object'] = BoxCollider.prototype.rotCollider2Object = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_BoxCollider_rotCollider2Object_1(self, v), Vec2);
+};;
+
+BoxCollider.prototype['rotObject2Collider'] = BoxCollider.prototype.rotObject2Collider = /** @suppress {undefinedVars, duplicate} @this{Object} */function(v) {
+  var self = this.ptr;
+  if (v && typeof v === 'object') v = v.ptr;
+  return wrapPointer(_emscripten_bind_BoxCollider_rotObject2Collider_1(self, v), Vec2);
+};;
+
+  BoxCollider.prototype['get_halfSize'] = BoxCollider.prototype.get_halfSize = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_BoxCollider_get_halfSize_0(self), Vec2);
+};
+    BoxCollider.prototype['set_halfSize'] = BoxCollider.prototype.set_halfSize = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_BoxCollider_set_halfSize_1(self, arg0);
+};
+    Object.defineProperty(BoxCollider.prototype, 'halfSize', { get: BoxCollider.prototype.get_halfSize, set: BoxCollider.prototype.set_halfSize });
+  BoxCollider.prototype['get_body'] = BoxCollider.prototype.get_body = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return wrapPointer(_emscripten_bind_BoxCollider_get_body_0(self), Rigidbody);
+};
+    BoxCollider.prototype['set_body'] = BoxCollider.prototype.set_body = /** @suppress {undefinedVars, duplicate} @this{Object} */function(arg0) {
+  var self = this.ptr;
+  if (arg0 && typeof arg0 === 'object') arg0 = arg0.ptr;
+  _emscripten_bind_BoxCollider_set_body_1(self, arg0);
+};
+    Object.defineProperty(BoxCollider.prototype, 'body', { get: BoxCollider.prototype.get_body, set: BoxCollider.prototype.set_body });
+  BoxCollider.prototype['__destroy__'] = BoxCollider.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_BoxCollider___destroy___0(self);
+};
+// IntersectionDetector
+/** @suppress {undefinedVars, duplicate} @this{Object} */function IntersectionDetector() { throw "cannot construct a IntersectionDetector, no constructor in IDL" }
+IntersectionDetector.prototype = Object.create(WrapperObject.prototype);
+IntersectionDetector.prototype.constructor = IntersectionDetector;
+IntersectionDetector.prototype.__class__ = IntersectionDetector;
+IntersectionDetector.__cache__ = {};
+Module['IntersectionDetector'] = IntersectionDetector;
+
+IntersectionDetector.prototype['circleCircle'] = IntersectionDetector.prototype.circleCircle = /** @suppress {undefinedVars, duplicate} @this{Object} */function(c1, c2) {
+  var self = this.ptr;
+  if (c1 && typeof c1 === 'object') c1 = c1.ptr;
+  if (c2 && typeof c2 === 'object') c2 = c2.ptr;
+  return !!(_emscripten_bind_IntersectionDetector_circleCircle_2(self, c1, c2));
+};;
+
+IntersectionDetector.prototype['boxCircle'] = IntersectionDetector.prototype.boxCircle = /** @suppress {undefinedVars, duplicate} @this{Object} */function(bc, cc) {
+  var self = this.ptr;
+  if (bc && typeof bc === 'object') bc = bc.ptr;
+  if (cc && typeof cc === 'object') cc = cc.ptr;
+  return !!(_emscripten_bind_IntersectionDetector_boxCircle_2(self, bc, cc));
+};;
+
+IntersectionDetector.prototype['boxBox'] = IntersectionDetector.prototype.boxBox = /** @suppress {undefinedVars, duplicate} @this{Object} */function(b1, b2) {
+  var self = this.ptr;
+  if (b1 && typeof b1 === 'object') b1 = b1.ptr;
+  if (b2 && typeof b2 === 'object') b2 = b2.ptr;
+  return !!(_emscripten_bind_IntersectionDetector_boxBox_2(self, b1, b2));
+};;
+
+// ContactList
+/** @suppress {undefinedVars, duplicate} @this{Object} */function ContactList() { throw "cannot construct a ContactList, no constructor in IDL" }
+ContactList.prototype = Object.create(WrapperObject.prototype);
+ContactList.prototype.constructor = ContactList;
+ContactList.prototype.__class__ = ContactList;
+ContactList.__cache__ = {};
+Module['ContactList'] = ContactList;
+
+// CollisionDetector
+/** @suppress {undefinedVars, duplicate} @this{Object} */function CollisionDetector() { throw "cannot construct a CollisionDetector, no constructor in IDL" }
+CollisionDetector.prototype = Object.create(WrapperObject.prototype);
+CollisionDetector.prototype.constructor = CollisionDetector;
+CollisionDetector.prototype.__class__ = CollisionDetector;
+CollisionDetector.__cache__ = {};
+Module['CollisionDetector'] = CollisionDetector;
+
+CollisionDetector.prototype['circleCircle'] = CollisionDetector.prototype.circleCircle = /** @suppress {undefinedVars, duplicate} @this{Object} */function(c1, c2, properties) {
+  var self = this.ptr;
+  if (c1 && typeof c1 === 'object') c1 = c1.ptr;
+  if (c2 && typeof c2 === 'object') c2 = c2.ptr;
+  if (properties && typeof properties === 'object') properties = properties.ptr;
+  return wrapPointer(_emscripten_bind_CollisionDetector_circleCircle_3(self, c1, c2, properties), ContactList);
+};;
+
+CollisionDetector.prototype['boxCircle'] = CollisionDetector.prototype.boxCircle = /** @suppress {undefinedVars, duplicate} @this{Object} */function(bc, cc, properties) {
+  var self = this.ptr;
+  if (bc && typeof bc === 'object') bc = bc.ptr;
+  if (cc && typeof cc === 'object') cc = cc.ptr;
+  if (properties && typeof properties === 'object') properties = properties.ptr;
+  return wrapPointer(_emscripten_bind_CollisionDetector_boxCircle_3(self, bc, cc, properties), ContactList);
+};;
+
+CollisionDetector.prototype['boxBox'] = CollisionDetector.prototype.boxBox = /** @suppress {undefinedVars, duplicate} @this{Object} */function(b1, b2, properties) {
+  var self = this.ptr;
+  if (b1 && typeof b1 === 'object') b1 = b1.ptr;
+  if (b2 && typeof b2 === 'object') b2 = b2.ptr;
+  if (properties && typeof properties === 'object') properties = properties.ptr;
+  return wrapPointer(_emscripten_bind_CollisionDetector_boxBox_3(self, b1, b2, properties), ContactList);
+};;
+
 // ForceGenerator
 /** @suppress {undefinedVars, duplicate} @this{Object} */function ForceGenerator() { throw "cannot construct a ForceGenerator, no constructor in IDL" }
 ForceGenerator.prototype = Object.create(WrapperObject.prototype);

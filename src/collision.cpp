@@ -225,8 +225,8 @@ std::list<Contact> &CollisionDetector::circleCircle(const CircleCollider &c1, co
     return *contacts;
 
   Contact contact;
-  contact.body[0] = c1.body;
-  contact.body[1] = c2.body;
+  contact.bodies[0] = c1.body;
+  contact.bodies[1] = c2.body;
   contact.normal = displacement / distance;
   contact.contactPoint = c1Center + contact.normal * (c1.radius + circleSpace / 2);
   contact.penetration = -circleSpace;
@@ -236,13 +236,13 @@ std::list<Contact> &CollisionDetector::circleCircle(const CircleCollider &c1, co
   return *contacts;
 }
 
-std::list<Contact> &boxCircle(const BoxCollider &bc, const CircleCollider &cc, const CollisionProperties &properties)
+std::list<Contact> &CollisionDetector::boxCircle(const BoxCollider &bc, const CircleCollider &cc, const CollisionProperties &properties)
 {
   auto contacts = new std::list<Contact>;
 
   Contact contact;
-  contact.body[0] = bc.body;
-  contact.body[1] = cc.body;
+  contact.bodies[0] = bc.body;
+  contact.bodies[1] = cc.body;
   contact.restitution = properties.restitution;
 
   Vec2 center = bc.object2Collider(bc.body->world2Local(cc.body->local2World(cc.origin())));
@@ -591,8 +591,8 @@ std::list<Contact> &CollisionDetector::boxBox(const BoxCollider &b1, const BoxCo
   if (incV1 * axisNormal < faceDist)
   {
     Contact contact;
-    contact.body[0] = b1.body;
-    contact.body[1] = b2.body;
+    contact.bodies[0] = b1.body;
+    contact.bodies[1] = b2.body;
     contact.contactPoint = b1.body->local2World(b1.collider2Object(incV1));
     contact.normal = b1.body->rotLocal2World(b1.rotCollider2Object(axisNormal));
     contact.restitution = properties.restitution;
@@ -601,8 +601,8 @@ std::list<Contact> &CollisionDetector::boxBox(const BoxCollider &b1, const BoxCo
   if (incV2 * axisNormal < faceDist)
   {
     Contact contact;
-    contact.body[0] = b1.body;
-    contact.body[1] = b2.body;
+    contact.bodies[0] = b1.body;
+    contact.bodies[1] = b2.body;
     contact.contactPoint = b1.body->local2World(b1.collider2Object(incV2));
     contact.normal = b1.body->rotLocal2World(b1.rotCollider2Object(axisNormal));
     contact.restitution = properties.restitution;

@@ -127,6 +127,19 @@ interface World {
   void step(float dt);
 };
 
+//////// Contacts ////////
+
+[Prefix="ephys::", NoDelete]
+interface Contact {
+  attribute Rigidbody[] bodies;
+  [Value] attribute Vec2 contactPoint;
+  [Value] attribute Vec2 normal;
+  attribute float penetration;
+  attribute float restitution;
+
+  void Contact();
+};
+
 //////// Collision ////////
 
 [Prefix="ephys::", NoDelete]
@@ -168,6 +181,84 @@ interface BVHCircleNode {
   boolean overlaps([Const, Ref] BVHCircleNode bvh);
 
   void insert([Ref] Rigidbody body, [Ref] BoundingCircle volume);
+};
+
+[Prefix="ephys::"]
+interface CollisionProperties {
+  attribute float restitution;
+};
+
+[Prefix="ephys::"]
+interface Collider {
+  attribute Rigidbody body;
+
+  [Value] Vec2 origin();
+  [Value] Mat3 getTransform();
+  [Value] Mat3 getInvTransform();
+  void setTransform([Const, Ref] Mat3 transform);
+  void setInvTransform([Const, Ref] Mat3 invTransform);
+
+  [Value] Vec2 collider2Object([Const, Ref] Vec2 v);
+  [Value] Vec2 object2Collider([Const, Ref] Vec2 v);
+  [Value] Vec2 rotCollider2Object([Const, Ref] Vec2 v);
+  [Value] Vec2 rotObject2Collider([Const, Ref] Vec2 v);
+};
+
+[Prefix="ephys::"]
+interface CircleCollider : Collider {
+  attribute float radius;
+
+  void CircleCollider(float radius, [Ref] Rigidbody body, [Const, Ref] optional Mat3 transform);
+
+  attribute Rigidbody body;
+
+  [Value] Vec2 origin();
+  [Value] Mat3 getTransform();
+  [Value] Mat3 getInvTransform();
+  void setTransform([Const, Ref] Mat3 transform);
+  void setInvTransform([Const, Ref] Mat3 invTransform);
+
+  [Value] Vec2 collider2Object([Const, Ref] Vec2 v);
+  [Value] Vec2 object2Collider([Const, Ref] Vec2 v);
+  [Value] Vec2 rotCollider2Object([Const, Ref] Vec2 v);
+  [Value] Vec2 rotObject2Collider([Const, Ref] Vec2 v);
+};
+
+[Prefix="ephys::"]
+interface BoxCollider : Collider {
+  [Value] attribute Vec2 halfSize;
+
+  void BoxCollider([Const, Ref] Vec2 halfSize, [Ref] Rigidbody body, [Const, Ref] optional Mat3 transform);
+
+  attribute Rigidbody body;
+
+  [Value] Vec2 origin();
+  [Value] Mat3 getTransform();
+  [Value] Mat3 getInvTransform();
+  void setTransform([Const, Ref] Mat3 transform);
+  void setInvTransform([Const, Ref] Mat3 invTransform);
+
+  [Value] Vec2 collider2Object([Const, Ref] Vec2 v);
+  [Value] Vec2 object2Collider([Const, Ref] Vec2 v);
+  [Value] Vec2 rotCollider2Object([Const, Ref] Vec2 v);
+  [Value] Vec2 rotObject2Collider([Const, Ref] Vec2 v);
+};
+
+[Prefix="ephys::", NoDelete]
+interface IntersectionDetector {
+  static boolean circleCircle([Const, Ref] CircleCollider c1, [Const, Ref] CircleCollider c2);
+  static boolean boxCircle([Const, Ref] BoxCollider bc, [Const, Ref] CircleCollider cc);
+  static boolean boxBox([Const, Ref] BoxCollider b1, [Const, Ref] BoxCollider b2);
+};
+
+[NoDelete]
+interface ContactList {};
+
+[Prefix="ephys::", NoDelete]
+interface CollisionDetector {
+  [Ref] static ContactList circleCircle([Const, Ref] CircleCollider c1, [Const, Ref] CircleCollider c2, [Const, Ref] CollisionProperties properties);
+  [Ref] static ContactList boxCircle([Const, Ref] BoxCollider bc, [Const, Ref] CircleCollider cc, [Const, Ref] CollisionProperties properties);
+  [Ref] static ContactList boxBox([Const, Ref] BoxCollider b1, [Const, Ref] BoxCollider b2, [Const, Ref] CollisionProperties properties);
 };
 
 //////// Force Generators ////////
