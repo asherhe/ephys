@@ -22,11 +22,15 @@ jobs:
 
       - name: Install Emscripten
         run: |
+          echo -e "\e[1m\e[35mcloning repo\e[0m"
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
           git pull
+          echo -e "\e[1m\e[35minstalling emsdk\e[0m"
           ./emsdk install latest
+          echo -e "\e[1m\e[35mactivating emsdk\e[0m"
           ./emsdk activate latest
+          echo -e "\e[1m\e[35mupdating path\e[0m"
           source ./emsdk_env.sh
 
       - name: Configure CMake
