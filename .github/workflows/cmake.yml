@@ -22,17 +22,21 @@ jobs:
 
       - name: Install Emscripten
         run: |
+          echo -e "\e[1m\e[35mcloning repo\e[0m"
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
           git pull
+          echo -e "\e[1m\e[35minstalling emsdk\e[0m"
           ./emsdk install latest
+          echo -e "\e[1m\e[35mactivating emsdk\e[0m"
           ./emsdk activate latest
+          echo -e "\e[1m\e[35mupdating path\e[0m"
           source ./emsdk_env.sh
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-        run: emcmake cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: ${EMSDK}/upstream/emscripten/emcmake cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
         # Build your program with the given configuration
