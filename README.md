@@ -6,13 +6,13 @@ As of now I have implemented particle physics with plans to implement rigidbody 
 
 ## Features
 
-- particles!
-  - particle forces!
-  - particle contacts!
+- particle system!
+  - particle constraints!
 - rigidbodies!
-  - newton's laws!
-  - forces!
+  - circles!
+  - rectangles!
+- reasonably fast collision detection!
 
 ## Roadmap
 
-- collision detection system(!!!)
+- collision resolution
