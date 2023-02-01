@@ -2,29 +2,99 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ephys Demo</title>
     <script src="js/ephys/ephys.js"></script>
     <script src="js/jquery.min.js"></script>
 
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
       html,
       body {
         margin: 0;
         width: 100%;
         height: 100%;
+        color: white;
+        font-family: "Noto Sans", sans-serif;
+        overflow: hidden;
       }
-
       body {
+        position: relative;
         background-color: #222;
-
         display: flex;
         align-items: center;
         justify-content: center;
+      }
+      .info {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 8px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 8px;
+      }
+      .info::after {
+        content: "";
+        display: block;
+        width: 16px;
+        height: 16px;
+        background-image: url("https://raw.githubusercontent.com/primer/octicons/main/icons/info-16.svg");
+        -webkit-filter: invert();
+        filter: invert();
+      }
+      .info > div {
+        width: 8em;
+        padding: 4px;
+
+        font-size: 0.75em;
+
+        background-color: #333;
+        padding: 0.75em;
+        border-radius: 0.75em;
+
+        display: none;
+      }
+      .info:hover > div {
+        display: block;
+      }
+      footer {
+        position: absolute;
+        bottom: 0;
+        padding: 8px;
+        color: #888;
+        transform: scale(0.75);
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 1em;
+      }
+      a.gh-link > img {
+        width: 1em;
+        height: 1em;
+        -webkit-filter: invert();
+        filter: invert();
+        opacity: 0.5;
+        transition: opacity ease-in 0.25s;
+      }
+      a.gh-link:hover > img {
+        opacity: 1;
       }
     </style>
   </head>
   <body>
     <canvas id="canvas" width="800" height="600"></canvas>
+    <div class="info">
+      <div>click and drag to move things!</div>
+    </div>
+    <footer>
+      Copyright © 2023 Asher He
+      <a class="gh-link" href="https://github.com/asherhe/ephys"
+        ><img src="https://raw.githubusercontent.com/primer/octicons/main/icons/mark-github-16.svg"
+      /></a>
+    </footer>
     <script src="js/main.js"></script>
   </body>
 </html>
