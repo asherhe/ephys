@@ -1,11 +1,9 @@
 const ephysWrapper = async function () {
-  let start = Date.now();
+  let preloadTimestamp = Date.now();
   const ep = await ephys();
-  console.log(`loaded ephys in ${Date.now() - start} ms`);
+  console.log(`loaded ephys in ${Date.now() - preloadTimestamp} ms`);
 
   const config = {
-    // render frame duration in ms
-    tickspeed: 1 / 30,
     particleSize: 8,
     hoverParticleSize: 10,
     TAU: 2 * Math.PI,
@@ -15,17 +13,28 @@ const ephysWrapper = async function () {
   let canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d");
 
+  let canvasToWindowSize = () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  };
+  window.addEventListener("resize", canvasToWindowSize);
+  canvasToWindowSize();
+
   let Camera = {
     x: 0,
     y: 0,
-    size: 10,
+    size: 80, // pixels per unit
     toScreenCoords: function (x, y) {
-      let scale = canvas.width / Camera.size;
-      return { x: (x - Camera.x) * scale + canvas.width / 2, y: (Camera.y - y) * scale + canvas.height / 2 };
+      return {
+        x: (x - Camera.x) * Camera.size + canvas.width / 2,
+        y: (Camera.y - y) * Camera.size + canvas.height / 2,
+      };
     },
     toWorldCoords: function (x, y) {
-      let scale = Camera.size / canvas.width;
-      return { x: (x - canvas.width / 2) * scale + Camera.x, y: -((y - canvas.height / 2) * scale + Camera.y) };
+      return {
+        x: (x - canvas.width / 2) / Camera.size + Camera.x,
+        y: -((y - canvas.height / 2) / Camera.size + Camera.y),
+      };
     },
   };
 
@@ -44,50 +53,49 @@ const ephysWrapper = async function () {
   canvas.addEventListener("contextmenu", (e) => {
     e.preventDefault();
   });
+  let inputdown = function () {
+      if (hoverParticle) {
+        grabParticle = hoverParticle;
+        grabSpring.k = grabParticle.getMass() * 5;
+        pWorld.addPFGen(grabParticle, grabSpring);
+        canvas.style.cursor = "grabbing";
+      }
+    },
+    inputup = function () {
+      if (grabParticle) {
+        pWorld.removePFGen(grabParticle, grabSpring);
+        grabParticle = false;
+        canvas.style.cursor = "initial";
+      }
+    },
+    inputmove = function (x, y) {
+      mousePos.x = x;
+      mousePos.y = y;
+      pos = Camera.toWorldCoords(mousePos.x, mousePos.y);
+      mouseWorldPos.set(pos.x, pos.y);
+    };
   canvas.addEventListener("mousedown", (e) => {
-    if (e.button == 0 && hoverParticle) {
-      grabParticle = hoverParticle;
-      grabSpring.k = grabParticle.getMass() * 5;
-      pWorld.addPFGen(grabParticle, grabSpring);
-      canvas.style.cursor = "grabbing";
-    }
+    if (e.button == 0) inputdown();
   });
+  // canvas.addEventListener("touchstart", (e) => {
+  //   e.preventDefault();
+  //   let touch = e.touches[0];
+  //   inputmove(touch.clientX - canvas.clientLeft, touch.clientY - canvas.clientTop);
+  //   inputdown();
+  // });
   canvas.addEventListener("mouseup", (e) => {
-    if (e.button == 0 && grabParticle) {
-      pWorld.removePFGen(grabParticle, grabSpring);
-      grabParticle = false;
-      canvas.style.cursor = "initial";
-    }
+    if (e.button == 0) inputup();
   });
+  canvas.addEventListener("touchend", inputup);
   canvas.addEventListener("mousemove", (e) => {
-    mousePos.x = e.offsetX;
-    mousePos.y = e.offsetY;
-    pos = Camera.toWorldCoords(mousePos.x, mousePos.y);
-    mouseWorldPos.set(pos.x, pos.y);
+    inputmove(e.offsetX, e.offsetY);
   });
-
-  // function arrow(fromX, fromY, toX, toY, thickness = 1) {
-  //   let dx = toX - fromX,
-  //     dy = toY - fromY;
-  //   let length = Math.sqrt(dx * dx + dy * dy),
-  //     headLength = length * 0.2;
-  //   thickness *= length * 0.01;
-  //   let arrowAngle = Math.atan2(dy, dx),
-  //     headAngle = Math.PI / 6,
-  //     angleLeft = arrowAngle - headAngle,
-  //     angleRight = arrowAngle + headAngle;
-
-  //   ctx.lineWidth = thickness;
-  //   ctx.beginPath();
-  //   ctx.moveTo(fromX, fromY);
-  //   ctx.lineTo(toX, toY);
-  //   ctx.stroke();
-  //   ctx.beginPath();
-  //   ctx.moveTo(toX - headLength * Math.cos(angleLeft), toY - headLength * Math.sin(angleLeft));
-  //   ctx.lineTo(toX, toY);
-  //   ctx.lineTo(toX - headLength * Math.cos(angleRight), toY - headLength * Math.sin(angleRight));
-  //   ctx.stroke();
-  // }
+  canvas.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+    let touch = e.touches[0];
+    inputmove(touch.clientX - canvas.clientLeft, touch.clientY - canvas.clientTop);
+    inputdown();
+  });
 
   function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -163,14 +171,26 @@ const ephysWrapper = async function () {
     }
   }
 
-  // duration of each RENDER frame in seconds
-  setInterval(() => {
-    pWorld.step(config.tickspeed / 2);
-    pWorld.step(config.tickspeed / 2);
+  let prevTimestamp = false;
+  let update = function (timestamp) {
+    if (!prevTimestamp) {
+      prevTimestamp = timestamp;
+    } else {
+      let elapsed = timestamp - prevTimestamp;
+      prevTimestamp = timestamp;
+
+      // physics runs at twice the render rate
+      let halfElapsed = elapsed / 2000; // half the elapsed time, in seconds
+      pWorld.step(halfElapsed);
+      pWorld.step(halfElapsed);
+    }
 
     getHoverParticle();
     render();
-  }, config.tickspeed * 1000);
+
+    requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
 
   return {
     ephys: ep,
