@@ -566,6 +566,42 @@ Module['ready'] = new Promise(function(resolve, reject) {
       }
     
 
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Contact___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Contact___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Contact___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Contact___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ContactSolver_ContactSolver_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver_ContactSolver_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ContactSolver_ContactSolver_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver_ContactSolver_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ContactSolver_ContactSolver_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ContactSolver_getIterations_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver_getIterations_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ContactSolver_getIterations_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver_getIterations_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ContactSolver_getIterations_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ContactSolver_setIterations_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver_setIterations_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ContactSolver_setIterations_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver_setIterations_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ContactSolver_setIterations_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ContactSolver_solveContacts_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver_solveContacts_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ContactSolver_solveContacts_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver_solveContacts_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ContactSolver_solveContacts_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ContactSolver___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ContactSolver___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactSolver___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ContactSolver___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoundingVolume_overlaps_1')) {
         Object.defineProperty(Module['ready'], '_emscripten_bind_BoundingVolume_overlaps_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoundingVolume_overlaps_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '_emscripten_bind_BoundingVolume_overlaps_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoundingVolume_overlaps_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
@@ -3949,6 +3985,24 @@ var _emscripten_bind_Contact_get_restitution_0 = Module["_emscripten_bind_Contac
 var _emscripten_bind_Contact_set_restitution_1 = Module["_emscripten_bind_Contact_set_restitution_1"] = createExportWrapper("emscripten_bind_Contact_set_restitution_1");
 
 /** @type {function(...*):?} */
+var _emscripten_bind_Contact___destroy___0 = Module["_emscripten_bind_Contact___destroy___0"] = createExportWrapper("emscripten_bind_Contact___destroy___0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_ContactSolver_ContactSolver_1 = Module["_emscripten_bind_ContactSolver_ContactSolver_1"] = createExportWrapper("emscripten_bind_ContactSolver_ContactSolver_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_ContactSolver_getIterations_0 = Module["_emscripten_bind_ContactSolver_getIterations_0"] = createExportWrapper("emscripten_bind_ContactSolver_getIterations_0");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_ContactSolver_setIterations_1 = Module["_emscripten_bind_ContactSolver_setIterations_1"] = createExportWrapper("emscripten_bind_ContactSolver_setIterations_1");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_ContactSolver_solveContacts_2 = Module["_emscripten_bind_ContactSolver_solveContacts_2"] = createExportWrapper("emscripten_bind_ContactSolver_solveContacts_2");
+
+/** @type {function(...*):?} */
+var _emscripten_bind_ContactSolver___destroy___0 = Module["_emscripten_bind_ContactSolver___destroy___0"] = createExportWrapper("emscripten_bind_ContactSolver___destroy___0");
+
+/** @type {function(...*):?} */
 var _emscripten_bind_BoundingVolume_overlaps_1 = Module["_emscripten_bind_BoundingVolume_overlaps_1"] = createExportWrapper("emscripten_bind_BoundingVolume_overlaps_1");
 
 /** @type {function(...*):?} */
@@ -5646,6 +5700,52 @@ Module['Contact'] = Contact;
   _emscripten_bind_Contact_set_restitution_1(self, arg0);
 };
     Object.defineProperty(Contact.prototype, 'restitution', { get: Contact.prototype.get_restitution, set: Contact.prototype.set_restitution });
+  Contact.prototype['__destroy__'] = Contact.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_Contact___destroy___0(self);
+};
+// ContactList
+/** @suppress {undefinedVars, duplicate} @this{Object} */function ContactList() { throw "cannot construct a ContactList, no constructor in IDL" }
+ContactList.prototype = Object.create(WrapperObject.prototype);
+ContactList.prototype.constructor = ContactList;
+ContactList.prototype.__class__ = ContactList;
+ContactList.__cache__ = {};
+Module['ContactList'] = ContactList;
+
+// ContactSolver
+/** @suppress {undefinedVars, duplicate} @this{Object} */function ContactSolver(maxIterations) {
+  if (maxIterations && typeof maxIterations === 'object') maxIterations = maxIterations.ptr;
+  this.ptr = _emscripten_bind_ContactSolver_ContactSolver_1(maxIterations);
+  getCache(ContactSolver)[this.ptr] = this;
+};;
+ContactSolver.prototype = Object.create(WrapperObject.prototype);
+ContactSolver.prototype.constructor = ContactSolver;
+ContactSolver.prototype.__class__ = ContactSolver;
+ContactSolver.__cache__ = {};
+Module['ContactSolver'] = ContactSolver;
+
+ContactSolver.prototype['getIterations'] = ContactSolver.prototype.getIterations = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_ContactSolver_getIterations_0(self);
+};;
+
+ContactSolver.prototype['setIterations'] = ContactSolver.prototype.setIterations = /** @suppress {undefinedVars, duplicate} @this{Object} */function(iterations) {
+  var self = this.ptr;
+  if (iterations && typeof iterations === 'object') iterations = iterations.ptr;
+  _emscripten_bind_ContactSolver_setIterations_1(self, iterations);
+};;
+
+ContactSolver.prototype['solveContacts'] = ContactSolver.prototype.solveContacts = /** @suppress {undefinedVars, duplicate} @this{Object} */function(contacts, dt) {
+  var self = this.ptr;
+  if (contacts && typeof contacts === 'object') contacts = contacts.ptr;
+  if (dt && typeof dt === 'object') dt = dt.ptr;
+  _emscripten_bind_ContactSolver_solveContacts_2(self, contacts, dt);
+};;
+
+  ContactSolver.prototype['__destroy__'] = ContactSolver.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_ContactSolver___destroy___0(self);
+};
 // BoundingVolume
 /** @suppress {undefinedVars, duplicate} @this{Object} */function BoundingVolume() { throw "cannot construct a BoundingVolume, no constructor in IDL" }
 BoundingVolume.prototype = Object.create(WrapperObject.prototype);
@@ -6133,14 +6233,6 @@ IntersectionDetector.prototype['boxBox'] = IntersectionDetector.prototype.boxBox
   return !!(_emscripten_bind_IntersectionDetector_boxBox_2(self, b1, b2));
 };;
 
-// ContactList
-/** @suppress {undefinedVars, duplicate} @this{Object} */function ContactList() { throw "cannot construct a ContactList, no constructor in IDL" }
-ContactList.prototype = Object.create(WrapperObject.prototype);
-ContactList.prototype.constructor = ContactList;
-ContactList.prototype.__class__ = ContactList;
-ContactList.__cache__ = {};
-Module['ContactList'] = ContactList;
-
 // CollisionDetector
 /** @suppress {undefinedVars, duplicate} @this{Object} */function CollisionDetector() { throw "cannot construct a CollisionDetector, no constructor in IDL" }
 CollisionDetector.prototype = Object.create(WrapperObject.prototype);
@@ -6199,18 +6291,18 @@ ForceRegistry.prototype.__class__ = ForceRegistry;
 ForceRegistry.__cache__ = {};
 Module['ForceRegistry'] = ForceRegistry;
 
-ForceRegistry.prototype['add'] = ForceRegistry.prototype.add = /** @suppress {undefinedVars, duplicate} @this{Object} */function(body, fgen) {
+ForceRegistry.prototype['add'] = ForceRegistry.prototype.add = /** @suppress {undefinedVars, duplicate} @this{Object} */function(fgen, body) {
   var self = this.ptr;
-  if (body && typeof body === 'object') body = body.ptr;
   if (fgen && typeof fgen === 'object') fgen = fgen.ptr;
-  _emscripten_bind_ForceRegistry_add_2(self, body, fgen);
+  if (body && typeof body === 'object') body = body.ptr;
+  _emscripten_bind_ForceRegistry_add_2(self, fgen, body);
 };;
 
-ForceRegistry.prototype['remove'] = ForceRegistry.prototype.remove = /** @suppress {undefinedVars, duplicate} @this{Object} */function(body, fgen) {
+ForceRegistry.prototype['remove'] = ForceRegistry.prototype.remove = /** @suppress {undefinedVars, duplicate} @this{Object} */function(fgen, body) {
   var self = this.ptr;
-  if (body && typeof body === 'object') body = body.ptr;
   if (fgen && typeof fgen === 'object') fgen = fgen.ptr;
-  _emscripten_bind_ForceRegistry_remove_2(self, body, fgen);
+  if (body && typeof body === 'object') body = body.ptr;
+  _emscripten_bind_ForceRegistry_remove_2(self, fgen, body);
 };;
 
 ForceRegistry.prototype['clear'] = ForceRegistry.prototype.clear = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {

@@ -7,6 +7,10 @@
 
 namespace ephys
 {
+  // represents angles and torques and whatnot
+  // mostly for making clear that a value is an angle
+  typedef float Pseudovec;
+
   class Vec2
   {
   public:
@@ -53,9 +57,14 @@ namespace ephys
     float operator*(const Vec2 &v) const;
 
     // z-component of cross product
-    float cross(const Vec2 &v) const;
+    Pseudovec cross(const Vec2 &v) const;
+    Vec2 cross(Pseudovec v) const;
 
-    friend std::ostream &operator<<(std::ostream &out, const Vec2 &v) { return out << v.x << ", " << v.y; }
+    friend std::ostream &
+    operator<<(std::ostream &out, const Vec2 &v)
+    {
+      return out << v.x << ", " << v.y;
+    }
   };
 
   // 2x2 matrix
@@ -137,8 +146,7 @@ namespace ephys
     // obtains a matrix representing the rotational portion of this transformatoin
     inline Mat2 getRotation() const { return Mat2(data[0], data[1], data[3], data[4]); }
 
-    Mat3
-    operator*(const Mat3 &m) const;
+    Mat3 operator*(const Mat3 &m) const;
     Mat3 operator*=(const Mat3 &m);
     Vec2 operator*(const Vec2 &v) const;
 

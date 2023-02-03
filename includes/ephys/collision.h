@@ -3,7 +3,7 @@
 
 #include "ephys/math.h"
 #include "ephys/rigidbody.h"
-#include "ephys/contact.h"
+#include "ephys/contacts.h"
 
 #include <list>
 #include <type_traits>

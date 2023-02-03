@@ -26,8 +26,8 @@ namespace ephys
   public:
     ForceRegistry() {}
 
-    void add(Rigidbody &body, ForceGenerator &fgen);
-    void remove(Rigidbody &body, ForceGenerator &fgen);
+    void add(ForceGenerator &fgen, Rigidbody &body);
+    void remove(ForceGenerator &fgen, Rigidbody &body);
     void clear();
 
     void step(float dt);

@@ -3,14 +3,14 @@
 
 using namespace ephys;
 
-void ForceRegistry::add(Rigidbody &body, ForceGenerator &fgen)
+void ForceRegistry::add(ForceGenerator &fgen, Rigidbody &body)
 {
   ForcePair *pair = new ForcePair;
   pair->body = &body;
   pair->fgen = &fgen;
   reg.push_back(*pair);
 }
-void ForceRegistry::remove(Rigidbody &body, ForceGenerator &fgen)
+void ForceRegistry::remove(ForceGenerator &fgen, Rigidbody &body)
 {
   for (auto it = reg.begin(); it != reg.end(); ++it)
     if (it->body == &body && it->fgen == &fgen)
