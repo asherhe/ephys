@@ -2,7 +2,7 @@
 
 #include "ephys/rigidbody.h"
 #include "ephys/world.h"
-#include "ephys/contact.h"
+#include "ephys/contacts.h"
 #include "ephys/collision.h"
 #include "ephys/forcegen.h"
 

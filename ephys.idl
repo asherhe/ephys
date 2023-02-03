@@ -129,7 +129,7 @@ interface World {
 
 //////// Contacts ////////
 
-[Prefix="ephys::", NoDelete]
+[Prefix="ephys::"]
 interface Contact {
   attribute Rigidbody[] bodies;
   [Value] attribute Vec2 contactPoint;
@@ -138,6 +138,19 @@ interface Contact {
   attribute float restitution;
 
   void Contact();
+};
+
+[NoDelete]
+interface ContactList {};
+
+[Prefix="ephys::"]
+interface ContactSolver {
+  void ContactSolver(unsigned long maxIterations);
+  
+  float getIterations();
+  void setIterations(unsigned long iterations);
+
+  void solveContacts([Ref] ContactList contacts, float dt);
 };
 
 //////// Collision ////////
@@ -251,9 +264,6 @@ interface IntersectionDetector {
   static boolean boxBox([Const, Ref] BoxCollider b1, [Const, Ref] BoxCollider b2);
 };
 
-[NoDelete]
-interface ContactList {};
-
 [Prefix="ephys::", NoDelete]
 interface CollisionDetector {
   [Ref] static ContactList circleCircle([Const, Ref] CircleCollider c1, [Const, Ref] CircleCollider c2, [Const, Ref] CollisionProperties properties);
@@ -271,8 +281,8 @@ interface ForceGenerator {
 interface ForceRegistry {
   void ForceRegistry();
 
-  void add([Ref] Rigidbody body, [Ref] ForceGenerator fgen);
-  void remove([Ref] Rigidbody body, [Ref] ForceGenerator fgen);
+  void add([Ref] ForceGenerator fgen, [Ref] Rigidbody body);
+  void remove([Ref] ForceGenerator fgen, [Ref] Rigidbody body);
   void clear();
 };
 

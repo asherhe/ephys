@@ -9,7 +9,7 @@ namespace ephys
   {
   protected:
     Vec2 pos, vel, acc;
-    float angle, angVel;
+    Pseudovec angle, angVel;
 
     float linearDamping, angularDamping;
 
@@ -17,7 +17,7 @@ namespace ephys
     float inertia, invInertia;
 
     Vec2 forceAccum;
-    float torqueAccum;
+    Pseudovec torqueAccum;
 
     // derived from position and rotation
     Mat3 transform, invTransform;
@@ -36,8 +36,8 @@ namespace ephys
     inline Vec2 getPos() const { return pos; }
     inline Vec2 getVel() const { return vel; }
     inline Vec2 getAcc() const { return acc; }
-    inline float getAngle() const { return angle; }
-    inline float getAngVel() const { return angVel; }
+    inline Pseudovec getAngle() const { return angle; }
+    inline Pseudovec getAngVel() const { return angVel; }
     inline float getMass() const { return mass; }
     inline float getInvMass() const { return invMass; }
     inline float getInertia() const { return inertia; }
@@ -51,8 +51,8 @@ namespace ephys
     inline void setPos(const Vec2 &pos) { this->pos = pos; }
     inline void setVel(const Vec2 &vel) { this->vel = vel; }
     inline void setAcc(const Vec2 &acc) { this->acc = acc; }
-    inline void setAngle(float angle) { this->angle = angle; }
-    inline void setAngVel(float angVel) { this->angVel = angVel; }
+    inline void setAngle(Pseudovec angle) { this->angle = angle; }
+    inline void setAngVel(Pseudovec angVel) { this->angVel = angVel; }
 
     inline void setMass(float mass)
     {
@@ -87,10 +87,16 @@ namespace ephys
     void addForceAt(const Vec2 &force, const Vec2 &point);
     // applies a force at a given point (in local space)
     void addForceAtLocal(const Vec2 &force, const Vec2 &point);
-
-    void addTorque(float torque);
+    // applies a torque to this object
+    void addTorque(Pseudovec torque);
 
     void clearAccums();
+
+    void addImpulse(const Vec2 &impulse);
+    void addImpulsiveTorque(Pseudovec torque);
+
+    void displace(const Vec2 &displacement);
+    void rotate(Pseudovec v);
 
     void step(float dt);
   };

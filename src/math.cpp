@@ -102,6 +102,11 @@ float Vec2::cross(const Vec2 &v) const
   return x * v.y - y * v.x;
 }
 
+Vec2 Vec2::cross(Pseudovec v) const
+{
+  return Vec2(y, -x) * v;
+}
+
 Mat2 Mat2::operator+(const Mat2 &m) const
 {
   return Mat2(data[0] + m.data[0],

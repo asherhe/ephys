@@ -40,7 +40,7 @@ void Rigidbody::addForceAtLocal(const Vec2 &force, const Vec2 &pos)
   torqueAccum += pos.cross(force);
 }
 
-void Rigidbody::addTorque(float torque)
+void Rigidbody::addTorque(Pseudovec torque)
 {
   torqueAccum += torque;
 }
@@ -49,6 +49,25 @@ void Rigidbody::clearAccums()
 {
   forceAccum.set(0, 0);
   torqueAccum = 0;
+}
+
+void Rigidbody::addImpulse(const Vec2 &impulse)
+{
+  vel += invMass * impulse;
+}
+void Rigidbody::addImpulsiveTorque(Pseudovec torque)
+{
+  angVel += invInertia * torque;
+}
+
+void Rigidbody::displace(const Vec2 &displacement)
+{
+  pos += displacement;
+}
+
+void Rigidbody::rotate(Pseudovec v)
+{
+  angle += v;
 }
 
 void Rigidbody::step(float dt)
