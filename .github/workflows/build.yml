@@ -1,0 +1,28 @@
+name: "ephys: Release Build"
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone emsdk
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+      - name: Install emsdk
+        run: ./emsdk install latest
+      - name: Activate emsdk
+        run: |
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+
+      - name: Configure CMake
+        run: |
+          cd ${{git.workspace}}
+          mkdir build
+          cd build
+          emcmake cmake .. -D CMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: |
+          cmake --build ${{git.workspace}}/build -t clean
+          cmake --build ${{git.workspace}}/build -t ephys
