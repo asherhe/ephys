@@ -1,5 +1,7 @@
 name: "ephys: Release Build"
-on: [push]
+on:
+  push
+  pull_request
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,8 +25,12 @@ jobs:
           cd ${{github.workspace}}
           mkdir build
           cd build
-          ${{github.workspace}}/emsdk/upstream/emscripten/emcmake cmake .. -D CMAKE_BUILD_TYPE=Release
+          emcmake cmake .. -D CMAKE_BUILD_TYPE=Release
       - name: Build
         run: |
           cmake --build ${{github.workspace}}/build -t clean
           cmake --build ${{github.workspace}}/build -t ephys
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Create release build
+        file_pattern: demos/**
