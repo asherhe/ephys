@@ -26,6 +26,6 @@ jobs:
           ${{github.workspace}}/emsdk/upstream/emscripten/emcmake cmake .. -D CMAKE_BUILD_TYPE=Release
       - name: Build
         run: |
-          echo $EMSDK # debug: check for emsdk environment variable
+          echo emsdk: $EMSDK
           cmake --build ${{github.workspace}}/build -t clean
           cmake --build ${{github.workspace}}/build -t ephys
