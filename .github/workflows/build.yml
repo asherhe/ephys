@@ -26,6 +26,6 @@ jobs:
       - name: Build
         run: |
           echo emsdk: $EMSDK
-          echo github_env: $GITHUB_ENV
+          cat $GITHUB_ENV
           cmake --build ${{github.workspace}}/build -t clean
           cmake --build ${{github.workspace}}/build -t ephys
