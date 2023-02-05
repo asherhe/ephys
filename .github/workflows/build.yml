@@ -10,13 +10,13 @@ jobs:
         run: |
           cd ${{github.workspace}}
           git clone https://github.com/emscripten-core/emsdk.git
-          cd emsdk
       - name: Install emsdk
-        run: ./emsdk install latest
+        run: |
+          ${{github.workspace}}/emsdk/emsdk install latest
       - name: Activate emsdk
         run: |
-          ./emsdk activate latest
-          source ./emsdk_env.sh
+          ${{github.workspace}}/emsdk/emsdk activate latest
+          source ${{github.workspace}}/emsdk/emsdk_env.sh
 
       - name: Configure CMake
         run: |
