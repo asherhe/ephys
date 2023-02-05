@@ -1,7 +1,11 @@
 name: "ephys: Release Build"
 on:
-  push:
-  workflow_dispatch:
+  push
+  workflow_dispatch
+
+concurrency:
+  group: "build"
+  cancel-in-progress: true
 
 jobs:
   build:
