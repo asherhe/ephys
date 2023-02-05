@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
       - name: Clone emsdk
         run: |
           git clone https://github.com/emscripten-core/emsdk.git
