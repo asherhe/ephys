@@ -70,12 +70,17 @@ const ephysWrapper = async function () {
         ctx.arc(pos.x, pos.y, body.radius * Camera.size, 0, TAU);
         ctx.fill();
       } else {
-        ctx.fillRect(
-          pos.x - (body.width * Camera.size) / 2,
-          pos.y - (body.height * Camera.size) / 2,
-          body.width * Camera.size,
-          body.height * Camera.size
-        );
+        let rectWidth = body.width * Camera.size;
+        let rectHeight = body.height * Camera.size;
+        // save original canvas transformation
+        ctx.save();
+        ctx.translate(pos.x, pos.y);
+        ctx.rotate(body.rigidbody.getAngle());
+        ctx.beginPath();
+        ctx.rect(-rectWidth / 2, -rectHeight / 2, rectWidth, rectHeight);
+        ctx.fill();
+        // restore to original canvas transformation
+        ctx.restore();
       }
       delete pos;
     }
@@ -146,4 +151,5 @@ ephysWrapper().then((e) => {
 
   let floor = e.box(8, 1);
   floor.setPos(new physics.Vec2(0, -2));
+  floor.setAngVel(0.5);
 });

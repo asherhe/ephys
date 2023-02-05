@@ -38,7 +38,12 @@ namespace ephys
     void calcTransform();
 
   public:
-    Rigidbody() : linearDamping(1), angularDamping(1), restitution(0.5) {}
+    Rigidbody() : linearDamping(1), angularDamping(1),
+                  restitution(0.5),
+                  mass(1), invMass(1),
+                  inertia(1), invInertia(1),
+                  transform(Mat3::identity()),
+                  invTransform(Mat3::identity()) {}
 
     inline Vec2 getPos() const { return pos; }
     inline Vec2 getVel() const { return vel; }
