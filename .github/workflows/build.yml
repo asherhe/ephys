@@ -1,6 +1,5 @@
 name: "ephys: Release Build"
-on:
-  push
+on: push
   workflow_dispatch
 
 concurrency:
@@ -35,7 +34,7 @@ jobs:
         run: |
           cmake --build ${{github.workspace}}/build -t clean
           cmake --build ${{github.workspace}}/build -t ephys
-    - uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: Create release build
-        file_pattern: demos/**
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Create release build
+          file_pattern: demos/**
