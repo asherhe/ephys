@@ -23,7 +23,7 @@ jobs:
           cd ${{github.workspace}}
           mkdir build
           cd build
-          emcmake cmake .. -D CMAKE_BUILD_TYPE=Release
+          ${{github.workspace}}/emsdk/upstream/emscripten/emcmake cmake .. -D CMAKE_BUILD_TYPE=Release
       - name: Build
         run: |
           cmake --build ${{github.workspace}}/build -t clean
