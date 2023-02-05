@@ -5,6 +5,7 @@
 
 #include <list>
 #include <map>
+#include <iostream>
 
 using namespace ephys;
 
@@ -20,6 +21,8 @@ std::list<Contact> &World::generateContacts()
 
 void World::step(float dt)
 {
+  std::cout << "tick\n";
+
   freg.step(dt);
 
   for (auto it = bodies.begin(); it != bodies.end(); ++it)

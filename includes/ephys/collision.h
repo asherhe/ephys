@@ -5,6 +5,7 @@
 #include "ephys/contacts.h"
 
 #include <list>
+#include <iostream>
 
 #include <cmath>
 #ifndef M_PI
@@ -231,6 +232,7 @@ namespace ephys
   {
     if (isLeaf())
     {
+      std::cout << "leaf\n";
       children[0] = new BVHNode(this->volume, this->body);
       children[0]->parent = this;
       children[1] = new BVHNode(volume, body);

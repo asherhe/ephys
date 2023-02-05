@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <list>
+#include <iostream>
 #include <map>
 
 using namespace ephys;
@@ -239,6 +240,7 @@ std::list<Contact> &CollisionDetector::circleCircle(const CircleCollider &c1, co
 
 std::list<Contact> &CollisionDetector::boxCircle(const BoxCollider &bc, const CircleCollider &cc, const CollisionProperties &properties)
 {
+  std::cout << "box circle\n";
   auto contacts = new std::list<Contact>;
 
   Contact contact;
