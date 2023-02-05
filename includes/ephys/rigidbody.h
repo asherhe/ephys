@@ -5,6 +5,8 @@
 
 namespace ephys
 {
+  class Collider;
+
   class Rigidbody
   {
   protected:
@@ -21,6 +23,11 @@ namespace ephys
 
     // derived from position and rotation
     Mat3 transform, invTransform;
+
+    Collider *collider;
+
+    // restitution of this rigidbody
+    float restitution;
 
     // calculates extra state data
     // should be called every time something changes
@@ -42,7 +49,8 @@ namespace ephys
     inline float getInvMass() const { return invMass; }
     inline float getInertia() const { return inertia; }
     inline float getInvInertia() const { return invInertia; }
-
+    inline Collider *getCollider() const { return collider; }
+    inline float getRestitution() const { return restitution; }
     inline Mat3 getTransform() const { return transform; }
     inline Mat3 getInvTransform() const { return invTransform; }
     inline Mat2 getTransformRot() const { return transform.getRotation(); }
@@ -53,6 +61,8 @@ namespace ephys
     inline void setAcc(const Vec2 &acc) { this->acc = acc; }
     inline void setAngle(Pseudovec angle) { this->angle = angle; }
     inline void setAngVel(Pseudovec angVel) { this->angVel = angVel; }
+    inline void setCollider(Collider &collider) { this->collider = &collider; }
+    inline void setRestitution(float restitution) { this->restitution = restitution; }
 
     inline void setMass(float mass)
     {

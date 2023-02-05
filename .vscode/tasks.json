@@ -9,9 +9,12 @@
       "command": "./build.bat",
       "problemMatcher": {
         "owner": "cpp",
-        "fileLocation": "autoDetect",
+        "fileLocation": [
+          "autoDetect",
+          "${workspaceFolder}"
+        ],
         "pattern": {
-          "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(\\w):\\s+(.*)$",
           "file": 1,
           "line": 2,
           "column": 3,

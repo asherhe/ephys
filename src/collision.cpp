@@ -611,3 +611,80 @@ std::list<Contact> &CollisionDetector::boxBox(const BoxCollider &b1, const BoxCo
 
   return *contacts;
 }
+
+std::list<Contact> &CollisionContactGenerator::generateContacts() const
+{
+  std::map<Rigidbody *, BoundingCircle> boundingVolumes;
+  for (auto it = bodies->begin(); it != bodies->end(); ++it)
+  {
+    Vec2 center = it->first->getPos();
+    float radius = 1;
+
+    // circle collider
+    CircleCollider *cc = dynamic_cast<CircleCollider *>(it->second);
+    if (cc != nullptr)
+    {
+      center = cc->origin();
+      radius = cc->radius;
+    }
+
+    // box collider
+    BoxCollider *bc = dynamic_cast<BoxCollider *>(it->second);
+    if (bc != nullptr)
+    {
+      center = bc->origin();
+      radius = bc->halfSize.norm();
+    }
+
+    BoundingCircle bv(center, radius);
+
+    boundingVolumes[it->first] = bv;
+  }
+
+  auto it = boundingVolumes.begin();
+  BVHNode<BoundingCircle> bvtree(it->second, it->first);
+  for (++it; it != boundingVolumes.end(); ++it)
+    bvtree.insert(it->second, it->first);
+
+  auto potentialContacts = bvtree.getPotentialContacts();
+  auto contacts = new std::list<Contact>;
+
+  for (auto it = potentialContacts.begin(); it != potentialContacts.end(); ++it)
+  {
+    short colliderFlags = 0;
+
+    Collider *c0 = ((*it)->bodies[0]->getCollider()),
+             *c1 = ((*it)->bodies[1]->getCollider());
+
+    BoxCollider *bc0 = dynamic_cast<BoxCollider *>(c0);
+    if (bc0 != nullptr)
+      colliderFlags |= 0b1;
+    BoxCollider *bc1 = dynamic_cast<BoxCollider *>(c1);
+    if (bc1 != nullptr)
+      colliderFlags |= 0b10;
+
+    CollisionProperties properties;
+    properties.restitution = (*it)->bodies[0]->getRestitution();
+    CircleCollider *cc0, *cc1;
+    switch (colliderFlags)
+    {
+    case 0b00:
+      contacts->splice(contacts->end(), CollisionDetector::boxBox(*bc0, *bc1, properties));
+      break;
+    case 0b01:
+      cc0 = dynamic_cast<CircleCollider *>(c0);
+      contacts->splice(contacts->end(), CollisionDetector::boxCircle(*bc1, *cc0, properties));
+      break;
+    case 0b10:
+      cc1 = dynamic_cast<CircleCollider *>(c1);
+      contacts->splice(contacts->end(), CollisionDetector::boxCircle(*bc0, *cc1, properties));
+      break;
+    case 0b11:
+      cc0 = dynamic_cast<CircleCollider *>(c0);
+      cc1 = dynamic_cast<CircleCollider *>(c1);
+      contacts->splice(contacts->end(), CollisionDetector::circleCircle(*cc0, *cc1, properties));
+      break;
+    }
+  }
+  return *contacts;
+}

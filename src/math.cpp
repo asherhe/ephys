@@ -36,15 +36,6 @@ Vec2 &Vec2::normalize()
   return *this;
 }
 
-Vec2 Vec2::operator-() const
-{
-  return Vec2(-x, -y);
-}
-
-Vec2 Vec2::operator+(const Vec2 &v) const
-{
-  return Vec2(x + v.x, y + v.y);
-}
 Vec2 &Vec2::operator+=(const Vec2 &v)
 {
   x += v.x;
@@ -52,10 +43,6 @@ Vec2 &Vec2::operator+=(const Vec2 &v)
   return *this;
 }
 
-Vec2 Vec2::operator-(const Vec2 &v) const
-{
-  return Vec2(x - v.x, y - v.y);
-}
 Vec2 &Vec2::operator-=(const Vec2 &v)
 {
   x -= v.x;
@@ -63,17 +50,6 @@ Vec2 &Vec2::operator-=(const Vec2 &v)
   return *this;
 }
 
-Vec2 Vec2::operator*(float k) const
-{
-  return Vec2(x * k, y * k);
-}
-// apparently you have to add the namespace in front
-// otherwise the linker can't find the operator
-// https://stackoverflow.com/a/29067357/11389823
-Vec2 ephys::operator*(float k, const Vec2 &v)
-{
-  return Vec2(v.x * k, v.y * k);
-}
 Vec2 &Vec2::operator*=(float k)
 {
   x *= k;
@@ -81,30 +57,11 @@ Vec2 &Vec2::operator*=(float k)
   return *this;
 }
 
-Vec2 Vec2::operator/(float k) const
-{
-  return Vec2(x / k, y / k);
-}
 Vec2 &Vec2::operator/=(float k)
 {
   x /= k;
   y /= k;
   return *this;
-}
-
-float Vec2::operator*(const Vec2 &v) const
-{
-  return x * v.x + y * v.y;
-}
-
-float Vec2::cross(const Vec2 &v) const
-{
-  return x * v.y - y * v.x;
-}
-
-Vec2 Vec2::cross(Pseudovec v) const
-{
-  return Vec2(y, -x) * v;
 }
 
 Mat2 Mat2::operator+(const Mat2 &m) const

@@ -62,6 +62,12 @@ namespace ephys
     void solvePenetration(std::list<Contact> &contacts, float dt) const;
     void solveVelocity(std::list<Contact> &contacts, float dt) const;
   };
+
+  class ContactGenerator
+  {
+  public:
+    virtual std::list<Contact> &generateContacts() const = 0;
+  };
 }
 
 #endif // EPHYS_CONTACT_H

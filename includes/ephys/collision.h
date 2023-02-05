@@ -2,11 +2,11 @@
 #define EPHYS_COLLISION_H
 
 #include "ephys/math.h"
-#include "ephys/rigidbody.h"
 #include "ephys/contacts.h"
 
 #include <list>
 #include <type_traits>
+#include <map>
 
 #include <cmath>
 #ifndef M_PI
@@ -30,8 +30,10 @@ namespace ephys
     Vec2 center;
     float radius;
 
+    BoundingCircle() {}
     BoundingCircle(const Vec2 &center, float radius) : center(center), radius(radius) {}
     BoundingCircle(const BoundingCircle &b1, const BoundingCircle &b2);
+    BoundingCircle(const BoundingCircle &bc) : center(bc.center), radius(bc.radius) {}
 
     bool overlaps(const BoundingVolume &bv) const;
 
@@ -48,6 +50,9 @@ namespace ephys
     }
   };
 
+  class Collider;
+  class Rigidbody;
+
   // a pair of rigidbodies athat are potentially in contact
   struct PotentialContact
   {
@@ -62,7 +67,7 @@ namespace ephys
     static_assert(std::is_base_of<BoundingVolume, BVClass>::value, "bounding volume class must be derived from ephys::BoundingVolume");
 
   protected:
-    std::list<PotentialContact *> &potentialContacts(BVHNode<BVClass> &n1, BVHNode<BVClass> &n2);
+    static std::list<PotentialContact *> &potentialContacts(BVHNode<BVClass> &n1, BVHNode<BVClass> &n2);
     void recalculateVolume();
 
   public:
@@ -78,22 +83,10 @@ namespace ephys
 
     inline bool overlaps(const BVHNode &bvh) const { return volume.overlaps(bvh.volume); }
 
-    void insert(Rigidbody &body, BVClass &volume);
+    void insert(BVClass &volume, Rigidbody *body);
 
     std::list<PotentialContact *> &getPotentialContacts() const;
   };
-
-  template <typename BVClass>
-  void BVHNode<BVClass>::recalculateVolume()
-  {
-    if (!isLeaf())
-    {
-      volume = BoundingVolume(children[0]->volume, children[1]->volume);
-
-      if (parent)
-        parent->recalculateVolume();
-    }
-  }
 
   struct CollisionProperties
   {
@@ -109,6 +102,8 @@ namespace ephys
     Mat3 transform, invTransform;
 
   public:
+    virtual ~Collider() = default;
+
     Rigidbody *body;
 
     // gets the origin in object space
@@ -167,7 +162,34 @@ namespace ephys
     static std::list<Contact> &boxBox(const BoxCollider &b1, const BoxCollider &b2, const CollisionProperties &properties);
   };
 
+  class CollisionContactGenerator : public ContactGenerator
+  {
+  protected:
+    std::map<Rigidbody *, Collider *> *bodies;
+
+  public:
+    CollisionContactGenerator() : bodies{nullptr} {}
+    CollisionContactGenerator(std::map<Rigidbody *, Collider *> &bodies) : bodies{&bodies} {}
+
+    inline std::map<Rigidbody *, Collider *> getBodies() const { return *bodies; }
+    inline void setBodies(std::map<Rigidbody *, Collider *> &bodies) { this->bodies = &bodies; }
+
+    std::list<Contact> &generateContacts() const;
+  };
+
   // template class implementations
+
+  template <typename BVClass>
+  void BVHNode<BVClass>::recalculateVolume()
+  {
+    if (!isLeaf())
+    {
+      volume = BVClass(children[0]->volume, children[1]->volume);
+
+      if (parent)
+        parent->recalculateVolume();
+    }
+  }
 
   template <typename BVClass>
   BVHNode<BVClass>::~BVHNode()
@@ -191,7 +213,7 @@ namespace ephys
       sibling->children[1] = nullptr;
       delete sibling;
 
-      parent->recalculateBoundingVolume();
+      parent->recalculateVolume();
     }
 
     if (children[0])
@@ -207,23 +229,23 @@ namespace ephys
   }
 
   template <typename BVClass>
-  void BVHNode<BVClass>::insert(Rigidbody &body, BVClass &volume)
+  void BVHNode<BVClass>::insert(BVClass &volume, Rigidbody *body)
   {
     if (isLeaf())
     {
       children[0] = new BVHNode(this->volume, this->body);
       children[0]->parent = this;
-      children[1] = new BVHNode(volume, &body);
+      children[1] = new BVHNode(volume, body);
       children[1]->parent = this;
-      this->body = nullptr;
+      this->body = body;
     }
     else
     {
       // add to the child such that there is the least amount of growth
       if (children[0]->volume.growth(volume) > children[1]->volume.growth(volume))
-        children[1]->insert(body, volume);
+        children[1]->insert(volume, body);
       else
-        children[0]->insert(body, volume);
+        children[0]->insert(volume, body);
     }
   }
 
@@ -237,7 +259,7 @@ namespace ephys
       return *contacts;
 
     if (n1.isLeaf() && n2.isLeaf())
-      contacts->push_back(new PotentialContact(n1.body, n2.body));
+      contacts->push_back(new PotentialContact(*n1.body, *n2.body));
     else if (n2.isLeaf() || (!n1.isLeaf() && n1.volume.size() >= n2.volume.size()))
     {
       contacts->splice(contacts->end(), potentialContacts(*n1.children[0], n2));
@@ -256,7 +278,7 @@ namespace ephys
   std::list<PotentialContact *> &BVHNode<BVClass>::getPotentialContacts() const
   {
     if (!isLeaf())
-      return potentialContacts(children[0], children[1]);
+      return BVHNode<BVClass>::potentialContacts(*children[0], *children[1]);
     else
       return *(new std::list<PotentialContact *>);
   }

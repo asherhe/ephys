@@ -38,27 +38,27 @@ namespace ephys
     // returns a normalized copy of this vector (does not modify this vector)
     Vec2 &normalize();
 
-    Vec2 operator-() const;
+    inline Vec2 operator-() const { return Vec2(-x, -y); }
 
-    Vec2 operator+(const Vec2 &v) const;
+    inline Vec2 operator+(const Vec2 &v) const { return Vec2(x + v.x, y + v.y); }
     Vec2 &operator+=(const Vec2 &v);
 
-    Vec2 operator-(const Vec2 &v) const;
+    inline Vec2 operator-(const Vec2 &v) const { return Vec2(x - v.x, y - v.y); }
     Vec2 &operator-=(const Vec2 &v);
 
-    Vec2 operator*(float k) const;
-    friend Vec2 operator*(float k, const Vec2 &v);
+    inline Vec2 operator*(float k) const { return Vec2(x * k, y * k); }
+    friend inline Vec2 operator*(float k, const Vec2 &v) { return Vec2(v.x * k, v.y * k); }
     Vec2 &operator*=(float k);
 
-    Vec2 operator/(float k) const;
+    Vec2 operator/(float k) const { return Vec2(x / k, y / k); }
     Vec2 &operator/=(float k);
 
     // dot product
-    float operator*(const Vec2 &v) const;
+    float operator*(const Vec2 &v) const { return x * v.x + y * v.y; }
 
     // z-component of cross product
-    Pseudovec cross(const Vec2 &v) const;
-    Vec2 cross(Pseudovec v) const;
+    Pseudovec cross(const Vec2 &v) const { return x * v.y - y * v.x; }
+    Vec2 cross(Pseudovec v) const { return Vec2(y, -x) * v; }
 
     friend std::ostream &
     operator<<(std::ostream &out, const Vec2 &v)
