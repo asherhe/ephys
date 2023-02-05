@@ -38,7 +38,7 @@ namespace ephys
     void calcTransform();
 
   public:
-    Rigidbody() {}
+    Rigidbody() : linearDamping(1), angularDamping(1), restitution(0.5) {}
 
     inline Vec2 getPos() const { return pos; }
     inline Vec2 getVel() const { return vel; }
@@ -49,6 +49,8 @@ namespace ephys
     inline float getInvMass() const { return invMass; }
     inline float getInertia() const { return inertia; }
     inline float getInvInertia() const { return invInertia; }
+    inline float getLinearDamping() const { return linearDamping; }
+    inline float getAngularDamping() const { return angularDamping; }
     inline Collider *getCollider() const { return collider; }
     inline float getRestitution() const { return restitution; }
     inline Mat3 getTransform() const { return transform; }
@@ -61,9 +63,6 @@ namespace ephys
     inline void setAcc(const Vec2 &acc) { this->acc = acc; }
     inline void setAngle(Pseudovec angle) { this->angle = angle; }
     inline void setAngVel(Pseudovec angVel) { this->angVel = angVel; }
-    inline void setCollider(Collider &collider) { this->collider = &collider; }
-    inline void setRestitution(float restitution) { this->restitution = restitution; }
-
     inline void setMass(float mass)
     {
       this->mass = mass;
@@ -84,6 +83,10 @@ namespace ephys
       this->invInertia = invInertia;
       this->inertia = 1 / invInertia;
     }
+    inline void setLinearDamping(float linearDamping) { this->linearDamping = linearDamping; }
+    inline void setAngularDamping(float angularDamping) { this->angularDamping = angularDamping; }
+    inline void setCollider(Collider &collider) { this->collider = &collider; }
+    inline void setRestitution(float restitution) { this->restitution = restitution; }
 
     inline Vec2 local2World(const Vec2 &pos) const { return transform * pos; }
     inline Vec2 world2Local(const Vec2 &pos) const { return invTransform * pos; }

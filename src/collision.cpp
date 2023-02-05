@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <list>
+#include <map>
 
 using namespace ephys;
 
@@ -617,11 +618,11 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
   std::map<Rigidbody *, BoundingCircle> boundingVolumes;
   for (auto it = bodies->begin(); it != bodies->end(); ++it)
   {
-    Vec2 center = it->first->getPos();
+    Vec2 center = (*it)->getPos();
     float radius = 1;
 
     // circle collider
-    CircleCollider *cc = dynamic_cast<CircleCollider *>(it->second);
+    CircleCollider *cc = dynamic_cast<CircleCollider *>((*it)->getCollider());
     if (cc != nullptr)
     {
       center = cc->origin();
@@ -629,7 +630,7 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
     }
 
     // box collider
-    BoxCollider *bc = dynamic_cast<BoxCollider *>(it->second);
+    BoxCollider *bc = dynamic_cast<BoxCollider *>((*it)->getCollider());
     if (bc != nullptr)
     {
       center = bc->origin();
@@ -638,7 +639,7 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
 
     BoundingCircle bv(center, radius);
 
-    boundingVolumes[it->first] = bv;
+    boundingVolumes[*it] = bv;
   }
 
   auto it = boundingVolumes.begin();

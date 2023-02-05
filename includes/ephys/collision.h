@@ -5,8 +5,6 @@
 #include "ephys/contacts.h"
 
 #include <list>
-#include <type_traits>
-#include <map>
 
 #include <cmath>
 #ifndef M_PI
@@ -165,14 +163,14 @@ namespace ephys
   class CollisionContactGenerator : public ContactGenerator
   {
   protected:
-    std::map<Rigidbody *, Collider *> *bodies;
+    std::list<Rigidbody *> *bodies;
 
   public:
     CollisionContactGenerator() : bodies{nullptr} {}
-    CollisionContactGenerator(std::map<Rigidbody *, Collider *> &bodies) : bodies{&bodies} {}
+    CollisionContactGenerator(std::list<Rigidbody *> &bodies) : bodies{&bodies} {}
 
-    inline std::map<Rigidbody *, Collider *> getBodies() const { return *bodies; }
-    inline void setBodies(std::map<Rigidbody *, Collider *> &bodies) { this->bodies = &bodies; }
+    inline std::list<Rigidbody *> getBodies() const { return *bodies; }
+    inline void setBodies(std::list<Rigidbody *> &bodies) { this->bodies = &bodies; }
 
     std::list<Contact> &generateContacts() const;
   };

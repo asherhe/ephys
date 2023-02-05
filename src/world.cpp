@@ -24,7 +24,7 @@ void World::step(float dt)
 
   for (auto it = bodies.begin(); it != bodies.end(); ++it)
   {
-    it->first->step(dt);
+    (*it)->step(dt);
   }
 
   std::list<Contact> &contacts = generateContacts();

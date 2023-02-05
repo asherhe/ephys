@@ -103,6 +103,8 @@ interface Rigidbody {
   float getInvMass();
   float getInertia();
   float getInvInertia();
+  float getLinearDamping();
+  float getAngularDamping();
   Collider getCollider();
   float getRestitution();
   [Value] Mat3 getTransform();
@@ -117,6 +119,8 @@ interface Rigidbody {
   void setInvMass(float invMass);
   void setInertia(float inertia);
   void setInvInertia(float invInertia);
+  void setLinearDamping(float linearDamping);
+  void setAngularDamping(float angularDamping);
   void setCollider([Ref] Collider collider);
   void setRestitution(float restitution);
 
@@ -219,8 +223,8 @@ interface Spring : ForceGenerator {
 interface World {
   void World();
 
-  void addBody([Ref] Rigidbody body, [Ref] Collider collider);
-  void removeBody([Ref] Rigidbody body, [Ref] Collider collider);
+  void addBody([Ref] Rigidbody body);
+  void removeBody([Ref] Rigidbody body);
 
   void addFGen([Ref] ForceGenerator fgen, [Ref] Rigidbody body);
   void removeFGen([Ref] ForceGenerator fgen, [Ref] Rigidbody body);

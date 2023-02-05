@@ -7,14 +7,13 @@
 #include "ephys/collision.h"
 
 #include <list>
-#include <map>
 
 namespace ephys
 {
   class World
   {
   protected:
-    std::map<Rigidbody *, Collider *> bodies;
+    std::list<Rigidbody *> bodies;
 
     ForceRegistry freg;
 
@@ -36,8 +35,8 @@ namespace ephys
       solver.setIterations(iterations);
     }
 
-    inline void addBody(Rigidbody &body, Collider &collider) { bodies[&body] = &collider; }
-    inline void removeBody(Rigidbody &body, Collider &collider) { bodies.erase(&body); }
+    inline void addBody(Rigidbody &body) { bodies.push_back(&body); }
+    inline void removeBody(Rigidbody &body) { bodies.remove(&body); }
 
     inline void addFGen(ForceGenerator &fgen, Rigidbody &body) { freg.add(fgen, body); }
     inline void removeFGen(ForceGenerator &fgen, Rigidbody &body) { freg.remove(fgen, body); }
