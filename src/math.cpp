@@ -160,8 +160,8 @@ Vec2 Mat2::operator*(const Vec2 &v) const
 
 Mat2 Mat2::inverse() const
 {
-  return Mat2(data[3], -data[2],
-              -data[1], data[0]) /
+  return Mat2(data[3], -data[1],
+              -data[2], data[0]) /
          determinant();
 }
 Mat2 &Mat2::invert()
@@ -169,8 +169,8 @@ Mat2 &Mat2::invert()
   float *oldData = data;
   float det = determinant();
   data[0] = oldData[3] / det;
-  data[1] = -oldData[2] / det;
-  data[2] = -oldData[1] / det;
+  data[1] = -oldData[1] / det;
+  data[2] = -oldData[2] / det;
   data[3] = oldData[0] / det;
   return *this;
 }
@@ -213,10 +213,12 @@ Mat3 Mat3::inverse() const
 
   float det = determinant();
 
-  inverse.data[0] = data[4] - data[5] / det;
-  inverse.data[1] = data[5] - data[3] / det;
-  inverse.data[3] = data[2] - data[1] / det;
-  inverse.data[4] = data[0] - data[2] / det;
+  inverse.data[0] = data[4] / det;
+  inverse.data[1] = -data[1] / det;
+  inverse.data[2] = (data[1] * data[5] - data[2] * data[4]) / det;
+  inverse.data[3] = -data[3] / det;
+  inverse.data[4] = data[0] / det;
+  inverse.data[5] = (data[2] * data[3] - data[0] * data[5]) / det;
 
   return inverse;
 }
@@ -227,10 +229,12 @@ Mat3 &Mat3::invert()
 
   float det = determinant();
 
-  data[0] = oldData[4] - oldData[5] / det;
-  data[1] = oldData[5] - oldData[3] / det;
-  data[3] = oldData[2] - oldData[1] / det;
-  data[4] = oldData[0] - oldData[2] / det;
+  data[0] = oldData[4] / det;
+  data[1] = -oldData[1] / det;
+  data[2] = (oldData[1] * oldData[5] - oldData[2] * oldData[4]) / det;
+  data[3] = oldData[3] / det;
+  data[4] = -oldData[0] / det;
+  data[5] = (oldData[2] * oldData[3] - oldData[0] * oldData[5]) / det;
 
   return *this;
 }
