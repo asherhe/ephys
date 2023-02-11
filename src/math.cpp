@@ -36,15 +36,6 @@ Vec2 &Vec2::normalize()
   return *this;
 }
 
-Vec2 Vec2::operator-() const
-{
-  return Vec2(-x, -y);
-}
-
-Vec2 Vec2::operator+(const Vec2 &v) const
-{
-  return Vec2(x + v.x, y + v.y);
-}
 Vec2 &Vec2::operator+=(const Vec2 &v)
 {
   x += v.x;
@@ -52,10 +43,6 @@ Vec2 &Vec2::operator+=(const Vec2 &v)
   return *this;
 }
 
-Vec2 Vec2::operator-(const Vec2 &v) const
-{
-  return Vec2(x - v.x, y - v.y);
-}
 Vec2 &Vec2::operator-=(const Vec2 &v)
 {
   x -= v.x;
@@ -63,17 +50,6 @@ Vec2 &Vec2::operator-=(const Vec2 &v)
   return *this;
 }
 
-Vec2 Vec2::operator*(float k) const
-{
-  return Vec2(x * k, y * k);
-}
-// apparently you have to add the namespace in front
-// otherwise the linker can't find the operator
-// https://stackoverflow.com/a/29067357/11389823
-Vec2 ephys::operator*(float k, const Vec2 &v)
-{
-  return Vec2(v.x * k, v.y * k);
-}
 Vec2 &Vec2::operator*=(float k)
 {
   x *= k;
@@ -81,30 +57,11 @@ Vec2 &Vec2::operator*=(float k)
   return *this;
 }
 
-Vec2 Vec2::operator/(float k) const
-{
-  return Vec2(x / k, y / k);
-}
 Vec2 &Vec2::operator/=(float k)
 {
   x /= k;
   y /= k;
   return *this;
-}
-
-float Vec2::operator*(const Vec2 &v) const
-{
-  return x * v.x + y * v.y;
-}
-
-float Vec2::cross(const Vec2 &v) const
-{
-  return x * v.y - y * v.x;
-}
-
-Vec2 Vec2::cross(Pseudovec v) const
-{
-  return Vec2(y, -x) * v;
 }
 
 Mat2 Mat2::operator+(const Mat2 &m) const
@@ -203,8 +160,8 @@ Vec2 Mat2::operator*(const Vec2 &v) const
 
 Mat2 Mat2::inverse() const
 {
-  return Mat2(data[3], -data[2],
-              -data[1], data[0]) /
+  return Mat2(data[3], -data[1],
+              -data[2], data[0]) /
          determinant();
 }
 Mat2 &Mat2::invert()
@@ -212,8 +169,8 @@ Mat2 &Mat2::invert()
   float *oldData = data;
   float det = determinant();
   data[0] = oldData[3] / det;
-  data[1] = -oldData[2] / det;
-  data[2] = -oldData[1] / det;
+  data[1] = -oldData[1] / det;
+  data[2] = -oldData[2] / det;
   data[3] = oldData[0] / det;
   return *this;
 }
@@ -256,10 +213,12 @@ Mat3 Mat3::inverse() const
 
   float det = determinant();
 
-  inverse.data[0] = data[4] - data[5] / det;
-  inverse.data[1] = data[5] - data[3] / det;
-  inverse.data[3] = data[2] - data[1] / det;
-  inverse.data[4] = data[0] - data[2] / det;
+  inverse.data[0] = data[4] / det;
+  inverse.data[1] = -data[1] / det;
+  inverse.data[2] = (data[1] * data[5] - data[2] * data[4]) / det;
+  inverse.data[3] = -data[3] / det;
+  inverse.data[4] = data[0] / det;
+  inverse.data[5] = (data[2] * data[3] - data[0] * data[5]) / det;
 
   return inverse;
 }
@@ -270,10 +229,12 @@ Mat3 &Mat3::invert()
 
   float det = determinant();
 
-  data[0] = oldData[4] - oldData[5] / det;
-  data[1] = oldData[5] - oldData[3] / det;
-  data[3] = oldData[2] - oldData[1] / det;
-  data[4] = oldData[0] - oldData[2] / det;
+  data[0] = oldData[4] / det;
+  data[1] = -oldData[1] / det;
+  data[2] = (oldData[1] * oldData[5] - oldData[2] * oldData[4]) / det;
+  data[3] = oldData[3] / det;
+  data[4] = -oldData[0] / det;
+  data[5] = (oldData[2] * oldData[3] - oldData[0] * oldData[5]) / det;
 
   return *this;
 }

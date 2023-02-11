@@ -18,17 +18,17 @@ set(EPHYS_JS ${OUTPUT_DIR}/ephys.js)
 set(EPHYS_WASM ${OUTPUT_DIR}/ephys.wasm)
 
 set(EPHYS_SOURCES
-  math.cpp
-  rigidbody.cpp
-  world.cpp
-  contacts.cpp
   collision.cpp
+  contacts.cpp
   forcegen.cpp
+  math.cpp
   particle.cpp
-  pworld.cpp
   pcontacts.cpp
   pforcegen.cpp
   plinks.cpp
+  pworld.cpp
+  rigidbody.cpp
+  world.cpp
 )
 list(TRANSFORM EPHYS_SOURCES PREPEND ${EPHYS_SRC_DIR})
 
@@ -37,17 +37,30 @@ set(EMCC_GLUE_ARGS
   -include ${EPHYS_HEADERS}
   -I${EPHYS_INCLUDE_DIR}
 )
-set(EMCC_EPHYS_ARGS
-  -O3
-  --no-entry
-  -s MODULARIZE
-  -s EXPORT_NAME="ephys"
-  -s LLD_REPORT_UNDEFINED
-  -s ASSERTIONS
-  -g
-  -I${EPHYS_INCLUDE_DIR}
-  --post-js ${GLUE_JS}
-)
+
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+  set(EMCC_ARGS
+    -O3
+    --no-entry
+    -s MODULARIZE
+    -s EXPORT_NAME="ephys"
+    -s ASSERTIONS
+    -I${EPHYS_INCLUDE_DIR}
+    --post-js ${GLUE_JS}
+  )
+else()
+  set(EMCC_ARGS
+    -O0
+    --no-entry
+    -s MODULARIZE
+    -s EXPORT_NAME="ephys"
+    -s LLD_REPORT_UNDEFINED
+    -s ASSERTIONS
+    -g
+    -I${EPHYS_INCLUDE_DIR}
+    --post-js ${GLUE_JS}
+  )
+endif()
 
 add_custom_command(
   OUTPUT ${GLUE_JS} ${GLUE_CPP}
@@ -66,7 +79,7 @@ add_custom_command(
 add_custom_command(
   OUTPUT ${EPHYS_JS} ${EPHYS_WASM}
   DEPENDS ${GLUE_JS} ${GLUE_O} ${SOURCE_DIR}
-  COMMAND emcc ${GLUE_O} ${EPHYS_SOURCES} ${EMCC_EPHYS_ARGS} -o ${EPHYS_JS}
+  COMMAND emcc ${GLUE_O} ${EPHYS_SOURCES} ${EMCC_ARGS} -o ${EPHYS_JS}
   COMMENT "compiling ephys code to wasm"
   VERBATIM
 )

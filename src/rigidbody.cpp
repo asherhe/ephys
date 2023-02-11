@@ -5,6 +5,8 @@
 
 using namespace ephys;
 
+size_t Rigidbody::idCount = 0;
+
 void Rigidbody::calcDerivedData()
 {
   calcTransform();
@@ -12,13 +14,13 @@ void Rigidbody::calcDerivedData()
 
 void Rigidbody::calcTransform()
 {
-  transform[0] = cosf(angle);
-  transform[1] = sinf(angle);
-
-  transform[3] = -sinf(angle);
-  transform[4] = cosf(angle);
-
+  float cosAngle = cosf(angle), sinAngle = sinf(angle);
+  transform[0] = cosAngle;
+  transform[1] = sinAngle;
   transform[2] = pos.x;
+
+  transform[3] = -sinAngle;
+  transform[4] = cosAngle;
   transform[5] = pos.y;
 
   invTransform = transform.inverse();
@@ -74,20 +76,23 @@ void Rigidbody::step(float dt)
 {
   assert(dt > 0);
 
-  Vec2 totalAcc = acc + forceAccum * invMass;
+  if (!getStatic())
+  {
+    Vec2 totalAcc = acc + forceAccum * invMass;
 
-  pos += (vel + 0.5 * totalAcc * dt) * dt;
+    pos += (vel + 0.5 * totalAcc * dt) * dt;
 
-  vel += totalAcc * dt;
-  vel *= powf(linearDamping, dt);
+    vel += totalAcc * dt;
+    vel *= powf(linearDamping, dt);
 
-  float angAcc = torqueAccum * invInertia;
-  angle += (angVel + 0.5 * angAcc * dt) * dt;
-  angVel += angAcc * dt;
-  angVel *= powf(angularDamping, dt);
+    float angAcc = torqueAccum * invInertia;
+    angle += (angVel + 0.5 * angAcc * dt) * dt;
+    angVel += angAcc * dt;
+    angVel *= powf(angularDamping, dt);
 
-  // calculate new data since objects have moved
-  calcDerivedData();
+    // calculate new data since objects have moved
+    calcDerivedData();
+  }
 
   clearAccums();
 }

@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include <iostream>
+
 using namespace ephys;
 
 void Contact::calculateDerivedData()
@@ -30,43 +32,30 @@ void Contact::calculateDesiredDv()
 void Contact::solveVelocity()
 {
   Vec2 impulse = normalImpulse() * normal;
+  bodies[1]->addImpulse(impulse);
+  bodies[1]->addImpulsiveTorque(relativePos[1].cross(impulse));
+  impulse *= -1;
   bodies[0]->addImpulse(impulse);
   bodies[0]->addImpulsiveTorque(relativePos[0].cross(impulse));
-  impulse *= -1;
-  bodies[1]->addImpulse(impulse);
-  bodies[0]->addImpulsiveTorque(relativePos[1].cross(impulse));
+
+  calculateDerivedData();
 }
 
 void Contact::solvePenetration()
 {
-  // inertia of the contact point due to rotational effects
-  float angularInertia[2];
-  Pseudovec angularInertiaWorld[2];
-  // combined linear and angular inertia of the two objects at the contact point
-  float totalInertia = 0;
+  if (penetration <= 0)
+    return;
 
-  for (int i = 0; i < 2; ++i)
-  {
-    angularInertiaWorld[i] = bodies[i]->getInvInertia() * relativePos[i].cross(normal);
-    angularInertia[i] = (-relativePos[i].cross(angularInertiaWorld[i])) * normal;
+  float sumInvMass = bodies[0]->getInvMass() + bodies[1]->getInvMass();
+  if (sumInvMass <= 0)
+    return;
 
-    totalInertia += bodies[i]->getInvMass() + angularInertia[i];
-  }
+  Vec2 displacementPerInvMass = penetration / sumInvMass * normal;
 
-  float invInertia = 1 / totalInertia;
+  bodies[0]->displace(-displacementPerInvMass * bodies[0]->getInvMass());
+  bodies[1]->displace(displacementPerInvMass * bodies[1]->getInvMass());
 
-  float displacement[2]{
-      penetration * bodies[0]->getInvInertia() * invInertia,
-      -penetration * bodies[1]->getInvInertia() * invInertia};
-  float angularDisplacement[2]{
-      penetration * angularInertia[0] * invInertia,
-      -penetration * angularInertia[1] * invInertia};
-
-  bodies[0]->displace(displacement[0] * normal);
-  bodies[1]->displace(displacement[1] * normal);
-
-  bodies[0]->rotate(angularInertiaWorld[0] / angularInertia[0] * angularDisplacement[0]);
-  bodies[1]->rotate(angularInertiaWorld[1] / angularInertia[1] * angularDisplacement[1]);
+  calculateDerivedData();
 }
 
 float Contact::normalImpulse()
@@ -86,6 +75,11 @@ float Contact::normalImpulse()
 
   float contactVelocity = closingVelocity * normal,
         dv = -(restitution + 1) * contactVelocity;
+
+  std::cout << "normal impulse:\n"
+            << "  dv " << dv << "\n"
+            << "  per impulse " << dvPerImpulse << "\n"
+            << "  impulse " << dv / dvPerImpulse << "\n";
 
   // impulse in world coords
   return dv / dvPerImpulse;
@@ -119,6 +113,7 @@ void ContactSolver::solvePenetration(std::list<Contact> &contacts, float dt) con
     if (max->penetration <= 0)
       return;
 
+    max->calculateDerivedData(); // in case related objects have been modified
     max->solvePenetration();
   }
 }
@@ -135,6 +130,7 @@ void ContactSolver::solveVelocity(std::list<Contact> &contacts, float dt) const
     if (max->desiredDv <= 0)
       return;
 
+    max->calculateDerivedData();
     max->solveVelocity();
   }
 }

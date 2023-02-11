@@ -73,6 +73,24 @@ interface Mat3 {
   [Ref] Mat3 invert();
 };
 
+//////// Collider Base Class ////////
+[Prefix="ephys::", NoDelete]
+interface Collider {
+  [Value] Vec2 origin();
+
+  Rigidbody getBody();
+  [Value] Mat3 getTransform();
+  [Value] Mat3 getInvTransform();
+
+  void setTransform([Const, Ref] Mat3 transform);
+  void setInvTransform([Const, Ref] Mat3 invTransform);
+
+  [Value] Vec2 collider2Object([Const, Ref] Vec2 v);
+  [Value] Vec2 object2Collider([Const, Ref] Vec2 v);
+  [Value] Vec2 rotCollider2Object([Const, Ref] Vec2 v);
+  [Value] Vec2 rotObject2Collider([Const, Ref] Vec2 v);
+};
+
 //////// Rigidbodies ////////
 
 [Prefix="ephys::"]
@@ -88,8 +106,13 @@ interface Rigidbody {
   float getInvMass();
   float getInertia();
   float getInvInertia();
+  float getLinearDamping();
+  float getAngularDamping();
+  Collider getCollider();
+  float getRestitution();
   [Value] Mat3 getTransform();
   [Value] Mat3 getInvTransform();
+  boolean getStatic();
 
   void setPos([Const, Ref] Vec2 pos);
   void setVel([Const, Ref] Vec2 vel);
@@ -100,6 +123,11 @@ interface Rigidbody {
   void setInvMass(float invMass);
   void setInertia(float inertia);
   void setInvInertia(float invInertia);
+  void setLinearDamping(float linearDamping);
+  void setAngularDamping(float angularDamping);
+  void setCollider([Ref] Collider collider);
+  void setRestitution(float restitution);
+  void setStatic(float isStatic);
 
   [Value] Vec2 world2Local([Const, Ref] Vec2 pos);
   [Value] Vec2 local2World([Const, Ref] Vec2 pos);
@@ -115,117 +143,25 @@ interface Rigidbody {
   void step(float dt);
 };
 
-//////// Physics World ////////
-
-[Prefix="ephys::"]
-interface World {
-  void World();
-
-  void addBody([Ref] Rigidbody body);
-  void removeBody([Ref] Rigidbody body);
-
-  void step(float dt);
-};
-
 //////// Contacts ////////
-
-[Prefix="ephys::"]
-interface Contact {
-  attribute Rigidbody[] bodies;
-  [Value] attribute Vec2 contactPoint;
-  [Value] attribute Vec2 normal;
-  attribute float penetration;
-  attribute float restitution;
-
-  void Contact();
-};
 
 [NoDelete]
 interface ContactList {};
 
-[Prefix="ephys::"]
-interface ContactSolver {
-  void ContactSolver(unsigned long maxIterations);
-  
-  float getIterations();
-  void setIterations(unsigned long iterations);
-
-  void solveContacts([Ref] ContactList contacts, float dt);
+[Prefix="ephys::", NoDelete]
+interface ContactGenerator {
+  [Ref] ContactList generateContacts();
 };
 
 //////// Collision ////////
-
-[Prefix="ephys::", NoDelete]
-interface BoundingVolume {
-  boolean overlaps([Const, Ref] BoundingVolume bv);
-  float size();
-  float growth([Const, Ref] BoundingVolume bv);
-};
-
-[Prefix="ephys::"]
-interface BoundingCircle : BoundingVolume {
-  [Value] attribute Vec2 center;
-  attribute float radius;
-
-  void BoundingCircle([Const, Ref] Vec2 center, float radius);
-  // void BoundingCircle([Const, Ref] BoundingCircle b1, [Const, Ref] BoundingCircle b2);
-  boolean overlaps([Const, Ref] BoundingVolume bc);
-  float size();
-  float growth([Const, Ref] BoundingVolume bc);
-};
-
-[Prefix="ephys::"]
-interface PotentialContact {
-  attribute Rigidbody[] bodies;
-
-  void PotentialContact([Ref] Rigidbody b1, [Ref] Rigidbody b2);
-};
-
-[NoDelete]
-interface BVHCircleNode {
-  attribute Rigidbody body;
-  [Value] attribute BoundingCircle volume;
-  attribute BVHCircleNode parent;
-  attribute BVHCircleNode[] children; 
-
-  void BVHCircleNode([Const, Ref] BoundingCircle volume, Rigidbody body);
-
-  boolean isLeaf();
-  boolean overlaps([Const, Ref] BVHCircleNode bvh);
-
-  void insert([Ref] Rigidbody body, [Ref] BoundingCircle volume);
-};
-
-[Prefix="ephys::"]
-interface CollisionProperties {
-  attribute float restitution;
-};
-
-[Prefix="ephys::"]
-interface Collider {
-  attribute Rigidbody body;
-
-  [Value] Vec2 origin();
-  [Value] Mat3 getTransform();
-  [Value] Mat3 getInvTransform();
-  void setTransform([Const, Ref] Mat3 transform);
-  void setInvTransform([Const, Ref] Mat3 invTransform);
-
-  [Value] Vec2 collider2Object([Const, Ref] Vec2 v);
-  [Value] Vec2 object2Collider([Const, Ref] Vec2 v);
-  [Value] Vec2 rotCollider2Object([Const, Ref] Vec2 v);
-  [Value] Vec2 rotObject2Collider([Const, Ref] Vec2 v);
-};
-
 [Prefix="ephys::"]
 interface CircleCollider : Collider {
   attribute float radius;
 
   void CircleCollider(float radius, [Ref] Rigidbody body, [Const, Ref] optional Mat3 transform);
 
-  attribute Rigidbody body;
-
   [Value] Vec2 origin();
+  Rigidbody getBody();
   [Value] Mat3 getTransform();
   [Value] Mat3 getInvTransform();
   void setTransform([Const, Ref] Mat3 transform);
@@ -243,9 +179,8 @@ interface BoxCollider : Collider {
 
   void BoxCollider([Const, Ref] Vec2 halfSize, [Ref] Rigidbody body, [Const, Ref] optional Mat3 transform);
 
-  attribute Rigidbody body;
-
   [Value] Vec2 origin();
+  Rigidbody getBody();
   [Value] Mat3 getTransform();
   [Value] Mat3 getInvTransform();
   void setTransform([Const, Ref] Mat3 transform);
@@ -264,26 +199,10 @@ interface IntersectionDetector {
   static boolean boxBox([Const, Ref] BoxCollider b1, [Const, Ref] BoxCollider b2);
 };
 
-[Prefix="ephys::", NoDelete]
-interface CollisionDetector {
-  [Ref] static ContactList circleCircle([Const, Ref] CircleCollider c1, [Const, Ref] CircleCollider c2, [Const, Ref] CollisionProperties properties);
-  [Ref] static ContactList boxCircle([Const, Ref] BoxCollider bc, [Const, Ref] CircleCollider cc, [Const, Ref] CollisionProperties properties);
-  [Ref] static ContactList boxBox([Const, Ref] BoxCollider b1, [Const, Ref] BoxCollider b2, [Const, Ref] CollisionProperties properties);
-};
-
 //////// Force Generators ////////
 [Prefix="ephys::", NoDelete]
 interface ForceGenerator {
   void updateForce([Ref] Rigidbody body, float dt);
-};
-
-[Prefix="ephys::", NoDelete]
-interface ForceRegistry {
-  void ForceRegistry();
-
-  void add([Ref] ForceGenerator fgen, [Ref] Rigidbody body);
-  void remove([Ref] ForceGenerator fgen, [Ref] Rigidbody body);
-  void clear();
 };
 
 [Prefix="ephys::"]
@@ -304,6 +223,23 @@ interface Spring : ForceGenerator {
   void setEnd([Const, Ref] Rigidbody body);
 
   void updateForce([Ref] Rigidbody body, float dt);
+};
+
+//////// Physics World ////////
+[Prefix="ephys::"]
+interface World {
+  void World();
+
+  void addBody([Ref] Rigidbody body);
+  void removeBody([Ref] Rigidbody body);
+
+  void addFGen([Ref] ForceGenerator fgen, [Ref] Rigidbody body);
+  void removeFGen([Ref] ForceGenerator fgen, [Ref] Rigidbody body);
+
+  void addContactGen([Ref] ContactGenerator cgen);
+  void removeContactGen([Ref] ContactGenerator cgen);
+
+  void step(float dt);
 };
 
 //////// Particles ////////
@@ -345,17 +281,6 @@ interface ParticleForceGenerator {
 };
 
 [Prefix="ephys::"]
-interface ParticleForceRegistry {
-  void ParticleForceRegistry();
-
-  void add([Ref] Particle particle, [Ref] ParticleForceGenerator fgen);
-  void remove([Ref] Particle particle, [Ref] ParticleForceGenerator fgen);
-  void clear();
-
-  void step(float dt);
-};
-
-[Prefix="ephys::"]
 interface ParticleGravity : ParticleForceGenerator {
   void ParticleGravity([Const, Ref] Vec2 gravity);
   void updateForce([Ref] Particle particle, float dt);
@@ -376,29 +301,8 @@ interface ParticleSpring : ParticleForceGenerator {
 };
 
 //////// Particle Contacts ////////
-[Prefix="ephys::"]
-interface ParticleContact {
-  attribute Particle[] particles;
-  attribute float restitution;
-  [Value] attribute Vec2 normal;
-  attribute float penetration;
-
-  float separatingVelocity();
-};
-
-// placeholder for std::list<ephys::ParticleContact>
 [NoDelete]
 interface PContactList {};
-
-[Prefix="ephys::"]
-interface ParticleContactSolver {
-  void ParticleContactSolver(unsigned long maxIterations);
-
-  unsigned long getIterations();
-  void setIterations(unsigned long iterations);
-
-  void solveContacts([Ref] PContactList contacts, float dt);
-};
 
 [Prefix="ephys::", NoDelete]
 interface ParticleContactGenerator {

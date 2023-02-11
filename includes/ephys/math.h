@@ -35,35 +35,36 @@ namespace ephys
       return x * x + y * y;
     };
 
-    // returns a normalized copy of this vector (does not modify this vector)
+    // normalizes this vector and returns the result
     Vec2 &normalize();
 
-    Vec2 operator-() const;
+    inline Vec2 operator-() const { return Vec2(-x, -y); }
 
-    Vec2 operator+(const Vec2 &v) const;
+    inline Vec2 operator+(const Vec2 &v) const { return Vec2(x + v.x, y + v.y); }
     Vec2 &operator+=(const Vec2 &v);
 
-    Vec2 operator-(const Vec2 &v) const;
+    inline Vec2 operator-(const Vec2 &v) const { return Vec2(x - v.x, y - v.y); }
     Vec2 &operator-=(const Vec2 &v);
 
-    Vec2 operator*(float k) const;
-    friend Vec2 operator*(float k, const Vec2 &v);
+    inline Vec2 operator*(float k) const { return Vec2(x * k, y * k); }
+    friend inline Vec2 operator*(float k, const Vec2 &v) { return Vec2(v.x * k, v.y * k); }
     Vec2 &operator*=(float k);
 
-    Vec2 operator/(float k) const;
+    inline Vec2 operator/(float k) const { return Vec2(x / k, y / k); }
     Vec2 &operator/=(float k);
 
+    inline Vec2 abs() const { return Vec2(fabsf(x), fabsf(y)); }
+
     // dot product
-    float operator*(const Vec2 &v) const;
+    inline float operator*(const Vec2 &v) const { return x * v.x + y * v.y; }
 
     // z-component of cross product
-    Pseudovec cross(const Vec2 &v) const;
-    Vec2 cross(Pseudovec v) const;
+    inline Pseudovec cross(const Vec2 &v) const { return x * v.y - y * v.x; }
+    inline Vec2 cross(Pseudovec v) const { return Vec2(y, -x) * v; }
 
-    friend std::ostream &
-    operator<<(std::ostream &out, const Vec2 &v)
+    friend std::ostream &operator<<(std::ostream &out, const Vec2 &v)
     {
-      return out << v.x << ", " << v.y;
+      return out << "(" << v.x << "," << v.y << ")";
     }
   };
 
@@ -90,11 +91,12 @@ namespace ephys
     static inline Mat2 identity() { return Mat2(1, 0, 0, 1); }
 
     inline float &operator[](size_t i) { return data[i]; }
-    // 0-indexed
     inline float &at(size_t m, size_t n) { return data[2 * m + n]; }
     inline void set(size_t m, size_t n, float val) { at(m, n) = val; }
+    inline Vec2 column(size_t col) const { return Vec2(data[col], data[col + 2]); }
 
-    Mat2 operator+(const Mat2 &m) const;
+    Mat2
+    operator+(const Mat2 &m) const;
     Mat2 &operator+=(const Mat2 &m);
 
     Mat2 operator-(const Mat2 &m) const;
@@ -110,6 +112,8 @@ namespace ephys
     Mat2 &operator*=(const Mat2 &m);
     Vec2 operator*(const Vec2 &v) const;
 
+    inline Mat2 abs() const { return Mat2(fabsf(data[0]), fabsf(data[1]), fabsf(data[2]), fabsf(data[3])); }
+
     inline float determinant() const
     {
       return data[0] * data[3] - data[1] * data[2];
@@ -119,6 +123,11 @@ namespace ephys
     Mat2 &invert();
 
     Mat2 transpose() const;
+
+    friend std::ostream &operator<<(std::ostream &out, const Mat2 &m)
+    {
+      return out << "[" << m.data[0] << "," << m.data[1] << ";" << m.data[2] << "," << m.data[3] << "]";
+    }
   };
 
   // holds a 3x3 matrix.
@@ -132,6 +141,7 @@ namespace ephys
     Mat3() : data{0, 0, 0, 0, 0, 0} {}
     Mat3(float d11, float d12, float d13,
          float d21, float d22, float d23) : data{d11, d12, d13, d21, d22, d23} {}
+    Mat3(const Mat3 &m) : data{m.data[0], m.data[1], m.data[2], m.data[3], m.data[4], m.data[5]} {}
 
     static inline Mat3 identity() { return Mat3(1, 0, 0, 0, 1, 0); }
 
@@ -152,11 +162,17 @@ namespace ephys
 
     inline float determinant() const
     {
-      return data[0] * data[4] + data[1] * data[3];
+      return data[0] * data[4] - data[1] * data[3];
     }
 
     Mat3 inverse() const;
     Mat3 &invert();
+
+    friend std::ostream &operator<<(std::ostream &out, const Mat3 &m)
+    {
+      return out << "[" << m.data[0] << "," << m.data[1] << "," << m.data[2] << ";"
+                 << m.data[3] << "," << m.data[4] << "," << m.data[5] << "]";
+    }
   };
 }
 
