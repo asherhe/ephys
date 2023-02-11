@@ -490,7 +490,6 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
 
     center = (*it)->local2World(center);
 
-    std::cout << "  bv " << center << " " << radius << "\n";
     BoundingCircle bv(center, radius);
 
     boundingVolumes[*it] = bv;
@@ -502,7 +501,6 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
     bvtree.insert(it->second, it->first);
 
   auto potentialContacts = bvtree.getPotentialContacts();
-  std::cout << potentialContacts.size() << " potential contacts\n";
   // remove duplicates
   potentialContacts.sort();
   potentialContacts.unique();
