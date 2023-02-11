@@ -11,7 +11,7 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.22000.0",
-            "compilerPath": "${EMSDK}/upstream/emscripten/emcc",
+            "compilerPath": "${EMSDK}/upstream/emscripten/emcc.bat",
             "cStandard": "c11",
             "cppStandard": "c++11",
             "intelliSenseMode": "gcc-x64",

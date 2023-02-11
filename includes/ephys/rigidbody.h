@@ -2,11 +2,10 @@
 #define EPHYS_RIGIDBODY_H
 
 #include "ephys/math.h"
+#include "ephys/collider.h"
 
 namespace ephys
 {
-  class Collider;
-
   class Rigidbody
   {
   protected:
@@ -33,17 +32,21 @@ namespace ephys
     // should be called every time something changes
     void calcDerivedData();
 
+    static size_t idCount;
+
   private:
     // calculates the transform matrix based on the position and rotation
     void calcTransform();
 
   public:
-    Rigidbody() : linearDamping(1), angularDamping(1),
+    size_t id; // for debug
+    Rigidbody() : linearDamping(0.9), angularDamping(0.9),
                   restitution(0.5),
                   mass(1), invMass(1),
-                  inertia(1), invInertia(1),
-                  transform(Mat3::identity()),
-                  invTransform(Mat3::identity()) {}
+                  inertia(1), invInertia(1), id(Rigidbody::idCount++)
+    {
+      calcDerivedData();
+    }
 
     inline Vec2 getPos() const { return pos; }
     inline Vec2 getVel() const { return vel; }
@@ -62,11 +65,20 @@ namespace ephys
     inline Mat3 getInvTransform() const { return invTransform; }
     inline Mat2 getTransformRot() const { return transform.getRotation(); }
     inline Mat2 getInvTransformRot() const { return invTransform.getRotation(); }
+    inline bool getStatic() const { return invMass == 0; }
 
-    inline void setPos(const Vec2 &pos) { this->pos = pos; }
+    inline void setPos(const Vec2 &pos)
+    {
+      this->pos = pos;
+      calcTransform();
+    }
     inline void setVel(const Vec2 &vel) { this->vel = vel; }
     inline void setAcc(const Vec2 &acc) { this->acc = acc; }
-    inline void setAngle(Pseudovec angle) { this->angle = angle; }
+    inline void setAngle(Pseudovec angle)
+    {
+      this->angle = angle;
+      calcTransform();
+    }
     inline void setAngVel(Pseudovec angVel) { this->angVel = angVel; }
     inline void setMass(float mass)
     {
@@ -90,8 +102,14 @@ namespace ephys
     }
     inline void setLinearDamping(float linearDamping) { this->linearDamping = linearDamping; }
     inline void setAngularDamping(float angularDamping) { this->angularDamping = angularDamping; }
-    inline void setCollider(Collider &collider) { this->collider = &collider; }
+    inline void setCollider(Collider &collider)
+    {
+      this->collider->body = nullptr;
+      this->collider = &collider;
+      collider.body = this;
+    }
     inline void setRestitution(float restitution) { this->restitution = restitution; }
+    inline void setStatic(float isStatic) { setInvMass(0); }
 
     inline Vec2 local2World(const Vec2 &pos) const { return transform * pos; }
     inline Vec2 world2Local(const Vec2 &pos) const { return invTransform * pos; }

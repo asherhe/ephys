@@ -1,19 +1,42 @@
 const ephysWrapper = async function () {
+  console.log(
+    "%cephys\n%ca 2d rigidbody physics engine",
+    "color:#f8583e;font-size:4em;font-weight:bold",
+    "font-size:1.5em"
+  );
+
+  setTimeout(() => {
+    $("#load-wait").animate({ opacity: "1" }, { duration: 2000 });
+  }, 10000);
+
+  console.log("loading ephys...");
   let preloadTimestamp = Date.now();
-  var physics;
-  do {
-    physics = await ephys();
-  } while (!physics);
-  console.log(`loaded ephys in ${Date.now() - preloadTimestamp} ms`);
+  // dynamically laod ephys.js
+  // reduce page load time
+  await (function () {
+    return new Promise((resolve) => {
+      /** @type {HTMLScriptElement} */
+      let script = document.createElement("script");
+      script.src = "js/ephys/ephys.js";
+      script.type = "text/javascript";
+      script.addEventListener("load", resolve);
+      document.head.appendChild(script);
+    });
+  })();
+  console.log(`loaded ephys.js in ${Date.now() - preloadTimestamp} ms`);
+  preloadTimestamp = Date.now();
+  const physics = await ephys();
+  console.log(`instantiated ephys in ${Date.now() - preloadTimestamp} ms`);
 
   let load = $("#loading-wrapper");
   load.animate(
-    { opacity: "0" },
+    { opacity: 0 },
     {
       duration: 1000,
       complete: load.remove,
     }
   );
+  $("#canvas").animate({ opacity: 1 }, { duration: 1000 });
 
   const TAU = Math.PI * 2;
 
@@ -53,7 +76,7 @@ const ephysWrapper = async function () {
    */
   let bodies = [];
 
-  const palette = ["#f8583e", "#5e9eea", "#e3b021"];
+  const palette = ["#f8583e", "#5e9eea", "#f6c40e"];
 
   function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -75,7 +98,7 @@ const ephysWrapper = async function () {
         // save original canvas transformation
         ctx.save();
         ctx.translate(pos.x, pos.y);
-        ctx.rotate(body.rigidbody.getAngle());
+        ctx.rotate(-body.rigidbody.getAngle());
         ctx.beginPath();
         ctx.rect(-rectWidth / 2, -rectHeight / 2, rectWidth, rectHeight);
         ctx.fill();
@@ -87,7 +110,7 @@ const ephysWrapper = async function () {
   }
 
   let prevTimestamp = false;
-  let update = function (timestamp) {
+  let animCallback = requestAnimationFrame(function update(timestamp) {
     if (!prevTimestamp) {
       prevTimestamp = timestamp;
     } else {
@@ -95,20 +118,23 @@ const ephysWrapper = async function () {
       prevTimestamp = timestamp;
 
       // physics runs at twice the render rate
-      // let halfElapsed = elapsed / 2000; // half the elapsed time, in seconds
-      // world.step(halfElapsed);
-      // world.step(halfElapsed);
-      world.step(elapsed / 1000);
+      let halfElapsed = elapsed / 2000; // half the elapsed time, in seconds
+      world.step(halfElapsed);
+      world.step(halfElapsed);
     }
 
     render();
 
-    requestAnimationFrame(update);
+    animCallback = requestAnimationFrame(update);
+  });
+  // for debug
+  window.stopPhysics = () => {
+    cancelAnimationFrame(animCallback);
   };
-  requestAnimationFrame(update);
 
   return {
     ephys: physics,
+    world: world,
     circle: function (radius) {
       let body = new physics.Rigidbody();
       let collider = new physics.CircleCollider(radius, body);
@@ -123,7 +149,7 @@ const ephysWrapper = async function () {
     },
     box: function (width, height) {
       let body = new physics.Rigidbody();
-      let collider = new physics.BoxCollider(new physics.Vec2(width, height), body);
+      let collider = new physics.BoxCollider(new physics.Vec2(width / 2, height / 2), body);
       body.setCollider(collider);
       world.addBody(body, collider);
       bodies.push({
@@ -141,15 +167,34 @@ ephysWrapper().then((e) => {
   const physics = e.ephys;
   let gravity = new physics.Vec2(0, -5);
 
-  let circles = [];
-  for (let i = 0; i < 3; i++) {
-    let circle = e.circle(0.5);
-    circle.setVel(new physics.Vec2(Math.random() * 6 - 3, Math.random() * 5));
-    circle.setAcc(gravity);
-    circles.push(circle);
-  }
+  // let floor = e.box(20, 1);
+  // floor.setPos(new physics.Vec2(0, -7.5));
+  // floor.setStatic();
 
-  let floor = e.box(8, 1);
-  floor.setPos(new physics.Vec2(0, -2));
-  floor.setAngVel(0.5);
+  // let body = /*e.circle(0.5)*/ e.box(1, 1);
+  // body.setAngVel(-1);
+  // body.setPos(new physics.Vec2(-8, 0));
+  // body.setVel(new physics.Vec2(2, 0));
+  // body.setAcc(gravity);
+
+  // for (let i = 0; i < 8; i++) {
+  //   let body = Math.random() < 0.5 ? e.box(1, 1) : e.circle(0.5);
+  //   body.setPos(new physics.Vec2(0, 1.5 * i - 4));
+  //   let v = 4 * Math.random() - 2;
+  //   body.setVel(new physics.Vec2(v, 2 * Math.random() - 1));
+  //   body.setAngVel(-0.5 * v);
+  //   body.setAcc(gravity);
+  // }
+
+  for (let i = 0; i < 4; i++) {
+    let y = 2 * (i - 1.5);
+
+    let b1 = i < 2 ? e.box(1, 1) : e.circle(0.5);
+    b1.setPos(new physics.Vec2(-2, y));
+    b1.setVel(new physics.Vec2(2, 0));
+    b1.setAngVel(-0.5);
+    let b2 = i % 2 == 0 ? e.box(1, 1) : e.circle(0.5);
+    b2.setPos(new physics.Vec2(2, y));
+    // b2.setStatic();
+  }
 });

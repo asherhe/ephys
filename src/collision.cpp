@@ -1,10 +1,14 @@
 #include "ephys/collision.h"
+#include "ephys/collider.h"
 #include "ephys/rigidbody.h"
 
 #include <cmath>
 #include <list>
-#include <iostream>
 #include <map>
+#include <typeinfo>
+#include <algorithm>
+
+#include <iostream>
 
 using namespace ephys;
 
@@ -39,186 +43,65 @@ bool BoundingCircle::overlaps(const BoundingVolume &bv) const
 
 bool IntersectionDetector::circleCircle(const CircleCollider &c1, const CircleCollider &c2)
 {
-  Vec2 c1Center = c1.body->local2World(c1.origin()),
-       c2Center = c2.body->local2World(c2.origin());
+  Vec2 c1Center = c1.getBody()->local2World(c1.origin()),
+       c2Center = c2.getBody()->local2World(c2.origin());
 
   return (c2Center - c1Center).norm() < c1.radius + c2.radius;
 }
 
 bool IntersectionDetector::boxCircle(const BoxCollider &bc, const CircleCollider &cc)
 {
-  Vec2 center = bc.object2Collider(bc.body->world2Local(cc.body->local2World(cc.origin())));
+  // in bc space
+  Vec2 center = bc.object2Collider(bc.getBody()->world2Local(cc.getBody()->local2World(cc.origin())));
 
-  bool right = center.x > bc.halfSize.x;
-  bool left = center.x < -bc.halfSize.x;
-  bool top = center.y > bc.halfSize.y;
-  bool bottom = center.y < -bc.halfSize.y;
+  Vec2 closest = center;
 
-  if (top)
-  {
-    // center top-left/right
-    if (right)
-      return (center - bc.halfSize).norm() < cc.radius;
-    if (left)
-      return (center - Vec2(-bc.halfSize.x, bc.halfSize.y)).norm() < cc.radius;
-    // center above
-    return center.y - bc.halfSize.y < cc.radius;
-  }
-  if (bottom)
-  {
-    // center bottom-left/right
-    if (right)
-      return (center - Vec2(bc.halfSize.x, -bc.halfSize.y)).norm() < cc.radius;
-    if (left)
-      return (center + bc.halfSize).norm() < cc.radius;
-    // center below
-    return center.y + bc.halfSize.y > -cc.radius;
-  }
+  if (closest.x > bc.halfSize.x)
+    closest.x = bc.halfSize.x;
+  else if (closest.x < -bc.halfSize.x)
+    closest.x = -bc.halfSize.x;
 
-  // center to the right/left
-  if (right)
-    return center.x - bc.halfSize.x < cc.radius;
-  if (left)
-    return center.x + bc.halfSize.x > -cc.radius;
+  if (closest.y > bc.halfSize.y)
+    closest.y = bc.halfSize.y;
+  else if (closest.y < -bc.halfSize.y)
+    closest.y = -bc.halfSize.y;
 
-  // center inside of box
-  return true;
-}
-
-struct Range
-{
-public:
-  float min, max;
-  Range() : min(0), max(0) {}
-  Range(float min, float max) : min(min), max(max) {}
-  Range(const Range &r) : min(r.min), max(r.max) {}
-
-  inline float center() const { return (min + max) / 2; }
-
-  // check for overlap
-  inline bool operator&&(const Range &other) const { return min <= other.max && other.min <= max; }
-
-  inline float penetration(const Range &other) const
-  {
-    if (other.center() < center())
-      return other.max - min;
-    else
-      return max - other.min;
-  }
-};
-
-// determines the ranges two boxes occupy when projected onto the normal
-// returns an array containing the range for b1 and b2, respectively
-Range *boxBoxSat(Vec2 normal, Vec2 b1[4], Vec2 b2[4],
-                 size_t *b1iMin = nullptr, size_t *b1iMax = nullptr,
-                 size_t *b2iMin = nullptr, size_t *b2iMax = nullptr)
-{
-  float b1Min = INFINITY, b1Max = -INFINITY;
-  float b2Min = INFINITY, b2Max = -INFINITY;
-
-  size_t i1Min, i1Max;
-  size_t i2Min, i2Max;
-
-  for (int i = 0; i < 4; ++i)
-  {
-    float proj = normal * b1[i];
-    if (proj < b1Min)
-    {
-      b1Min = proj;
-      i1Min = i;
-    }
-    if (proj > b1Max)
-    {
-      b1Max = proj;
-      i1Max = i;
-    }
-  }
-
-  for (int i = 0; i < 4; ++i)
-  {
-    float proj = normal * b2[i];
-    if (proj < b2Min)
-    {
-      b2Min = proj;
-      i2Min = i;
-    }
-    if (proj > b2Max)
-    {
-      b2Max = proj;
-      i2Max = i;
-    }
-  }
-
-  if (b1iMin)
-    *b1iMin = i1Min;
-  if (b1iMax)
-    *b1iMax = i1Max;
-  if (b2iMin)
-    *b2iMin = i2Min;
-  if (b2iMax)
-    *b2iMax = i2Max;
-
-  Range *ranges = new Range[2];
-  ranges[0] = Range(b1Min, b1Max);
-  ranges[1] = Range(b2Min, b2Max);
-
-  return ranges;
+  return (center - closest).norm() <= cc.radius;
 }
 
 bool IntersectionDetector::boxBox(const BoxCollider &b1, const BoxCollider &b2)
 {
-  // box vertex ids
-  // 1--0
-  // |  |
-  // 3--2
+  Mat2 rot1 = (b1.getBody()->getTransform() * b1.getTransform()).getRotation(),
+       rot2 = (b2.getBody()->getTransform() * b2.getTransform()).getRotation(),
+       invRot1 = rot1.transpose(),
+       invRot2 = rot2.transpose();
 
-  // list of vertices
-  Vec2 bv[2][4];
-  bv[0][0] = b1.halfSize;
-  bv[0][1] = Vec2(-b1.halfSize.x, b1.halfSize.y);
-  bv[0][2] = Vec2(b1.halfSize.x, -b1.halfSize.y);
-  bv[0][3] = -b1.halfSize;
-  bv[1][0] = b2.halfSize;
-  bv[1][1] = Vec2(-b2.halfSize.x, b2.halfSize.y);
-  bv[1][2] = Vec2(b2.halfSize.x, -b2.halfSize.y);
-  bv[1][3] = -b2.halfSize;
+  Vec2 pos1 = b1.getBody()->local2World(b1.origin()),
+       pos2 = b2.getBody()->local2World(b2.origin()),
+       displacement = pos2 - pos1,
+       displacement1 = invRot1 * displacement,
+       displacement2 = invRot2 * displacement;
 
-  // convert b2 vertices to b1 collider space
-  Mat3 b2tob1 = b2.getInvTransform() * b1.body->getInvTransform() * b2.body->getTransform() * b2.getTransform();
-  for (int i = 0; i < 4; ++i)
-    bv[1][i] = b2tob1 * bv[1][i];
+  Mat2 rotB2toB1 = invRot1 * rot2,
+       absRotB2toB1 = rotB2toB1.abs(),
+       absRotB2toB1T = absRotB2toB1.transpose();
 
-  Range *satRanges;
+  Vec2 sat1 = displacement1.abs() - b1.halfSize - absRotB2toB1 * b2.halfSize;
+  if (sat1.x > 0 || sat1.y > 0) // no penetration
+    return false;
+  Vec2 sat2 = displacement2.abs() - b2.halfSize - absRotB2toB1T * b1.halfSize;
+  if (sat2.x > 0 || sat2.y > 0) // no penetration
+    return false;
 
-  // separating axis: b1 y-axis (x normal)
-  satRanges = boxBoxSat(Vec2(1, 0), bv[0], bv[1]);
-  if (satRanges[0] && satRanges[1])
-    return true;
-
-  // separating axis: b1 x-axis (y normal)
-  satRanges = boxBoxSat(Vec2(0, 1), bv[0], bv[1]);
-  if (satRanges[0] && satRanges[1])
-    return true;
-
-  // separating axis: b2 y-axis (x normal)
-  satRanges = boxBoxSat(bv[1][0] - bv[1][1], bv[0], bv[1]);
-  if (satRanges[0] && satRanges[1])
-    return true;
-
-  // separating axis: b2 x-axis (y normal)
-  satRanges = boxBoxSat(bv[1][0] - bv[1][2], bv[0], bv[1]);
-  if (satRanges[0] && satRanges[1])
-    return true;
-
-  return false;
+  return true;
 }
 
 std::list<Contact> &CollisionDetector::circleCircle(const CircleCollider &c1, const CircleCollider &c2, const CollisionProperties &properties)
 {
   auto contacts = new std::list<Contact>;
 
-  Vec2 c1Center = c1.body->local2World(c1.origin()),
-       c2Center = c2.body->local2World(c2.origin()),
+  Vec2 c1Center = c1.getBody()->local2World(c1.origin()),
+       c2Center = c2.getBody()->local2World(c2.origin()),
        displacement = c2Center - c1Center;
   float distance = displacement.norm(),
         circleSpace = distance - (c1.radius + c2.radius);
@@ -227,8 +110,8 @@ std::list<Contact> &CollisionDetector::circleCircle(const CircleCollider &c1, co
     return *contacts;
 
   Contact contact;
-  contact.bodies[0] = c1.body;
-  contact.bodies[1] = c2.body;
+  contact.bodies[0] = c1.getBody();
+  contact.bodies[1] = c2.getBody();
   contact.normal = displacement / distance;
   contact.contactPoint = c1Center + contact.normal * (c1.radius + circleSpace / 2);
   contact.penetration = -circleSpace;
@@ -240,376 +123,344 @@ std::list<Contact> &CollisionDetector::circleCircle(const CircleCollider &c1, co
 
 std::list<Contact> &CollisionDetector::boxCircle(const BoxCollider &bc, const CircleCollider &cc, const CollisionProperties &properties)
 {
-  std::cout << "box circle\n";
   auto contacts = new std::list<Contact>;
 
+  Vec2 center = bc.object2Collider(bc.getBody()->world2Local(cc.getBody()->local2World(cc.origin())));
+
+  Vec2 closest = center,
+       normal;
+
+  if (closest.x > bc.halfSize.x)
+  {
+    closest.x = bc.halfSize.x;
+    ++normal.x;
+  }
+  else if (closest.x < -bc.halfSize.x)
+  {
+    closest.x = -bc.halfSize.x;
+    --normal.x;
+  }
+
+  if (closest.y > bc.halfSize.y)
+  {
+    closest.y = bc.halfSize.y;
+    ++normal.y;
+  }
+  else if (closest.y < -bc.halfSize.y)
+  {
+    closest.y = -bc.halfSize.y;
+    --normal.y;
+  }
+
+  if (normal.x == 0 && normal.y == 0)
+  {
+    if (center.x == 0 && center.y == 0)
+      normal.set(0, 1);
+    else
+      normal = center;
+  }
+  normal.normalize();
+
+  Vec2 displacement = center - closest;
+  float distance = displacement.norm();
+  if (distance > cc.radius)
+    return *contacts;
+
   Contact contact;
-  contact.bodies[0] = bc.body;
-  contact.bodies[1] = cc.body;
+  Mat3 bcToWorld = bc.getBody()->getTransform() * bc.getTransform();
+  contact.bodies[0] = bc.getBody();
+  contact.bodies[1] = cc.getBody();
+  contact.contactPoint = bcToWorld * closest;
+  contact.normal = bcToWorld.getRotation() * normal;
+  contact.penetration = distance - cc.radius;
   contact.restitution = properties.restitution;
 
-  Vec2 center = bc.object2Collider(bc.body->world2Local(cc.body->local2World(cc.origin())));
-
-  bool hasContact = false, isCorner = false;
-
-  bool left = center.x < -bc.halfSize.x;
-  bool right = center.x > bc.halfSize.x;
-  bool top = center.y > bc.halfSize.y;
-  bool bottom = center.y < -bc.halfSize.y;
-
-  Vec2 corner(bc.halfSize);
-
-  if (top)
-  {
-    // center in top-left/right corner
-    if ((right && (center - bc.halfSize).norm() < cc.radius) || (left && (center - corner.set(-bc.halfSize.x, bc.halfSize.y)).norm() < cc.radius))
-      isCorner = true;
-    else if (center.y - bc.halfSize.y < cc.radius) // center above box
-    {
-      contact.contactPoint.set(center.x, bc.halfSize.y);
-      contact.normal.set(0, 1);
-      contact.penetration = (center.y - bc.halfSize.y) - cc.radius;
-      hasContact = true;
-    }
-  }
-  else if (bottom)
-  {
-    // center in bottom-left/right corner
-    if ((right && (center - corner.set(bc.halfSize.x, -bc.halfSize.y)).norm() < cc.radius) || (left && (center - (corner = -bc.halfSize)).norm() < cc.radius))
-      isCorner = true;
-    else if (center.y + bc.halfSize.y > -cc.radius) // center below box
-    {
-      contact.contactPoint.set(center.x, -bc.halfSize.y);
-      contact.normal.set(0, -1);
-      contact.penetration = cc.radius - (bc.halfSize.y + center.y);
-      hasContact = true;
-    }
-  }
-  else
-  {
-    // center to the right/left
-    if (right && center.x - bc.halfSize.x < cc.radius)
-    {
-      contact.contactPoint.set(bc.halfSize.x, center.y);
-      contact.normal.set(1, 0);
-      contact.penetration = (center.x - bc.halfSize.x) - cc.radius;
-      hasContact = true;
-    }
-    else if (left && center.x + bc.halfSize.x > -cc.radius)
-    {
-      contact.contactPoint.set(-bc.halfSize.x, center.y);
-      contact.normal.set(-1, 0);
-      contact.penetration = cc.radius - (center.x + bc.halfSize.x);
-      hasContact = true;
-    }
-    else // center inside of box
-    {
-      contact.contactPoint = center;
-
-      float toRight = bc.halfSize.x - center.x,
-            toLeft = center.x + bc.halfSize.x,
-            toTop = bc.halfSize.y - center.y,
-            toBottom = center.y + bc.halfSize.x;
-
-      float minDistanceX = fmin(toRight, toLeft),
-            minDistanceY = fmin(toTop, toBottom);
-
-      if (minDistanceX < minDistanceY)
-      {
-        if (minDistanceX == toRight)
-          contact.normal.set(1, 0);
-        else
-          contact.normal.set(-1, 0);
-        contact.penetration = minDistanceX;
-      }
-      else
-      {
-        if (minDistanceY == toTop)
-          contact.normal.set(0, 1);
-        else
-          contact.normal.set(0, -1);
-        contact.penetration = minDistanceY;
-      }
-
-      hasContact = true;
-    }
-  }
-
-  if (isCorner)
-  {
-    contact.contactPoint = corner;
-    Vec2 displacement = center - corner;
-    float distance = displacement.norm();
-    contact.normal = displacement / distance;
-    contact.penetration = cc.radius - distance;
-    hasContact = true;
-  }
-
-  if (hasContact)
-  {
-    // convert contact point and normal to world coords
-    contact.contactPoint = bc.body->local2World(bc.collider2Object(contact.contactPoint));
-    contact.normal = bc.body->rotLocal2World(bc.rotCollider2Object(contact.normal));
-
-    contacts->push_back(contact);
-  }
+  contacts->push_back(contact);
 
   return *contacts;
 }
 
-// clips v1 and v2 such that they are within a given distance along a normal
-// returns false is both points are out of bounds
-// otherwise, clipped output is written to v1Out and v2Out
-bool clipPoints(Vec2 v1, Vec2 v2, Vec2 normal, float distance, Vec2 *v1Out, Vec2 *v2Out)
+enum Edge
 {
-  float d1 = v1 * normal - distance,
-        d2 = v2 * normal - distance;
+  NONE,
+  E1,
+  E2,
+  E3,
+  E4
+};
 
-  // both within bounds
-  if (d1 >= 0)
-    *v1Out = v1;
-  if (d2 >= 0)
-    *v2Out = v2;
+struct ClipPoint
+{
+  Vec2 v;
+  Edge inEdge1, inEdge2, outEdge1, outEdge2;
+};
 
-  // both out of bounds
-  if (d1 < 0 && d2 < 0)
-    return false;
+// determine which face is the incident face
+void computeIncidentFace(ClipPoint incFace[2], const Vec2 &halfSize, const Vec2 &pos, const Mat2 &rot, const Vec2 &frontNormal)
+{
+  Mat2 rotT = rot.transpose();
+  Vec2 n = -(rotT * frontNormal),
+       absN = n.abs();
 
-  // alternating signs - one of them is off the edge
-  if (d1 * d2 < 0)
+  if (absN.x > absN.y)
   {
-    Vec2 clampVec = v2 - v1;
-    clampVec *= d1 / (d1 - d2);
-    clampVec += v1;
+    if (n.x > 0)
+    {
+      incFace[0].v.set(halfSize.x, -halfSize.y);
+      incFace[0].inEdge2 = E3;
+      incFace[0].outEdge2 = E4;
 
-    if (d1 < 0)
-      *v1Out = clampVec;
-    if (d2 < 0)
-      *v2Out = clampVec;
+      incFace[1].v.set(halfSize.x, halfSize.y);
+      incFace[1].inEdge2 = E4;
+      incFace[1].outEdge2 = E1;
+    }
+    else
+    {
+      incFace[0].v.set(-halfSize.x, halfSize.y);
+      incFace[0].inEdge2 = E1;
+      incFace[0].outEdge2 = E2;
+
+      incFace[1].v.set(-halfSize.x, -halfSize.y);
+      incFace[1].inEdge2 = E2;
+      incFace[1].outEdge2 = E3;
+    }
+  }
+  else
+  {
+    if (n.y > 0)
+    {
+      incFace[0].v.set(halfSize.x, halfSize.y);
+      incFace[0].inEdge2 = E4;
+      incFace[0].outEdge2 = E1;
+
+      incFace[1].v.set(-halfSize.x, halfSize.y);
+      incFace[1].inEdge2 = E1;
+      incFace[1].outEdge2 = E2;
+    }
+    else
+    {
+      incFace[0].v.set(-halfSize.x, -halfSize.y);
+      incFace[0].inEdge2 = E2;
+      incFace[0].outEdge2 = E3;
+
+      incFace[1].v.set(halfSize.x, -halfSize.y);
+      incFace[1].inEdge2 = E3;
+      incFace[1].outEdge2 = E4;
+    }
   }
 
-  return true;
+  incFace[0].v = pos + rot * incFace[0].v;
+  incFace[1].v = pos + rot * incFace[1].v;
+}
+
+size_t clipSegment(ClipPoint vout[2], ClipPoint vin[2], const Vec2 &normal, float offset, Edge clipEdge)
+{
+  // initially no output points
+  size_t numOut = 0;
+
+  // distance of endpoints along the normal
+  float distance0 = normal * vin[0].v - offset,
+        distance1 = normal * vin[1].v - offset;
+
+  // points are behind the plane
+  if (distance0 <= 0)
+    vout[numOut++] = vin[0];
+  if (distance1 <= 0)
+    vout[numOut++] = vin[1];
+
+  // points are on opposite sides of the plane
+  if (distance0 * distance1 < 0)
+  {
+    float intersection = distance0 / (distance0 - distance1);
+    vout[numOut].v = vin[0].v + intersection * (vin[1].v - vin[0].v);
+    if (distance0 > 0)
+    {
+      vout[numOut].inEdge1 = clipEdge;
+      vout[numOut].inEdge2 = NONE;
+      vout[numOut].outEdge1 = vin[0].outEdge1;
+      vout[numOut].outEdge2 = vin[0].outEdge1;
+    }
+    else
+    {
+      vout[numOut].inEdge1 = clipEdge;
+      vout[numOut].inEdge2 = NONE;
+      vout[numOut].outEdge1 = vin[1].outEdge1;
+      vout[numOut].outEdge2 = vin[1].outEdge1;
+    }
+    ++numOut;
+  }
+
+  return numOut;
 }
 
 std::list<Contact> &CollisionDetector::boxBox(const BoxCollider &b1, const BoxCollider &b2, const CollisionProperties &properties)
 {
+  std::cout << "box box\n";
+
+  // box vertex/edge ids
+  //     e0
+  //    1--0
+  // e1 |  | e3
+  //    3--2
+  //     e2
+
   auto contacts = new std::list<Contact>;
 
-  Vec2 bv[2][4];
-  bv[0][0] = b1.halfSize;
-  bv[0][1] = Vec2(-b1.halfSize.x, b1.halfSize.y);
-  bv[0][2] = Vec2(b1.halfSize.x, -b1.halfSize.y);
-  bv[0][3] = -b1.halfSize;
-  bv[1][0] = b2.halfSize;
-  bv[1][1] = Vec2(-b2.halfSize.x, b2.halfSize.y);
-  bv[1][2] = Vec2(b2.halfSize.x, -b2.halfSize.y);
-  bv[1][3] = -b2.halfSize;
+  // rot - collider to world
+  // invRot - world to collider
+  Mat2 rot1 = (b1.getBody()->getTransform() * b1.getTransform()).getRotation(),
+       rot2 = (b2.getBody()->getTransform() * b2.getTransform()).getRotation(),
+       invRot1 = rot1.transpose(),
+       invRot2 = rot2.transpose();
 
-  // convert b2 vertices to b1 collider space
-  Mat3 b2tob1 = b2.getInvTransform() * b1.body->getInvTransform() * b2.body->getTransform() * b2.getTransform();
-  for (int i = 0; i < 4; ++i)
-    bv[1][i] = b2tob1 * bv[1][i];
+  Vec2 pos1 = b1.getBody()->local2World(b1.origin()),
+       pos2 = b2.getBody()->local2World(b2.origin()),
+       displacement = pos2 - pos1,
+       displacement1 = invRot1 * displacement,
+       displacement2 = invRot2 * displacement;
 
-  // identify axis with the least penetration
+  Mat2 rotB2toB1 = invRot1 * rot2,
+       absRotB2toB1 = rotB2toB1.abs(),
+       absRotB2toB1T = absRotB2toB1.transpose();
+
+  // SAT penetration for both boxes
+  Vec2 sat1 = displacement1.abs() - b1.halfSize - absRotB2toB1 * b2.halfSize;
+  if (sat1.x > 0 || sat1.y > 0) // no penetration
+    return *contacts;
+  Vec2 sat2 = displacement2.abs() - b2.halfSize - absRotB2toB1T * b1.halfSize;
+  if (sat2.x > 0 || sat2.y > 0) // no penetration
+    return *contacts;
+
+  // determine axis of least penetration
   enum Axis
   {
-    NONE,
-    B1_X,
-    B1_Y,
-    B2_X,
-    B2_Y
-  } contactAxis = NONE;
-  Vec2 axisNormal, refV1, refV2;
-  float penetration, minPenetration = INFINITY;
-  Vec2 *penetrationVertex;
+    B1X,
+    B1Y,
+    B2X,
+    B2Y
+  } axis;
+  // minimum penetration
+  float separation;
+  Vec2 normal;
 
-  Range *satRanges;
-  size_t i1Min, i1Max, i2Min, i2Max;
-  bool left;
+  axis = B1X;
+  separation = sat1.x;
+  normal = displacement1.x > 0 ? rot1.column(0) : -rot1.column(0);
 
-  // separating axis: b1 x
-  satRanges = boxBoxSat(Vec2(0, 1), bv[0], bv[1], &i1Min, &i1Max, &i2Min, &i2Max);
-  if ((left = satRanges[0].center() < satRanges[1].center()))
-    penetration = satRanges[0].max - satRanges[1].min;
-  else
-    penetration = satRanges[1].max - satRanges[0].min;
-
-  if (penetration >= 0 && penetration < minPenetration)
+  if (sat1.y > separation)
   {
-    minPenetration = penetration;
-    contactAxis = B1_X;
-    axisNormal.set(0, 1);
-    penetrationVertex = bv[1] + (left ? i2Min : i2Max);
-    if (left)
-    {
-      refV1 = bv[0][0];
-      refV2 = bv[0][1];
-    }
-    else
-    {
-      axisNormal = -axisNormal;
-      refV1 = bv[0][2];
-      refV2 = bv[0][3];
-    }
+    axis = B1Y;
+    separation = sat1.y;
+    normal = displacement1.y > 0 ? rot1.column(1) : -rot1.column(1);
   }
 
-  // separating axis: b1 y
-  satRanges = boxBoxSat(Vec2(1, 0), bv[0], bv[1], &i1Min, &i1Max, &i2Min, &i2Max);
-  if ((left = satRanges[0].center() < satRanges[1].center()))
-    penetration = satRanges[0].max - satRanges[1].min;
-  else
-    penetration = satRanges[1].max - satRanges[0].min;
-
-  if (penetration >= 0 && penetration < minPenetration)
+  if (sat2.x > separation)
   {
-    minPenetration = penetration;
-    contactAxis = B1_Y;
-    axisNormal.set(1, 0);
-    penetrationVertex = bv[1] + (left ? i2Min : i2Max);
-    if (left)
-    {
-      refV1 = bv[0][0];
-      refV2 = bv[0][2];
-    }
-    else
-    {
-      axisNormal = -axisNormal;
-      refV1 = bv[0][1];
-      refV2 = bv[0][3];
-    }
+    axis = B2X;
+    separation = sat2.x;
+    normal = displacement2.x > 0 ? rot2.column(0) : -rot2.column(0);
   }
 
-  // separating axis: b2 x
-  Vec2 normal = (bv[1][0] - bv[1][2]).normalize();
-  satRanges = boxBoxSat(normal, bv[0], bv[1], &i1Min, &i1Max, &i2Min, &i2Max);
-  if ((left = satRanges[1].center() < satRanges[0].center()))
-    penetration = satRanges[1].max - satRanges[0].min;
-  else
-    penetration = satRanges[0].max - satRanges[1].min;
-
-  if (penetration >= 0 && penetration < minPenetration)
+  if (sat2.y > separation)
   {
-    minPenetration = penetration;
-    contactAxis = B2_X;
-    axisNormal = normal;
-    penetrationVertex = bv[0] + (left ? i1Min : i1Max);
-    if (left)
-    {
-      refV1 = bv[1][0];
-      refV2 = bv[1][1];
-    }
-    else
-    {
-      axisNormal = -axisNormal;
-      refV1 = bv[1][2];
-      refV2 = bv[1][3];
-    }
+    axis = B2Y;
+    separation = sat2.y;
+    normal = displacement2.y > 0 ? rot2.column(1) : -rot2.column(1);
   }
 
-  // separating axis: b2 y
-  normal.set(normal.y, -normal.x);
-  satRanges = boxBoxSat(normal, bv[0], bv[1], &i1Min, &i1Max, &i2Min, &i2Max);
-  if ((left = satRanges[1].center() < satRanges[0].center()))
-    penetration = satRanges[1].max - satRanges[0].min;
-  else
-    penetration = satRanges[0].max - satRanges[1].min;
+  Vec2 frontNormal, sideNormal;
+  ClipPoint incFace[2];
+  float front, side, posSide, negSide;
+  Edge posEdge, negEdge;
 
-  if (penetration >= 0 && penetration < minPenetration)
+  switch (axis)
   {
-    minPenetration = penetration;
-    contactAxis = B2_Y;
-    axisNormal = normal;
-    penetrationVertex = bv[0] + (left ? i1Min : i1Max);
-    if (left)
-    {
-      refV1 = bv[1][0];
-      refV2 = bv[1][2];
-    }
-    else
-    {
-      axisNormal = -axisNormal;
-      refV1 = bv[1][1];
-      refV2 = bv[1][3];
-    }
+  case B1X:
+    frontNormal = normal;
+    sideNormal = rot1.column(1);
+    front = pos1 * frontNormal + b1.halfSize.x;
+    side = pos1 * sideNormal;
+    posSide = b1.halfSize.y + side;
+    negSide = b1.halfSize.y - side;
+    posEdge = E3;
+    negEdge = E1;
+    computeIncidentFace(incFace, b2.halfSize, pos2, rot2, frontNormal);
+    break;
+  case B1Y:
+    frontNormal = normal;
+    sideNormal = rot1.column(0);
+    front = pos1 * frontNormal + b1.halfSize.y;
+    side = pos1 * sideNormal;
+    posSide = b1.halfSize.x + side;
+    negSide = b1.halfSize.x - side;
+    posEdge = E2;
+    negEdge = E4;
+    computeIncidentFace(incFace, b2.halfSize, pos2, rot2, frontNormal);
+    break;
+  case B2X:
+    frontNormal = -normal;
+    sideNormal = rot2.column(1);
+    front = pos2 * frontNormal + b2.halfSize.x;
+    side = pos2 * sideNormal;
+    posSide = b2.halfSize.y + side;
+    negSide = b2.halfSize.y - side;
+    posEdge = E3;
+    negEdge = E1;
+    computeIncidentFace(incFace, b1.halfSize, pos1, rot1, frontNormal);
+    break;
+  case B2Y:
+    frontNormal = -normal;
+    sideNormal = rot2.column(0);
+    front = pos2 * frontNormal + b2.halfSize.y;
+    side = pos2 * sideNormal;
+    posSide = b2.halfSize.x + side;
+    negSide = b2.halfSize.x - side;
+    posEdge = E2;
+    negEdge = E4;
+    computeIncidentFace(incFace, b1.halfSize, pos1, rot1, frontNormal);
+    break;
   }
 
-  // boxes do not intersect
-  if (contactAxis == NONE)
+  // TODO: https://github.com/erincatto/box2d-lite/blob/master/src/Collide.cpp#L289
+  ClipPoint cp1[2], cp2[2];
+  int numPoints;
+
+  // clip box side 1
+  numPoints = clipSegment(cp1, incFace, -sideNormal, negSide, negEdge);
+  if (numPoints < 2)
     return *contacts;
 
-  // determine incident face
-  // which one is the incident face?
-  // the one that is the most parallel to the reference face. in other words, the one with the smallest dot product with the normal
-  Vec2 incV1, incV2;
-
-  incV1 = *penetrationVertex;
-
-  Vec2 *vNeighbors[2]; // neighbors of vertex
-  if (contactAxis == B1_X || contactAxis == B1_Y)
-    switch (penetrationVertex - bv[1])
-    {
-    case 0:
-    case 3:
-      vNeighbors[0] = &bv[1][1];
-      vNeighbors[1] = &bv[1][2];
-      break;
-    case 1:
-    case 2:
-      vNeighbors[0] = &bv[1][0];
-      vNeighbors[1] = &bv[1][3];
-      break;
-    }
-  else
-    switch (penetrationVertex - bv[1])
-    {
-    case 0:
-    case 3:
-      vNeighbors[0] = &bv[1][1];
-      vNeighbors[1] = &bv[1][2];
-      break;
-    case 1:
-    case 2:
-      vNeighbors[0] = &bv[1][0];
-      vNeighbors[1] = &bv[1][3];
-      break;
-    }
-
-  if ((incV1 - *vNeighbors[0]) * axisNormal < (incV1 - *vNeighbors[1]) * axisNormal)
-    incV2 = *vNeighbors[0];
-  else
-    incV2 = *vNeighbors[1];
-
-  // clip points
-  Vec2 refNorm = (refV2 - refV1);
-  refNorm.normalize();
-
-  if (!clipPoints(incV1, incV2, refNorm, refNorm * refV1, &incV1, &incV2) ||
-      !clipPoints(incV1, incV2, -refNorm, -refNorm * refV1, &incV1, &incV2))
+  // clip box side 2
+  numPoints = clipSegment(cp2, cp1, sideNormal, posSide, posEdge);
+  if (numPoints < 2)
     return *contacts;
 
-  // append only points that are inside the box
-  // dot with normal; compare with face
-  float faceDist = refV1 * axisNormal;
+  std::cout << "  clip\n"
+            << "    " << incFace[0].v << "-" << incFace[1].v << "\n"
+            << "    " << cp1[0].v << "-" << cp1[1].v << "\n"
+            << "    " << cp2[0].v << "-" << cp2[1].v << "\n";
 
-  if (incV1 * axisNormal < faceDist)
+  for (int i = 0; i < 2; ++i)
   {
-    Contact contact;
-    contact.bodies[0] = b1.body;
-    contact.bodies[1] = b2.body;
-    contact.contactPoint = b1.body->local2World(b1.collider2Object(incV1));
-    contact.normal = b1.body->rotLocal2World(b1.rotCollider2Object(axisNormal));
-    contact.restitution = properties.restitution;
-    contacts->push_back(contact);
-  }
-  if (incV2 * axisNormal < faceDist)
-  {
-    Contact contact;
-    contact.bodies[0] = b1.body;
-    contact.bodies[1] = b2.body;
-    contact.contactPoint = b1.body->local2World(b1.collider2Object(incV2));
-    contact.normal = b1.body->rotLocal2World(b1.rotCollider2Object(axisNormal));
-    contact.restitution = properties.restitution;
-    contacts->push_back(contact);
+    float separation = frontNormal * cp2[i].v - front;
+
+    if (separation <= 0)
+    {
+      Contact contact;
+      contact.bodies[0] = b1.getBody();
+      contact.bodies[1] = b2.getBody();
+      contact.contactPoint = cp2[i].v - 0.5 * separation * frontNormal;
+      contact.normal = normal;
+      contact.restitution = properties.restitution;
+      contact.penetration = -separation;
+
+      std::cout << "  vertex " << cp2[i].v << "\n"
+                << "  front normal " << frontNormal << "\n"
+                << "  front " << front << "\n"
+                << "  penetration " << contact.penetration << "\n";
+
+      contacts->push_back(contact);
+    }
   }
 
   return *contacts;
@@ -623,22 +474,23 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
     Vec2 center = (*it)->getPos();
     float radius = 1;
 
-    // circle collider
-    CircleCollider *cc = dynamic_cast<CircleCollider *>((*it)->getCollider());
-    if (cc != nullptr)
+    const std::type_info &type = typeid(*((*it)->getCollider()));
+    if (type == typeid(CircleCollider))
     {
+      CircleCollider *cc = static_cast<CircleCollider *>((*it)->getCollider());
       center = cc->origin();
       radius = cc->radius;
     }
-
-    // box collider
-    BoxCollider *bc = dynamic_cast<BoxCollider *>((*it)->getCollider());
-    if (bc != nullptr)
+    else if (type == typeid(BoxCollider))
     {
+      BoxCollider *bc = static_cast<BoxCollider *>((*it)->getCollider());
       center = bc->origin();
       radius = bc->halfSize.norm();
     }
 
+    center = (*it)->local2World(center);
+
+    std::cout << "  bv " << center << " " << radius << "\n";
     BoundingCircle bv(center, radius);
 
     boundingVolumes[*it] = bv;
@@ -650,44 +502,60 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
     bvtree.insert(it->second, it->first);
 
   auto potentialContacts = bvtree.getPotentialContacts();
+  std::cout << potentialContacts.size() << " potential contacts\n";
+  // remove duplicates
+  potentialContacts.sort();
+  potentialContacts.unique();
+
   auto contacts = new std::list<Contact>;
 
   for (auto it = potentialContacts.begin(); it != potentialContacts.end(); ++it)
   {
     short colliderFlags = 0;
 
-    Collider *c0 = ((*it)->bodies[0]->getCollider()),
-             *c1 = ((*it)->bodies[1]->getCollider());
+    Collider *c0 = (it->bodies[0]->getCollider()),
+             *c1 = (it->bodies[1]->getCollider());
 
-    BoxCollider *bc0 = dynamic_cast<BoxCollider *>(c0);
-    if (bc0 != nullptr)
+    BoxCollider *bc0, *bc1;
+    CircleCollider *cc0, *cc1;
+    if (typeid(*c0) == typeid(BoxCollider))
+    {
       colliderFlags |= 0b1;
-    BoxCollider *bc1 = dynamic_cast<BoxCollider *>(c1);
-    if (bc1 != nullptr)
+      bc0 = static_cast<BoxCollider *>(c0);
+    }
+    else
+      cc0 = static_cast<CircleCollider *>(c0);
+
+    if (typeid(*c1) == typeid(BoxCollider))
+    {
       colliderFlags |= 0b10;
+      bc1 = static_cast<BoxCollider *>(c1);
+    }
+    else
+      cc1 = static_cast<CircleCollider *>(c1);
 
     CollisionProperties properties;
-    properties.restitution = (*it)->bodies[0]->getRestitution();
-    CircleCollider *cc0, *cc1;
+    properties.restitution = it->bodies[0]->getRestitution();
     switch (colliderFlags)
     {
     case 0b00:
-      contacts->splice(contacts->end(), CollisionDetector::boxBox(*bc0, *bc1, properties));
+      contacts->splice(contacts->end(), CollisionDetector::circleCircle(*cc0, *cc1, properties));
       break;
     case 0b01:
-      cc0 = dynamic_cast<CircleCollider *>(c0);
-      contacts->splice(contacts->end(), CollisionDetector::boxCircle(*bc1, *cc0, properties));
-      break;
-    case 0b10:
-      cc1 = dynamic_cast<CircleCollider *>(c1);
       contacts->splice(contacts->end(), CollisionDetector::boxCircle(*bc0, *cc1, properties));
       break;
+    case 0b10:
+      contacts->splice(contacts->end(), CollisionDetector::boxCircle(*bc1, *cc0, properties));
+      break;
     case 0b11:
-      cc0 = dynamic_cast<CircleCollider *>(c0);
-      cc1 = dynamic_cast<CircleCollider *>(c1);
-      contacts->splice(contacts->end(), CollisionDetector::circleCircle(*cc0, *cc1, properties));
+      contacts->splice(contacts->end(), CollisionDetector::boxBox(*bc0, *bc1, properties));
       break;
     }
   }
+
+  delete &potentialContacts;
+
+  std::cout << contacts->size() << " contacts\n";
+
   return *contacts;
 }

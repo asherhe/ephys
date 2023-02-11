@@ -3,9 +3,9 @@
 
 #include "ephys/math.h"
 #include "ephys/contacts.h"
+#include "ephys/collider.h"
 
 #include <list>
-#include <iostream>
 
 #include <cmath>
 #ifndef M_PI
@@ -58,6 +58,43 @@ namespace ephys
     Rigidbody *bodies[2];
 
     PotentialContact(Rigidbody &b1, Rigidbody &b2) : bodies{&b1, &b2} {}
+
+    bool operator<(const PotentialContact &other) const
+    {
+      size_t thisMinId, thisMaxId,
+          otherMinId, otherMaxId;
+
+      if (bodies[0]->id > bodies[1]->id)
+      {
+        thisMaxId = bodies[0]->id;
+        thisMinId = bodies[1]->id;
+      }
+      else
+      {
+        thisMaxId = bodies[1]->id;
+        thisMinId = bodies[0]->id;
+      }
+
+      if (other.bodies[0]->id > other.bodies[1]->id)
+      {
+        otherMaxId = other.bodies[0]->id;
+        otherMinId = other.bodies[1]->id;
+      }
+      else
+      {
+        otherMaxId = other.bodies[1]->id;
+        otherMinId = other.bodies[0]->id;
+      }
+
+      if (bodies[0]->id == other.bodies[0]->id)
+        return bodies[1]->id < other.bodies[1]->id;
+      return bodies[0]->id < other.bodies[0]->id;
+    }
+    inline bool operator==(const PotentialContact &other) const
+    {
+      return (bodies[0] == other.bodies[0] && bodies[1] == other.bodies[1]) ||
+             (bodies[0] == other.bodies[1] && bodies[1] == other.bodies[0]);
+    }
   };
 
   template <typename BVClass>
@@ -66,7 +103,7 @@ namespace ephys
     static_assert(std::is_base_of<BoundingVolume, BVClass>::value, "bounding volume class must be derived from ephys::BoundingVolume");
 
   protected:
-    static std::list<PotentialContact *> &potentialContacts(BVHNode<BVClass> &n1, BVHNode<BVClass> &n2);
+    static std::list<PotentialContact> &potentialContacts(BVHNode<BVClass> &n1, BVHNode<BVClass> &n2);
     void recalculateVolume();
 
   public:
@@ -84,64 +121,12 @@ namespace ephys
 
     void insert(BVClass &volume, Rigidbody *body);
 
-    std::list<PotentialContact *> &getPotentialContacts() const;
+    std::list<PotentialContact> &getPotentialContacts() const;
   };
 
   struct CollisionProperties
   {
     float restitution;
-  };
-
-  class Collider
-  {
-  protected:
-    Collider(Rigidbody &body, const Mat3 &transform) : body(&body), transform(transform), invTransform(transform.inverse()) {}
-
-    // offset of the collider in object space
-    Mat3 transform, invTransform;
-
-  public:
-    virtual ~Collider() = default;
-
-    Rigidbody *body;
-
-    // gets the origin in object space
-    inline Vec2 origin() const { return transform.getColumn(2); }
-
-    inline Mat3 getTransform() const { return transform; }
-    inline Mat3 getInvTransform() const { return invTransform; }
-    inline void setTransform(const Mat3 &transform)
-    {
-      this->transform = transform;
-      invTransform = transform.inverse();
-    }
-    inline void setInvTransform(const Mat3 &invTarnsform)
-    {
-      this->invTransform = invTarnsform;
-      transform = invTarnsform.inverse();
-    }
-
-    inline Vec2 collider2Object(const Vec2 &v) const { return transform * v; }
-    inline Vec2 object2Collider(const Vec2 &v) const { return invTransform * v; }
-    inline Vec2 rotCollider2Object(const Vec2 &v) const { return transform.getRotation() * v; }
-    inline Vec2 rotObject2Collider(const Vec2 &v) const { return invTransform.getRotation() * v; }
-  };
-
-  class CircleCollider : public Collider
-  {
-  public:
-    // center is based on offset
-    float radius;
-
-    CircleCollider(float radius, Rigidbody &body, const Mat3 &transform = Mat3::identity()) : radius(abs(radius)), Collider(body, transform) {}
-  };
-
-  class BoxCollider : public Collider
-  {
-  public:
-    Vec2 halfSize;
-
-    BoxCollider(const Vec2 &halfSize, Rigidbody &body, const Mat3 &transform = Mat3::identity()) : halfSize(abs(halfSize.x), abs(halfSize.y)), Collider(body, transform) {}
   };
 
   class IntersectionDetector
@@ -232,12 +217,11 @@ namespace ephys
   {
     if (isLeaf())
     {
-      std::cout << "leaf\n";
       children[0] = new BVHNode(this->volume, this->body);
       children[0]->parent = this;
       children[1] = new BVHNode(volume, body);
       children[1]->parent = this;
-      this->body = body;
+      this->body = nullptr;
     }
     else
     {
@@ -247,40 +231,49 @@ namespace ephys
       else
         children[0]->insert(volume, body);
     }
+    recalculateVolume();
   }
 
   template <typename BVClass>
-  std::list<PotentialContact *> &BVHNode<BVClass>::potentialContacts(BVHNode<BVClass> &n1, BVHNode<BVClass> &n2)
+  std::list<PotentialContact> &BVHNode<BVClass>::potentialContacts(BVHNode<BVClass> &n1, BVHNode<BVClass> &n2)
   {
-    auto contacts = new std::list<PotentialContact *>();
+    auto contacts = new std::list<PotentialContact>();
 
-    // do nothing if there is no contact between the two trees
-    if (!n1.overlaps(n2))
-      return *contacts;
+    if (!n1.isLeaf())
+      contacts->splice(contacts->end(), potentialContacts(*n1.children[0], *n1.children[1]));
+    if (!n2.isLeaf())
+      contacts->splice(contacts->end(), potentialContacts(*n2.children[0], *n2.children[1]));
 
-    if (n1.isLeaf() && n2.isLeaf())
-      contacts->push_back(new PotentialContact(*n1.body, *n2.body));
-    else if (n2.isLeaf() || (!n1.isLeaf() && n1.volume.size() >= n2.volume.size()))
+    // there are only contacts if the nodes intersect
+    if (n1.overlaps(n2))
     {
-      contacts->splice(contacts->end(), potentialContacts(*n1.children[0], n2));
-      contacts->splice(contacts->end(), potentialContacts(*n1.children[1], n2));
-    }
-    else
-    {
-      contacts->splice(contacts->end(), potentialContacts(*n2.children[0], n1));
-      contacts->splice(contacts->end(), potentialContacts(*n2.children[1], n1));
+      if (n1.isLeaf() && n2.isLeaf())
+        contacts->push_back(PotentialContact(*n1.body, *n2.body));
+      else
+      {
+        if (n2.isLeaf() || (!n1.isLeaf() && n1.volume.size() >= n2.volume.size()))
+        {
+          contacts->splice(contacts->end(), potentialContacts(*n1.children[0], n2));
+          contacts->splice(contacts->end(), potentialContacts(*n1.children[1], n2));
+        }
+        else
+        {
+          contacts->splice(contacts->end(), potentialContacts(*n2.children[0], n1));
+          contacts->splice(contacts->end(), potentialContacts(*n2.children[1], n1));
+        }
+      }
     }
 
     return *contacts;
   }
 
   template <typename BVClass>
-  std::list<PotentialContact *> &BVHNode<BVClass>::getPotentialContacts() const
+  std::list<PotentialContact> &BVHNode<BVClass>::getPotentialContacts() const
   {
     if (!isLeaf())
       return BVHNode<BVClass>::potentialContacts(*children[0], *children[1]);
     else
-      return *(new std::list<PotentialContact *>);
+      return *(new std::list<PotentialContact>);
   }
 }
 

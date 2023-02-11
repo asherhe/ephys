@@ -18,6 +18,10 @@ body {
   justify-content: center;
 }
 
+p {
+  margin: 0;
+}
+
 .info {
   position: absolute;
   top: 0;
@@ -40,20 +44,24 @@ body {
 }
 
 .info>div {
-  width: 8em;
+  width: 16em;
   padding: 4px;
 
-  font-size: 0.75em;
+  /* font-size: 0.75em; */
 
   background-color: #333;
   padding: 0.75em;
   border-radius: 0.75em;
 
   display: none;
+
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 0.5em;
 }
 
 .info:hover>div {
-  display: block;
+  display: flex;
 }
 
 footer {
@@ -70,10 +78,6 @@ footer {
   gap: 1em;
 }
 
-footer p {
-  margin: 0;
-}
-
 a.gh-link>img {
   width: 1em;
   height: 1em;
@@ -88,23 +92,47 @@ a.gh-link:hover>img {
 }
 
 #loading-wrapper {
+  position: absolute;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: center;
+  transform: scale(2);
+}
+
+.loading-text {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 0.5em;
   align-items: center;
-  position: absolute;
-  transform: scale(2);
+}
+
+@keyframes shift-right {
+  0% {
+    transform: translateX(-0.75em);
+  }
+
+  100% {
+    transform: none;
+  }
 }
 
 @keyframes ball-bounce-x {
   0% {
-    transform: translateY(-100%) translateY(1em) translateX(-100%) translateX(0);
+    transform: translateY(-100%) translateY(1em) translateX(-50%) translateX(0);
+    opacity: 0;
+  }
+
+  5%,
+  35% {
+    opacity: 1;
   }
 
   50%,
   100% {
-    transform: translateY(-100%) translateY(1em) translateX(1em);
+    opacity: 0;
+    transform: translateY(-100%) translateY(1em) translateX(-50%) translateX(1em);
   }
 }
 
@@ -118,17 +146,39 @@ a.gh-link:hover>img {
   }
 }
 
+@keyframes floor-shadow {
+
+  0%,
+  20%,
+  40%,
+  100% {
+    box-shadow: 0px 0px 10px 2px transparent;
+  }
+
+  25% {
+    box-shadow: 0px 0px 10px 2px #ffffff60;
+  }
+}
+
+.loading-text>span {
+  transform: translateX(-0.75em);
+  animation-name: shift-right;
+  animation-duration: 0.5s;
+  animation-delay: 1.5s;
+  animation-fill-mode: forwards;
+}
+
 .loading-ball {
   display: block;
   width: 1em;
   height: 1em;
-  overflow: hidden;
+  /* overflow: hidden; */
   animation-name: ball-bounce-y;
   animation-duration: 0.5s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-  animation-delay: 1s;
-  animation-timing-function: ease-in;
+  animation-delay: 1.5s;
+  animation-timing-function: cubic-bezier(0.25, -0.83, 0.75, -0.18);
 }
 
 .loading-ball::before {
@@ -140,8 +190,24 @@ a.gh-link:hover>img {
   background-color: #f8583e;
   animation-name: ball-bounce-x;
   animation-duration: 2s;
-  animation-delay: 1s;
+  animation-delay: 1.5s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  transform: translate(-100%, -100%);
+  opacity: 0;
+}
+
+.ball-floor::after {
+  content: "";
+  display: block;
+  transform: scale(0.5, 0.2);
+  box-shadow: 0px 0px 10px 2px transparent;
+  animation-name: floor-shadow;
+  animation-duration: 2s;
+  animation-delay: 1.5s;
+  animation-iteration-count: infinite;
+}
+
+#load-wait {
+  opacity: 0;
+  font-size: 0.5em;
 }

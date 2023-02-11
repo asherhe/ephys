@@ -1,5 +1,6 @@
 #include "ephys/math.h"
 
+#include "ephys/collider.h"
 #include "ephys/rigidbody.h"
 #include "ephys/contacts.h"
 #include "ephys/collision.h"

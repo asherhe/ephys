@@ -74,11 +74,14 @@ interface Mat3 {
 };
 
 //////// Collider Base Class ////////
-[Prefix="ephys::"]
+[Prefix="ephys::", NoDelete]
 interface Collider {
   [Value] Vec2 origin();
+
+  Rigidbody getBody();
   [Value] Mat3 getTransform();
   [Value] Mat3 getInvTransform();
+
   void setTransform([Const, Ref] Mat3 transform);
   void setInvTransform([Const, Ref] Mat3 invTransform);
 
@@ -109,6 +112,7 @@ interface Rigidbody {
   float getRestitution();
   [Value] Mat3 getTransform();
   [Value] Mat3 getInvTransform();
+  boolean getStatic();
 
   void setPos([Const, Ref] Vec2 pos);
   void setVel([Const, Ref] Vec2 vel);
@@ -123,6 +127,7 @@ interface Rigidbody {
   void setAngularDamping(float angularDamping);
   void setCollider([Ref] Collider collider);
   void setRestitution(float restitution);
+  void setStatic(float isStatic);
 
   [Value] Vec2 world2Local([Const, Ref] Vec2 pos);
   [Value] Vec2 local2World([Const, Ref] Vec2 pos);
@@ -156,6 +161,7 @@ interface CircleCollider : Collider {
   void CircleCollider(float radius, [Ref] Rigidbody body, [Const, Ref] optional Mat3 transform);
 
   [Value] Vec2 origin();
+  Rigidbody getBody();
   [Value] Mat3 getTransform();
   [Value] Mat3 getInvTransform();
   void setTransform([Const, Ref] Mat3 transform);
@@ -174,6 +180,7 @@ interface BoxCollider : Collider {
   void BoxCollider([Const, Ref] Vec2 halfSize, [Ref] Rigidbody body, [Const, Ref] optional Mat3 transform);
 
   [Value] Vec2 origin();
+  Rigidbody getBody();
   [Value] Mat3 getTransform();
   [Value] Mat3 getInvTransform();
   void setTransform([Const, Ref] Mat3 transform);

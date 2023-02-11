@@ -3,20 +3,28 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- don't cache -->
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
     <title>ephys</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
-    <script src="js/ephys/ephys.js"></script>
     <script src="js/jquery.min.js"></script>
   </head>
   <body>
     <div id="loading-wrapper">
-      <span class="loading-ball"></span>
-      Loading...
+      <div class="loading-text">
+        <div class="ball-floor"><div class="loading-ball"></div></div>
+        <span>Loading...</span>
+      </div>
+      <p id="load-wait">Taking too long? Try refreshing the page</p>
     </div>
-    <canvas id="canvas" width="800" height="600"></canvas>
-    <div class="info">
-      <div>click and drag to move objects!</div>
-    </div>
+    <canvas id="canvas" width="800" height="600" style="opacity: 0"></canvas>
+    <!-- <div class="info">
+      <div>
+        <p>todo: add info on how to operate this thing</p>
+      </div>
+    </div> -->
     <footer>
       <p>Copyright © 2023 Asher He</p>
       <a class="gh-link" href="https://github.com/asherhe/ephys"
