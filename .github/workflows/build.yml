@@ -1,4 +1,4 @@
-name: "ephys: Release Build"
+name: Release Build
 on:
   push:
   workflow_dispatch:
