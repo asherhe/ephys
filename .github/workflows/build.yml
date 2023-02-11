@@ -30,7 +30,7 @@ jobs:
           cd ${{github.workspace}}
           mkdir build
           cd build
-          emcmake cmake .. -D CMAKE_BUILD_TYPE=Release
+          emcmake cmake .. -D CMAKE_BUILD_TYPE=Debug
       - name: Build
         run: |
           cmake --build ${{github.workspace}}/build -t clean
