@@ -190,11 +190,13 @@ ephysWrapper().then((e) => {
     let y = 2 * (i - 1.5);
 
     let b1 = i < 2 ? e.box(1, 1) : e.circle(0.5);
-    b1.setPos(new physics.Vec2(-2, y));
-    b1.setVel(new physics.Vec2(2, 0));
+    b1.setPos(new physics.Vec2(-5, y));
+    b1.setVel(new physics.Vec2(7.5, 0));
     b1.setAngVel(-0.5);
     let b2 = i % 2 == 0 ? e.box(1, 1) : e.circle(0.5);
-    b2.setPos(new physics.Vec2(2, y));
+    b2.setPos(new physics.Vec2(5, y));
+    b2.setVel(new physics.Vec2(-7.5, 0));
+    b2.setAngVel(0.5);
     // b2.setStatic();
   }
 });
