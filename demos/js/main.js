@@ -33,7 +33,9 @@ const ephysWrapper = async function () {
     { opacity: 0 },
     {
       duration: 1000,
-      complete: load.remove,
+      complete: () => {
+        load.remove();
+      },
     }
   );
   $("#canvas").animate({ opacity: 1 }, { duration: 1000 });
