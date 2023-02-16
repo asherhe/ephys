@@ -3,9 +3,11 @@ var ephys = (() => {
   var _scriptDir = typeof document !== 'undefined' && document.currentScript ? document.currentScript.src : undefined;
   if (typeof __filename !== 'undefined') _scriptDir = _scriptDir || __filename;
   return (
-function(ephys = {})  {
+function(ephys) {
+  ephys = ephys || {};
 
-// include: shell.js
+
+
 // The Module object: Our interface to the outside world. We import
 // and export values on it. There are various ways Module can be used:
 // 1. Not defined. We create it here
@@ -21,20 +23,1334 @@ function(ephys = {})  {
 // can continue to use Module afterwards as well.
 var Module = typeof ephys != 'undefined' ? ephys : {};
 
+// See https://caniuse.com/mdn-javascript_builtins_object_assign
+
 // Set up the promise that indicates the Module is initialized
 var readyPromiseResolve, readyPromiseReject;
 Module['ready'] = new Promise(function(resolve, reject) {
   readyPromiseResolve = resolve;
   readyPromiseReject = reject;
 });
-["_emscripten_bind_VoidPtr___destroy___0","_emscripten_bind_Vec2_Vec2_0","_emscripten_bind_Vec2_Vec2_1","_emscripten_bind_Vec2_Vec2_2","_emscripten_bind_Vec2_set_2","_emscripten_bind_Vec2_norm_0","_emscripten_bind_Vec2_norm2_0","_emscripten_bind_Vec2_normalize_0","_emscripten_bind_Vec2_add_1","_emscripten_bind_Vec2_sub_1","_emscripten_bind_Vec2_mult_1","_emscripten_bind_Vec2_get_x_0","_emscripten_bind_Vec2_set_x_1","_emscripten_bind_Vec2_get_y_0","_emscripten_bind_Vec2_set_y_1","_emscripten_bind_Vec2___destroy___0","_emscripten_bind_Mat2_Mat2_0","_emscripten_bind_Mat2_Mat2_1","_emscripten_bind_Mat2_Mat2_4","_emscripten_bind_Mat2_zero_0","_emscripten_bind_Mat2_identity_0","_emscripten_bind_Mat2_at_2","_emscripten_bind_Mat2_set_3","_emscripten_bind_Mat2_add_1","_emscripten_bind_Mat2_sub_1","_emscripten_bind_Mat2_mult_1","_emscripten_bind_Mat2_determinant_0","_emscripten_bind_Mat2_inverse_0","_emscripten_bind_Mat2_invert_0","_emscripten_bind_Mat2_transpose_0","_emscripten_bind_Mat2_get_data_1","_emscripten_bind_Mat2_set_data_2","_emscripten_bind_Mat2___destroy___0","_emscripten_bind_Mat3_Mat3_0","_emscripten_bind_Mat3_Mat3_1","_emscripten_bind_Mat3_Mat3_6","_emscripten_bind_Mat3_identity_0","_emscripten_bind_Mat3_at_2","_emscripten_bind_Mat3_set_3","_emscripten_bind_Mat3_determinant_0","_emscripten_bind_Mat3_inverse_0","_emscripten_bind_Mat3_invert_0","_emscripten_bind_Mat3___destroy___0","_emscripten_bind_Collider_origin_0","_emscripten_bind_Collider_getBody_0","_emscripten_bind_Collider_getTransform_0","_emscripten_bind_Collider_getInvTransform_0","_emscripten_bind_Collider_setTransform_1","_emscripten_bind_Collider_setInvTransform_1","_emscripten_bind_Collider_collider2Object_1","_emscripten_bind_Collider_object2Collider_1","_emscripten_bind_Collider_rotCollider2Object_1","_emscripten_bind_Collider_rotObject2Collider_1","_emscripten_bind_Rigidbody_Rigidbody_0","_emscripten_bind_Rigidbody_getPos_0","_emscripten_bind_Rigidbody_getVel_0","_emscripten_bind_Rigidbody_getAcc_0","_emscripten_bind_Rigidbody_getAngle_0","_emscripten_bind_Rigidbody_getAngVel_0","_emscripten_bind_Rigidbody_getMass_0","_emscripten_bind_Rigidbody_getInvMass_0","_emscripten_bind_Rigidbody_getInertia_0","_emscripten_bind_Rigidbody_getInvInertia_0","_emscripten_bind_Rigidbody_getLinearDamping_0","_emscripten_bind_Rigidbody_getAngularDamping_0","_emscripten_bind_Rigidbody_getCollider_0","_emscripten_bind_Rigidbody_getRestitution_0","_emscripten_bind_Rigidbody_getTransform_0","_emscripten_bind_Rigidbody_getInvTransform_0","_emscripten_bind_Rigidbody_getStatic_0","_emscripten_bind_Rigidbody_setPos_1","_emscripten_bind_Rigidbody_setVel_1","_emscripten_bind_Rigidbody_setAcc_1","_emscripten_bind_Rigidbody_setAngle_1","_emscripten_bind_Rigidbody_setAngVel_1","_emscripten_bind_Rigidbody_setMass_1","_emscripten_bind_Rigidbody_setInvMass_1","_emscripten_bind_Rigidbody_setInertia_1","_emscripten_bind_Rigidbody_setInvInertia_1","_emscripten_bind_Rigidbody_setLinearDamping_1","_emscripten_bind_Rigidbody_setAngularDamping_1","_emscripten_bind_Rigidbody_setCollider_1","_emscripten_bind_Rigidbody_setRestitution_1","_emscripten_bind_Rigidbody_setStatic_1","_emscripten_bind_Rigidbody_world2Local_1","_emscripten_bind_Rigidbody_local2World_1","_emscripten_bind_Rigidbody_addForce_1","_emscripten_bind_Rigidbody_addForceAt_2","_emscripten_bind_Rigidbody_addForceAtLocal_2","_emscripten_bind_Rigidbody_addTorque_1","_emscripten_bind_Rigidbody_clearAccums_0","_emscripten_bind_Rigidbody_step_1","_emscripten_bind_Rigidbody___destroy___0","_emscripten_bind_ContactGenerator_generateContacts_0","_emscripten_bind_CircleCollider_CircleCollider_2","_emscripten_bind_CircleCollider_CircleCollider_3","_emscripten_bind_CircleCollider_origin_0","_emscripten_bind_CircleCollider_getBody_0","_emscripten_bind_CircleCollider_getTransform_0","_emscripten_bind_CircleCollider_getInvTransform_0","_emscripten_bind_CircleCollider_setTransform_1","_emscripten_bind_CircleCollider_setInvTransform_1","_emscripten_bind_CircleCollider_collider2Object_1","_emscripten_bind_CircleCollider_object2Collider_1","_emscripten_bind_CircleCollider_rotCollider2Object_1","_emscripten_bind_CircleCollider_rotObject2Collider_1","_emscripten_bind_CircleCollider_get_radius_0","_emscripten_bind_CircleCollider_set_radius_1","_emscripten_bind_CircleCollider___destroy___0","_emscripten_bind_BoxCollider_BoxCollider_2","_emscripten_bind_BoxCollider_BoxCollider_3","_emscripten_bind_BoxCollider_origin_0","_emscripten_bind_BoxCollider_getBody_0","_emscripten_bind_BoxCollider_getTransform_0","_emscripten_bind_BoxCollider_getInvTransform_0","_emscripten_bind_BoxCollider_setTransform_1","_emscripten_bind_BoxCollider_setInvTransform_1","_emscripten_bind_BoxCollider_collider2Object_1","_emscripten_bind_BoxCollider_object2Collider_1","_emscripten_bind_BoxCollider_rotCollider2Object_1","_emscripten_bind_BoxCollider_rotObject2Collider_1","_emscripten_bind_BoxCollider_get_halfSize_0","_emscripten_bind_BoxCollider_set_halfSize_1","_emscripten_bind_BoxCollider___destroy___0","_emscripten_bind_IntersectionDetector_circleCircle_2","_emscripten_bind_IntersectionDetector_boxCircle_2","_emscripten_bind_IntersectionDetector_boxBox_2","_emscripten_bind_ForceGenerator_updateForce_2","_emscripten_bind_Gravity_Gravity_1","_emscripten_bind_Gravity_updateForce_2","_emscripten_bind_Gravity___destroy___0","_emscripten_bind_Spring_Spring_5","_emscripten_bind_Spring_getEnd_0","_emscripten_bind_Spring_setEnd_1","_emscripten_bind_Spring_updateForce_2","_emscripten_bind_Spring_get_k_0","_emscripten_bind_Spring_set_k_1","_emscripten_bind_Spring_get_length_0","_emscripten_bind_Spring_set_length_1","_emscripten_bind_Spring___destroy___0","_emscripten_bind_World_World_0","_emscripten_bind_World_addBody_1","_emscripten_bind_World_removeBody_1","_emscripten_bind_World_addFGen_2","_emscripten_bind_World_removeFGen_2","_emscripten_bind_World_addContactGen_1","_emscripten_bind_World_removeContactGen_1","_emscripten_bind_World_step_1","_emscripten_bind_World___destroy___0","_emscripten_bind_Particle_Particle_0","_emscripten_bind_Particle_Particle_1","_emscripten_bind_Particle_Particle_2","_emscripten_bind_Particle_getPos_0","_emscripten_bind_Particle_getVel_0","_emscripten_bind_Particle_getAcc_0","_emscripten_bind_Particle_getMass_0","_emscripten_bind_Particle_getInvMass_0","_emscripten_bind_Particle_getDamping_0","_emscripten_bind_Particle_setPos_1","_emscripten_bind_Particle_setVel_1","_emscripten_bind_Particle_setAcc_1","_emscripten_bind_Particle_setMass_1","_emscripten_bind_Particle_setInvMass_1","_emscripten_bind_Particle_setDamping_1","_emscripten_bind_Particle_addForce_1","_emscripten_bind_Particle_addImpulse_1","_emscripten_bind_Particle_clearForceAccum_0","_emscripten_bind_Particle_setStatic_0","_emscripten_bind_Particle_isStatic_0","_emscripten_bind_Particle_step_1","_emscripten_bind_Particle___destroy___0","_emscripten_bind_ParticleForceGenerator_updateForce_2","_emscripten_bind_ParticleGravity_ParticleGravity_1","_emscripten_bind_ParticleGravity_updateForce_2","_emscripten_bind_ParticleGravity___destroy___0","_emscripten_bind_ParticleDrag_ParticleDrag_2","_emscripten_bind_ParticleDrag_updateForce_2","_emscripten_bind_ParticleDrag___destroy___0","_emscripten_bind_ParticleSpring_ParticleSpring_3","_emscripten_bind_ParticleSpring_setEnd_1","_emscripten_bind_ParticleSpring_getEnd_0","_emscripten_bind_ParticleSpring_updateForce_2","_emscripten_bind_ParticleSpring_get_k_0","_emscripten_bind_ParticleSpring_set_k_1","_emscripten_bind_ParticleSpring_get_length_0","_emscripten_bind_ParticleSpring_set_length_1","_emscripten_bind_ParticleSpring___destroy___0","_emscripten_bind_ParticleContactGenerator_generateContacts_0","_emscripten_bind_ParticleLink_setParticle_2","_emscripten_bind_ParticleLink_getParticle_1","_emscripten_bind_ParticleLink_generateContacts_0","_emscripten_bind_ParticleCable_ParticleCable_2","_emscripten_bind_ParticleCable_setParticle_2","_emscripten_bind_ParticleCable_getParticle_1","_emscripten_bind_ParticleCable_generateContacts_0","_emscripten_bind_ParticleCable_get_length_0","_emscripten_bind_ParticleCable_set_length_1","_emscripten_bind_ParticleCable_get_restitution_0","_emscripten_bind_ParticleCable_set_restitution_1","_emscripten_bind_ParticleCable___destroy___0","_emscripten_bind_ParticleRod_ParticleRod_1","_emscripten_bind_ParticleRod_setParticle_2","_emscripten_bind_ParticleRod_getParticle_1","_emscripten_bind_ParticleRod_generateContacts_0","_emscripten_bind_ParticleRod_get_length_0","_emscripten_bind_ParticleRod_set_length_1","_emscripten_bind_ParticleRod___destroy___0","_emscripten_bind_ParticleWorld_ParticleWorld_0","_emscripten_bind_ParticleWorld_ParticleWorld_1","_emscripten_bind_ParticleWorld_addParticle_1","_emscripten_bind_ParticleWorld_removeParticle_1","_emscripten_bind_ParticleWorld_addPFGen_2","_emscripten_bind_ParticleWorld_removePFGen_2","_emscripten_bind_ParticleWorld_addPContactGenerator_1","_emscripten_bind_ParticleWorld_removePContactGenerator_1","_emscripten_bind_ParticleWorld_generateContacts_0","_emscripten_bind_ParticleWorld_step_1","_emscripten_bind_ParticleWorld___destroy___0","_fflush","onRuntimeInitialized"].forEach((prop) => {
-  if (!Object.getOwnPropertyDescriptor(Module['ready'], prop)) {
-    Object.defineProperty(Module['ready'], prop, {
-      get: () => abort('You are getting ' + prop + ' on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js'),
-      set: () => abort('You are setting ' + prop + ' on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js'),
-    });
-  }
-});
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_VoidPtr___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_VoidPtr___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_VoidPtr___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_VoidPtr___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_VoidPtr___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_Vec2_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_Vec2_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_Vec2_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_Vec2_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_Vec2_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_Vec2_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_Vec2_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_Vec2_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_Vec2_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_Vec2_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_Vec2_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_Vec2_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_Vec2_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_Vec2_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_Vec2_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_set_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_set_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_set_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_set_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_set_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_norm_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_norm_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_norm_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_norm_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_norm_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_norm2_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_norm2_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_norm2_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_norm2_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_norm2_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_normalize_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_normalize_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_normalize_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_normalize_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_normalize_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_add_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_add_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_add_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_add_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_add_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_sub_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_sub_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_sub_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_sub_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_sub_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_mult_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_mult_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_mult_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_mult_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_mult_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_get_x_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_get_x_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_get_x_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_get_x_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_get_x_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_set_x_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_set_x_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_set_x_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_set_x_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_set_x_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_get_y_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_get_y_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_get_y_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_get_y_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_get_y_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2_set_y_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_set_y_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2_set_y_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2_set_y_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2_set_y_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Vec2___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Vec2___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Vec2___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Vec2___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_Mat2_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_Mat2_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_Mat2_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_Mat2_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_Mat2_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_Mat2_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_Mat2_4')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_4', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_Mat2_4 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_Mat2_4', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_Mat2_4 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_zero_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_zero_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_zero_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_zero_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_zero_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_identity_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_identity_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_identity_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_identity_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_identity_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_at_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_at_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_at_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_at_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_at_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_set_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_set_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_set_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_set_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_set_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_add_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_add_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_add_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_add_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_add_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_sub_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_sub_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_sub_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_sub_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_sub_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_mult_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_mult_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_mult_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_mult_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_mult_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_determinant_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_determinant_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_determinant_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_determinant_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_determinant_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_inverse_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_inverse_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_inverse_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_inverse_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_inverse_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_invert_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_invert_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_invert_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_invert_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_invert_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_transpose_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_transpose_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_transpose_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_transpose_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_transpose_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_get_data_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_get_data_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_get_data_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_get_data_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_get_data_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2_set_data_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_set_data_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2_set_data_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2_set_data_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2_set_data_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat2___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat2___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat2___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat2___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_Mat3_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_Mat3_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_Mat3_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_Mat3_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_Mat3_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_Mat3_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_Mat3_6')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_6', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_Mat3_6 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_Mat3_6', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_Mat3_6 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_identity_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_identity_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_identity_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_identity_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_identity_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_at_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_at_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_at_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_at_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_at_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_set_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_set_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_set_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_set_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_set_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_determinant_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_determinant_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_determinant_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_determinant_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_determinant_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_inverse_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_inverse_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_inverse_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_inverse_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_inverse_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3_invert_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_invert_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3_invert_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3_invert_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3_invert_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Mat3___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Mat3___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Mat3___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Mat3___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_origin_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_origin_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_origin_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_getBody_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getBody_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_getBody_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getBody_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_getBody_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_getTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_getInvTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getInvTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_getInvTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_setTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_setTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_setTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_setInvTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_setInvTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_setInvTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_collider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_collider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_collider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_object2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_object2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_object2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_rotCollider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_rotCollider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_rotCollider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Collider_rotObject2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_rotObject2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Collider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Collider_rotObject2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Collider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_Rigidbody_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_Rigidbody_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_Rigidbody_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_Rigidbody_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_Rigidbody_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getPos_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getPos_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getPos_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getPos_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getPos_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getVel_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getVel_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getVel_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getVel_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getVel_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getAcc_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getAcc_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getAcc_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getAcc_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getAcc_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getAngle_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getAngle_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getAngle_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getAngle_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getAngle_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getAngVel_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getAngVel_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getAngVel_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getAngVel_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getAngVel_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getMass_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getMass_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getMass_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getMass_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getMass_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getInvMass_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getInvMass_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getInvMass_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getInvMass_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getInvMass_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getInertia_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getInertia_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getInertia_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getInertia_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getInertia_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getInvInertia_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getInvInertia_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getInvInertia_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getInvInertia_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getInvInertia_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getLinearDamping_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getLinearDamping_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getLinearDamping_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getLinearDamping_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getLinearDamping_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getAngularDamping_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getAngularDamping_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getAngularDamping_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getAngularDamping_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getAngularDamping_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getCollider_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getCollider_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getCollider_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getCollider_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getCollider_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getRestitution_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getRestitution_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getRestitution_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getRestitution_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getRestitution_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getInvTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getInvTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getInvTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_getStatic_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getStatic_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_getStatic_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_getStatic_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_getStatic_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setPos_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setPos_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setPos_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setPos_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setPos_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setVel_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setVel_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setVel_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setVel_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setVel_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setAcc_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setAcc_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setAcc_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setAcc_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setAcc_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setAngle_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setAngle_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setAngle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setAngle_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setAngle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setAngVel_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setAngVel_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setAngVel_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setAngVel_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setAngVel_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setMass_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setMass_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setMass_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setMass_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setMass_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setInvMass_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setInvMass_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setInvMass_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setInvMass_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setInvMass_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setInertia_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setInertia_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setInertia_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setInertia_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setInertia_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setInvInertia_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setInvInertia_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setInvInertia_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setInvInertia_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setInvInertia_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setLinearDamping_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setLinearDamping_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setLinearDamping_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setLinearDamping_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setLinearDamping_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setAngularDamping_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setAngularDamping_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setAngularDamping_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setAngularDamping_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setAngularDamping_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setCollider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setCollider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setCollider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setCollider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setCollider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setRestitution_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setRestitution_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setRestitution_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setRestitution_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setRestitution_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_setStatic_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setStatic_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_setStatic_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_setStatic_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_setStatic_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_world2Local_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_world2Local_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_world2Local_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_world2Local_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_world2Local_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_local2World_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_local2World_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_local2World_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_local2World_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_local2World_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_addForce_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_addForce_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_addForce_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_addForce_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_addForce_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_addForceAt_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_addForceAt_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_addForceAt_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_addForceAt_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_addForceAt_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_addForceAtLocal_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_addForceAtLocal_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_addForceAtLocal_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_addForceAtLocal_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_addForceAtLocal_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_addTorque_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_addTorque_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_addTorque_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_addTorque_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_addTorque_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_clearAccums_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_clearAccums_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_clearAccums_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_clearAccums_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_clearAccums_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody_step_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_step_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody_step_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody_step_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody_step_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Rigidbody___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Rigidbody___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Rigidbody___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Rigidbody___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ContactGenerator_generateContacts_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactGenerator_generateContacts_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ContactGenerator_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ContactGenerator_generateContacts_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ContactGenerator_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_CircleCollider_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_CircleCollider_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_CircleCollider_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_CircleCollider_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_CircleCollider_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_origin_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_origin_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_origin_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_getBody_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getBody_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_getBody_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getBody_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_getBody_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_getTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_getInvTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getInvTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_getInvTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_setTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_setTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_setTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_setInvTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_setInvTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_setInvTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_collider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_collider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_collider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_object2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_object2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_object2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_rotCollider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_rotCollider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_rotCollider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_rotObject2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_rotObject2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_rotObject2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_get_radius_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_get_radius_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_get_radius_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_get_radius_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_get_radius_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider_set_radius_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_set_radius_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider_set_radius_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider_set_radius_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider_set_radius_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_CircleCollider___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_CircleCollider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_CircleCollider___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_CircleCollider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_BoxCollider_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_BoxCollider_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_BoxCollider_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_BoxCollider_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_BoxCollider_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_origin_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_origin_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_origin_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_origin_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_getBody_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getBody_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_getBody_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getBody_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_getBody_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_getTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_getTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_getInvTransform_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getInvTransform_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_getInvTransform_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_getInvTransform_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_setTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_setTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_setTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_setTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_setInvTransform_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_setInvTransform_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_setInvTransform_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_setInvTransform_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_collider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_collider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_collider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_collider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_object2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_object2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_object2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_object2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_rotCollider2Object_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_rotCollider2Object_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_rotCollider2Object_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_rotCollider2Object_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_rotObject2Collider_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_rotObject2Collider_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_rotObject2Collider_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_rotObject2Collider_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_get_halfSize_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_get_halfSize_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_get_halfSize_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_get_halfSize_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_get_halfSize_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider_set_halfSize_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_set_halfSize_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider_set_halfSize_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider_set_halfSize_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider_set_halfSize_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_BoxCollider___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_BoxCollider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_BoxCollider___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_BoxCollider___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_IntersectionDetector_circleCircle_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_circleCircle_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_IntersectionDetector_circleCircle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_circleCircle_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_IntersectionDetector_circleCircle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_IntersectionDetector_boxCircle_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_boxCircle_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_IntersectionDetector_boxCircle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_boxCircle_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_IntersectionDetector_boxCircle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_IntersectionDetector_boxBox_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_boxBox_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_IntersectionDetector_boxBox_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_IntersectionDetector_boxBox_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_IntersectionDetector_boxBox_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ForceGenerator_updateForce_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ForceGenerator_updateForce_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ForceGenerator_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ForceGenerator_updateForce_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ForceGenerator_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Gravity_Gravity_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Gravity_Gravity_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Gravity_Gravity_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Gravity_Gravity_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Gravity_Gravity_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Gravity_updateForce_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Gravity_updateForce_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Gravity_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Gravity_updateForce_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Gravity_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Gravity___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Gravity___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Gravity___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Gravity___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Gravity___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Spring_Spring_5')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_Spring_5', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Spring_Spring_5 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_Spring_5', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Spring_Spring_5 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Spring_getEnd_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_getEnd_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Spring_getEnd_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_getEnd_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Spring_getEnd_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Spring_setEnd_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_setEnd_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Spring_setEnd_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_setEnd_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Spring_setEnd_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Spring_updateForce_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_updateForce_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Spring_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_updateForce_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Spring_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Spring_get_k_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_get_k_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Spring_get_k_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_get_k_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Spring_get_k_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Spring_set_k_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_set_k_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Spring_set_k_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_set_k_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Spring_set_k_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Spring_get_length_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_get_length_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Spring_get_length_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_get_length_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Spring_get_length_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Spring_set_length_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_set_length_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Spring_set_length_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring_set_length_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Spring_set_length_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Spring___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Spring___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Spring___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Spring___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_World_World_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_World_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_World_World_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_World_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_World_World_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_World_addBody_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_addBody_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_World_addBody_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_addBody_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_World_addBody_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_World_removeBody_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_removeBody_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_World_removeBody_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_removeBody_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_World_removeBody_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_World_addFGen_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_addFGen_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_World_addFGen_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_addFGen_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_World_addFGen_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_World_removeFGen_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_removeFGen_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_World_removeFGen_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_removeFGen_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_World_removeFGen_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_World_addContactGen_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_addContactGen_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_World_addContactGen_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_addContactGen_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_World_addContactGen_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_World_removeContactGen_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_removeContactGen_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_World_removeContactGen_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_removeContactGen_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_World_removeContactGen_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_World_step_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_step_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_World_step_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World_step_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_World_step_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_World___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_World___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_World___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_World___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_Particle_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_Particle_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_Particle_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_Particle_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_Particle_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_Particle_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_Particle_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_Particle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_Particle_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_Particle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_Particle_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_Particle_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_Particle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_Particle_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_Particle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_getPos_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getPos_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_getPos_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getPos_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_getPos_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_getVel_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getVel_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_getVel_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getVel_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_getVel_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_getAcc_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getAcc_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_getAcc_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getAcc_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_getAcc_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_getMass_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getMass_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_getMass_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getMass_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_getMass_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_getInvMass_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getInvMass_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_getInvMass_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getInvMass_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_getInvMass_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_getDamping_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getDamping_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_getDamping_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_getDamping_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_getDamping_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_setPos_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setPos_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_setPos_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setPos_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_setPos_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_setVel_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setVel_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_setVel_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setVel_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_setVel_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_setAcc_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setAcc_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_setAcc_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setAcc_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_setAcc_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_setMass_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setMass_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_setMass_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setMass_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_setMass_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_setInvMass_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setInvMass_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_setInvMass_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setInvMass_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_setInvMass_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_setDamping_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setDamping_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_setDamping_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setDamping_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_setDamping_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_addForce_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_addForce_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_addForce_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_addForce_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_addForce_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_addImpulse_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_addImpulse_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_addImpulse_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_addImpulse_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_addImpulse_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_clearForceAccum_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_clearForceAccum_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_clearForceAccum_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_clearForceAccum_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_clearForceAccum_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_setStatic_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setStatic_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_setStatic_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_setStatic_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_setStatic_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_isStatic_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_isStatic_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_isStatic_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_isStatic_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_isStatic_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle_step_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_step_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle_step_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle_step_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle_step_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_Particle___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_Particle___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_Particle___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_Particle___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleForceGenerator_updateForce_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleForceGenerator_updateForce_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleForceGenerator_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleForceGenerator_updateForce_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleForceGenerator_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleGravity_ParticleGravity_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleGravity_ParticleGravity_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleGravity_ParticleGravity_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleGravity_ParticleGravity_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleGravity_ParticleGravity_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleGravity_updateForce_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleGravity_updateForce_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleGravity_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleGravity_updateForce_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleGravity_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleGravity___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleGravity___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleGravity___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleGravity___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleGravity___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleDrag_ParticleDrag_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleDrag_ParticleDrag_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleDrag_ParticleDrag_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleDrag_ParticleDrag_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleDrag_ParticleDrag_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleDrag_updateForce_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleDrag_updateForce_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleDrag_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleDrag_updateForce_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleDrag_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleDrag___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleDrag___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleDrag___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleDrag___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleDrag___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleSpring_ParticleSpring_3')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_ParticleSpring_3', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleSpring_ParticleSpring_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_ParticleSpring_3', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleSpring_ParticleSpring_3 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleSpring_setEnd_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_setEnd_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleSpring_setEnd_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_setEnd_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleSpring_setEnd_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleSpring_getEnd_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_getEnd_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleSpring_getEnd_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_getEnd_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleSpring_getEnd_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleSpring_updateForce_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_updateForce_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleSpring_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_updateForce_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleSpring_updateForce_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleSpring_get_k_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_get_k_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleSpring_get_k_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_get_k_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleSpring_get_k_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleSpring_set_k_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_set_k_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleSpring_set_k_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_set_k_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleSpring_set_k_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleSpring_get_length_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_get_length_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleSpring_get_length_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_get_length_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleSpring_get_length_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleSpring_set_length_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_set_length_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleSpring_set_length_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring_set_length_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleSpring_set_length_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleSpring___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleSpring___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleSpring___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleSpring___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleContactGenerator_generateContacts_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleContactGenerator_generateContacts_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleContactGenerator_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleContactGenerator_generateContacts_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleContactGenerator_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleLink_setParticle_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleLink_setParticle_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleLink_setParticle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleLink_setParticle_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleLink_setParticle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleLink_getParticle_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleLink_getParticle_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleLink_getParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleLink_getParticle_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleLink_getParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleLink_generateContacts_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleLink_generateContacts_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleLink_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleLink_generateContacts_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleLink_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleCable_ParticleCable_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_ParticleCable_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleCable_ParticleCable_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_ParticleCable_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleCable_ParticleCable_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleCable_setParticle_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_setParticle_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleCable_setParticle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_setParticle_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleCable_setParticle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleCable_getParticle_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_getParticle_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleCable_getParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_getParticle_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleCable_getParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleCable_generateContacts_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_generateContacts_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleCable_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_generateContacts_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleCable_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleCable_get_length_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_get_length_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleCable_get_length_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_get_length_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleCable_get_length_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleCable_set_length_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_set_length_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleCable_set_length_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_set_length_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleCable_set_length_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleCable_get_restitution_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_get_restitution_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleCable_get_restitution_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_get_restitution_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleCable_get_restitution_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleCable_set_restitution_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_set_restitution_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleCable_set_restitution_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable_set_restitution_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleCable_set_restitution_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleCable___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleCable___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleCable___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleCable___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleRod_ParticleRod_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_ParticleRod_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleRod_ParticleRod_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_ParticleRod_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleRod_ParticleRod_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleRod_setParticle_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_setParticle_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleRod_setParticle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_setParticle_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleRod_setParticle_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleRod_getParticle_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_getParticle_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleRod_getParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_getParticle_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleRod_getParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleRod_generateContacts_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_generateContacts_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleRod_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_generateContacts_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleRod_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleRod_get_length_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_get_length_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleRod_get_length_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_get_length_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleRod_get_length_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleRod_set_length_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_set_length_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleRod_set_length_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod_set_length_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleRod_set_length_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleRod___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleRod___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleRod___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleRod___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_ParticleWorld_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_ParticleWorld_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_ParticleWorld_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_ParticleWorld_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_ParticleWorld_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_ParticleWorld_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_ParticleWorld_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_ParticleWorld_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_ParticleWorld_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_ParticleWorld_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_addParticle_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_addParticle_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_addParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_addParticle_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_addParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_removeParticle_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_removeParticle_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_removeParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_removeParticle_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_removeParticle_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_addPFGen_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_addPFGen_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_addPFGen_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_addPFGen_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_addPFGen_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_removePFGen_2')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_removePFGen_2', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_removePFGen_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_removePFGen_2', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_removePFGen_2 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_addPContactGenerator_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_addPContactGenerator_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_addPContactGenerator_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_addPContactGenerator_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_addPContactGenerator_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_removePContactGenerator_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_removePContactGenerator_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_removePContactGenerator_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_removePContactGenerator_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_removePContactGenerator_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_generateContacts_0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_generateContacts_0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_generateContacts_0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_generateContacts_0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld_step_1')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_step_1', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld_step_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld_step_1', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld_step_1 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_emscripten_bind_ParticleWorld___destroy___0')) {
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld___destroy___0', { configurable: true, get: function() { abort('You are getting _emscripten_bind_ParticleWorld___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_emscripten_bind_ParticleWorld___destroy___0', { configurable: true, set: function() { abort('You are setting _emscripten_bind_ParticleWorld___destroy___0 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_fflush')) {
+        Object.defineProperty(Module['ready'], '_fflush', { configurable: true, get: function() { abort('You are getting _fflush on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_fflush', { configurable: true, set: function() { abort('You are setting _fflush on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], 'onRuntimeInitialized')) {
+        Object.defineProperty(Module['ready'], 'onRuntimeInitialized', { configurable: true, get: function() { abort('You are getting onRuntimeInitialized on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], 'onRuntimeInitialized', { configurable: true, set: function() { abort('You are setting onRuntimeInitialized on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
@@ -99,28 +1415,34 @@ function logExceptionOnExit(e) {
   err('exiting due to exception: ' + toLog);
 }
 
-if (ENVIRONMENT_IS_NODE) {
-  if (typeof process == 'undefined' || !process.release || process.release.name !== 'node') throw new Error('not compiled for this environment (did you build to HTML and try to run it not on the web, or set ENVIRONMENT to something - like node - and run it someplace else - like on the web?)');
-  // `require()` is no-op in an ESM module, use `createRequire()` to construct
-  // the require()` function.  This is only necessary for multi-environment
-  // builds, `-sENVIRONMENT=node` emits a static import declaration instead.
-  // TODO: Swap all `require()`'s with `import()`'s?
-  // These modules will usually be used on Node.js. Load them eagerly to avoid
-  // the complexity of lazy-loading.
-  var fs = require('fs');
-  var nodePath = require('path');
+var fs;
+var nodePath;
+var requireNodeFS;
 
+if (ENVIRONMENT_IS_NODE) {
+  if (!(typeof process == 'object' && typeof require == 'function')) throw new Error('not compiled for this environment (did you build to HTML and try to run it not on the web, or set ENVIRONMENT to something - like node - and run it someplace else - like on the web?)');
   if (ENVIRONMENT_IS_WORKER) {
-    scriptDirectory = nodePath.dirname(scriptDirectory) + '/';
+    scriptDirectory = require('path').dirname(scriptDirectory) + '/';
   } else {
     scriptDirectory = __dirname + '/';
   }
 
 // include: node_shell_read.js
-read_ = (filename, binary) => {
-  // We need to re-wrap `file://` strings to URLs. Normalizing isn't
-  // necessary in that case, the path should already be absolute.
-  filename = isFileURI(filename) ? new URL(filename) : nodePath.normalize(filename);
+
+
+requireNodeFS = () => {
+  // Use nodePath as the indicator for these not being initialized,
+  // since in some environments a global fs may have already been
+  // created.
+  if (!nodePath) {
+    fs = require('fs');
+    nodePath = require('path');
+  }
+};
+
+read_ = function shell_read(filename, binary) {
+  requireNodeFS();
+  filename = nodePath['normalize'](filename);
   return fs.readFileSync(filename, binary ? undefined : 'utf8');
 };
 
@@ -134,8 +1456,8 @@ readBinary = (filename) => {
 };
 
 readAsync = (filename, onload, onerror) => {
-  // See the comment in the `read_` function.
-  filename = isFileURI(filename) ? new URL(filename) : nodePath.normalize(filename);
+  requireNodeFS();
+  filename = nodePath['normalize'](filename);
   fs.readFile(filename, function(err, data) {
     if (err) onerror(err);
     else onload(data.buffer);
@@ -163,10 +1485,7 @@ readAsync = (filename, onload, onerror) => {
   // not be needed with node v15 and about because it is now the default
   // behaviour:
   // See https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode
-  var nodeMajor = process.version.match(/^v(\d+)\./)[1];
-  if (nodeMajor < 15) {
-    process['on']('unhandledRejection', function(reason) { throw reason; });
-  }
+  process['on']('unhandledRejection', function(reason) { throw reason; });
 
   quit_ = (status, toThrow) => {
     if (keepRuntimeAlive()) {
@@ -203,10 +1522,6 @@ if (ENVIRONMENT_IS_SHELL) {
   readAsync = function readAsync(f, onload, onerror) {
     setTimeout(() => onload(readBinary(f)), 0);
   };
-
-  if (typeof clearTimeout == 'undefined') {
-    globalThis.clearTimeout = (id) => {};
-  }
 
   if (typeof scriptArgs != 'undefined') {
     arguments_ = scriptArgs;
@@ -262,7 +1577,9 @@ if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
   // be done differently.
   {
 // include: web_or_worker_shell_read.js
-read_ = (url) => {
+
+
+  read_ = (url) => {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url, false);
       xhr.send(null);
@@ -344,11 +1661,277 @@ var PROXYFS = 'PROXYFS is no longer included by default; build with -lproxyfs.js
 var WORKERFS = 'WORKERFS is no longer included by default; build with -lworkerfs.js';
 var NODEFS = 'NODEFS is no longer included by default; build with -lnodefs.js';
 
+
 assert(!ENVIRONMENT_IS_SHELL, "shell environment detected but not enabled at build time.  Add 'shell' to `-sENVIRONMENT` to enable.");
 
 
-// end include: shell.js
-// include: preamble.js
+
+
+var STACK_ALIGN = 16;
+var POINTER_SIZE = 4;
+
+function getNativeTypeSize(type) {
+  switch (type) {
+    case 'i1': case 'i8': case 'u8': return 1;
+    case 'i16': case 'u16': return 2;
+    case 'i32': case 'u32': return 4;
+    case 'i64': case 'u64': return 8;
+    case 'float': return 4;
+    case 'double': return 8;
+    default: {
+      if (type[type.length - 1] === '*') {
+        return POINTER_SIZE;
+      } else if (type[0] === 'i') {
+        const bits = Number(type.substr(1));
+        assert(bits % 8 === 0, 'getNativeTypeSize invalid bits ' + bits + ', type ' + type);
+        return bits / 8;
+      } else {
+        return 0;
+      }
+    }
+  }
+}
+
+function warnOnce(text) {
+  if (!warnOnce.shown) warnOnce.shown = {};
+  if (!warnOnce.shown[text]) {
+    warnOnce.shown[text] = 1;
+    err(text);
+  }
+}
+
+// include: runtime_functions.js
+
+
+// This gives correct answers for everything less than 2^{14} = 16384
+// I hope nobody is contemplating functions with 16384 arguments...
+function uleb128Encode(n) {
+  assert(n < 16384);
+  if (n < 128) {
+    return [n];
+  }
+  return [(n % 128) | 128, n >> 7];
+}
+
+// Wraps a JS function as a wasm function with a given signature.
+function convertJsFunctionToWasm(func, sig) {
+
+  // If the type reflection proposal is available, use the new
+  // "WebAssembly.Function" constructor.
+  // Otherwise, construct a minimal wasm module importing the JS function and
+  // re-exporting it.
+  if (typeof WebAssembly.Function == "function") {
+    var typeNames = {
+      'i': 'i32',
+      'j': 'i64',
+      'f': 'f32',
+      'd': 'f64',
+      'p': 'i32',
+    };
+    var type = {
+      parameters: [],
+      results: sig[0] == 'v' ? [] : [typeNames[sig[0]]]
+    };
+    for (var i = 1; i < sig.length; ++i) {
+      assert(sig[i] in typeNames, 'invalid signature char: ' + sig[i]);
+      type.parameters.push(typeNames[sig[i]]);
+    }
+    return new WebAssembly.Function(type, func);
+  }
+
+  // The module is static, with the exception of the type section, which is
+  // generated based on the signature passed in.
+  var typeSection = [
+    0x01, // count: 1
+    0x60, // form: func
+  ];
+  var sigRet = sig.slice(0, 1);
+  var sigParam = sig.slice(1);
+  var typeCodes = {
+    'i': 0x7f, // i32
+    'p': 0x7f, // i32
+    'j': 0x7e, // i64
+    'f': 0x7d, // f32
+    'd': 0x7c, // f64
+  };
+
+  // Parameters, length + signatures
+  typeSection = typeSection.concat(uleb128Encode(sigParam.length));
+  for (var i = 0; i < sigParam.length; ++i) {
+    assert(sigParam[i] in typeCodes, 'invalid signature char: ' + sigParam[i]);
+    typeSection.push(typeCodes[sigParam[i]]);
+  }
+
+  // Return values, length + signatures
+  // With no multi-return in MVP, either 0 (void) or 1 (anything else)
+  if (sigRet == 'v') {
+    typeSection.push(0x00);
+  } else {
+    typeSection = typeSection.concat([0x01, typeCodes[sigRet]]);
+  }
+
+  // Write the section code and overall length of the type section into the
+  // section header
+  typeSection = [0x01 /* Type section code */].concat(
+    uleb128Encode(typeSection.length),
+    typeSection
+  );
+
+  // Rest of the module is static
+  var bytes = new Uint8Array([
+    0x00, 0x61, 0x73, 0x6d, // magic ("\0asm")
+    0x01, 0x00, 0x00, 0x00, // version: 1
+  ].concat(typeSection, [
+    0x02, 0x07, // import section
+      // (import "e" "f" (func 0 (type 0)))
+      0x01, 0x01, 0x65, 0x01, 0x66, 0x00, 0x00,
+    0x07, 0x05, // export section
+      // (export "f" (func 0 (type 0)))
+      0x01, 0x01, 0x66, 0x00, 0x00,
+  ]));
+
+   // We can compile this wasm module synchronously because it is very small.
+  // This accepts an import (at "e.f"), that it reroutes to an export (at "f")
+  var module = new WebAssembly.Module(bytes);
+  var instance = new WebAssembly.Instance(module, {
+    'e': {
+      'f': func
+    }
+  });
+  var wrappedFunc = instance.exports['f'];
+  return wrappedFunc;
+}
+
+var freeTableIndexes = [];
+
+// Weak map of functions in the table to their indexes, created on first use.
+var functionsInTableMap;
+
+function getEmptyTableSlot() {
+  // Reuse a free index if there is one, otherwise grow.
+  if (freeTableIndexes.length) {
+    return freeTableIndexes.pop();
+  }
+  // Grow the table
+  try {
+    wasmTable.grow(1);
+  } catch (err) {
+    if (!(err instanceof RangeError)) {
+      throw err;
+    }
+    throw 'Unable to grow wasm table. Set ALLOW_TABLE_GROWTH.';
+  }
+  return wasmTable.length - 1;
+}
+
+function updateTableMap(offset, count) {
+  for (var i = offset; i < offset + count; i++) {
+    var item = getWasmTableEntry(i);
+    // Ignore null values.
+    if (item) {
+      functionsInTableMap.set(item, i);
+    }
+  }
+}
+
+/**
+ * Add a function to the table.
+ * 'sig' parameter is required if the function being added is a JS function.
+ * @param {string=} sig
+ */
+function addFunction(func, sig) {
+  assert(typeof func != 'undefined');
+
+  // Check if the function is already in the table, to ensure each function
+  // gets a unique index. First, create the map if this is the first use.
+  if (!functionsInTableMap) {
+    functionsInTableMap = new WeakMap();
+    updateTableMap(0, wasmTable.length);
+  }
+  if (functionsInTableMap.has(func)) {
+    return functionsInTableMap.get(func);
+  }
+
+  // It's not in the table, add it now.
+
+  var ret = getEmptyTableSlot();
+
+  // Set the new value.
+  try {
+    // Attempting to call this with JS function will cause of table.set() to fail
+    setWasmTableEntry(ret, func);
+  } catch (err) {
+    if (!(err instanceof TypeError)) {
+      throw err;
+    }
+    assert(typeof sig != 'undefined', 'Missing signature argument to addFunction: ' + func);
+    var wrapped = convertJsFunctionToWasm(func, sig);
+    setWasmTableEntry(ret, wrapped);
+  }
+
+  functionsInTableMap.set(func, ret);
+
+  return ret;
+}
+
+function removeFunction(index) {
+  functionsInTableMap.delete(getWasmTableEntry(index));
+  freeTableIndexes.push(index);
+}
+
+// end include: runtime_functions.js
+// include: runtime_debug.js
+
+
+function legacyModuleProp(prop, newName) {
+  if (!Object.getOwnPropertyDescriptor(Module, prop)) {
+    Object.defineProperty(Module, prop, {
+      configurable: true,
+      get: function() {
+        abort('Module.' + prop + ' has been replaced with plain ' + newName + ' (the initial value can be provided on Module, but after startup the value is only looked for on a local variable of that name)');
+      }
+    });
+  }
+}
+
+function ignoredModuleProp(prop) {
+  if (Object.getOwnPropertyDescriptor(Module, prop)) {
+    abort('`Module.' + prop + '` was supplied but `' + prop + '` not included in INCOMING_MODULE_JS_API');
+  }
+}
+
+function unexportedMessage(sym, isFSSybol) {
+  var msg = "'" + sym + "' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)";
+  if (isFSSybol) {
+    msg += '. Alternatively, forcing filesystem support (-sFORCE_FILESYSTEM) can export this for you';
+  }
+  return msg;
+}
+
+function unexportedRuntimeSymbol(sym, isFSSybol) {
+  if (!Object.getOwnPropertyDescriptor(Module, sym)) {
+    Object.defineProperty(Module, sym, {
+      configurable: true,
+      get: function() {
+        abort(unexportedMessage(sym, isFSSybol));
+      }
+    });
+  }
+}
+
+function unexportedRuntimeFunction(sym, isFSSybol) {
+  if (!Object.getOwnPropertyDescriptor(Module, sym)) {
+    Module[sym] = () => abort(unexportedMessage(sym, isFSSybol));
+  }
+}
+
+// end include: runtime_debug.js
+var tempRet0 = 0;
+var setTempRet0 = (value) => { tempRet0 = value; };
+var getTempRet0 = () => tempRet0;
+
+
+
 // === Preamble library stuff ===
 
 // Documentation for the public APIs defined in this file must be updated in:
@@ -391,26 +1974,132 @@ function assert(condition, text) {
   }
 }
 
+// Returns the C function with a specified identifier (for C++, you need to do manual name mangling)
+function getCFunc(ident) {
+  var func = Module['_' + ident]; // closure exported function
+  assert(func, 'Cannot call unknown function ' + ident + ', make sure it is exported');
+  return func;
+}
+
+// C calling interface.
+/** @param {string|null=} returnType
+    @param {Array=} argTypes
+    @param {Arguments|Array=} args
+    @param {Object=} opts */
+function ccall(ident, returnType, argTypes, args, opts) {
+  // For fast lookup of conversion functions
+  var toC = {
+    'string': function(str) {
+      var ret = 0;
+      if (str !== null && str !== undefined && str !== 0) { // null string
+        // at most 4 bytes per UTF-8 code point, +1 for the trailing '\0'
+        var len = (str.length << 2) + 1;
+        ret = stackAlloc(len);
+        stringToUTF8(str, ret, len);
+      }
+      return ret;
+    },
+    'array': function(arr) {
+      var ret = stackAlloc(arr.length);
+      writeArrayToMemory(arr, ret);
+      return ret;
+    }
+  };
+
+  function convertReturnValue(ret) {
+    if (returnType === 'string') {
+      
+      return UTF8ToString(ret);
+    }
+    if (returnType === 'boolean') return Boolean(ret);
+    return ret;
+  }
+
+  var func = getCFunc(ident);
+  var cArgs = [];
+  var stack = 0;
+  assert(returnType !== 'array', 'Return type should not be "array".');
+  if (args) {
+    for (var i = 0; i < args.length; i++) {
+      var converter = toC[argTypes[i]];
+      if (converter) {
+        if (stack === 0) stack = stackSave();
+        cArgs[i] = converter(args[i]);
+      } else {
+        cArgs[i] = args[i];
+      }
+    }
+  }
+  var ret = func.apply(null, cArgs);
+  function onDone(ret) {
+    if (stack !== 0) stackRestore(stack);
+    return convertReturnValue(ret);
+  }
+
+  ret = onDone(ret);
+  return ret;
+}
+
+/** @param {string=} returnType
+    @param {Array=} argTypes
+    @param {Object=} opts */
+function cwrap(ident, returnType, argTypes, opts) {
+  return function() {
+    return ccall(ident, returnType, argTypes, arguments, opts);
+  }
+}
+
 // We used to include malloc/free by default in the past. Show a helpful error in
 // builds with assertions.
-function _malloc() {
-  abort("malloc() called but not included in the build - add '_malloc' to EXPORTED_FUNCTIONS");
-}
 function _free() {
   // Show a helpful error since we used to include free by default in the past.
   abort("free() called but not included in the build - add '_free' to EXPORTED_FUNCTIONS");
 }
 
+// include: runtime_legacy.js
+
+
+var ALLOC_NORMAL = 0; // Tries to use _malloc()
+var ALLOC_STACK = 1; // Lives for the duration of the current function call
+
+/**
+ * allocate(): This function is no longer used by emscripten but is kept around to avoid
+ *             breaking external users.
+ *             You should normally not use allocate(), and instead allocate
+ *             memory using _malloc()/stackAlloc(), initialize it with
+ *             setValue(), and so forth.
+ * @param {(Uint8Array|Array<number>)} slab: An array of data.
+ * @param {number=} allocator : How to allocate memory, see ALLOC_*
+ */
+function allocate(slab, allocator) {
+  var ret;
+  assert(typeof allocator == 'number', 'allocate no longer takes a type argument')
+  assert(typeof slab != 'number', 'allocate no longer takes a number as arg0')
+
+  if (allocator == ALLOC_STACK) {
+    ret = stackAlloc(slab.length);
+  } else {
+    ret = _malloc(slab.length);
+  }
+
+  if (!slab.subarray && !slab.slice) {
+    slab = new Uint8Array(slab);
+  }
+  HEAPU8.set(slab, ret);
+  return ret;
+}
+
+// end include: runtime_legacy.js
 // include: runtime_strings.js
-// runtime_strings.js: String related runtime functions that are part of both
-// MINIMAL_RUNTIME and regular runtime.
+
+
+// runtime_strings.js: Strings related runtime functions that are part of both MINIMAL_RUNTIME and regular runtime.
 
 var UTF8Decoder = typeof TextDecoder != 'undefined' ? new TextDecoder('utf8') : undefined;
 
+// Given a pointer 'ptr' to a null-terminated UTF8-encoded string in the given array that contains uint8 values, returns
+// a copy of that string as a Javascript String object.
 /**
- * Given a pointer 'idx' to a null-terminated UTF8-encoded string in the given
- * array that contains uint8 values, returns a copy of that string as a
- * Javascript String object.
  * heapOrArray is either a regular array, or a JavaScript typed array view.
  * @param {number} idx
  * @param {number=} maxBytesToRead
@@ -419,103 +2108,86 @@ var UTF8Decoder = typeof TextDecoder != 'undefined' ? new TextDecoder('utf8') : 
 function UTF8ArrayToString(heapOrArray, idx, maxBytesToRead) {
   var endIdx = idx + maxBytesToRead;
   var endPtr = idx;
-  // TextDecoder needs to know the byte length in advance, it doesn't stop on
-  // null terminator by itself.  Also, use the length info to avoid running tiny
-  // strings through TextDecoder, since .subarray() allocates garbage.
-  // (As a tiny code save trick, compare endPtr against endIdx using a negation,
-  // so that undefined means Infinity)
+  // TextDecoder needs to know the byte length in advance, it doesn't stop on null terminator by itself.
+  // Also, use the length info to avoid running tiny strings through TextDecoder, since .subarray() allocates garbage.
+  // (As a tiny code save trick, compare endPtr against endIdx using a negation, so that undefined means Infinity)
   while (heapOrArray[endPtr] && !(endPtr >= endIdx)) ++endPtr;
 
   if (endPtr - idx > 16 && heapOrArray.buffer && UTF8Decoder) {
     return UTF8Decoder.decode(heapOrArray.subarray(idx, endPtr));
-  }
-  var str = '';
-  // If building with TextDecoder, we have already computed the string length
-  // above, so test loop end condition against that
-  while (idx < endPtr) {
-    // For UTF8 byte structure, see:
-    // http://en.wikipedia.org/wiki/UTF-8#Description
-    // https://www.ietf.org/rfc/rfc2279.txt
-    // https://tools.ietf.org/html/rfc3629
-    var u0 = heapOrArray[idx++];
-    if (!(u0 & 0x80)) { str += String.fromCharCode(u0); continue; }
-    var u1 = heapOrArray[idx++] & 63;
-    if ((u0 & 0xE0) == 0xC0) { str += String.fromCharCode(((u0 & 31) << 6) | u1); continue; }
-    var u2 = heapOrArray[idx++] & 63;
-    if ((u0 & 0xF0) == 0xE0) {
-      u0 = ((u0 & 15) << 12) | (u1 << 6) | u2;
-    } else {
-      if ((u0 & 0xF8) != 0xF0) warnOnce('Invalid UTF-8 leading byte ' + ptrToString(u0) + ' encountered when deserializing a UTF-8 string in wasm memory to a JS string!');
-      u0 = ((u0 & 7) << 18) | (u1 << 12) | (u2 << 6) | (heapOrArray[idx++] & 63);
-    }
+  } else {
+    var str = '';
+    // If building with TextDecoder, we have already computed the string length above, so test loop end condition against that
+    while (idx < endPtr) {
+      // For UTF8 byte structure, see:
+      // http://en.wikipedia.org/wiki/UTF-8#Description
+      // https://www.ietf.org/rfc/rfc2279.txt
+      // https://tools.ietf.org/html/rfc3629
+      var u0 = heapOrArray[idx++];
+      if (!(u0 & 0x80)) { str += String.fromCharCode(u0); continue; }
+      var u1 = heapOrArray[idx++] & 63;
+      if ((u0 & 0xE0) == 0xC0) { str += String.fromCharCode(((u0 & 31) << 6) | u1); continue; }
+      var u2 = heapOrArray[idx++] & 63;
+      if ((u0 & 0xF0) == 0xE0) {
+        u0 = ((u0 & 15) << 12) | (u1 << 6) | u2;
+      } else {
+        if ((u0 & 0xF8) != 0xF0) warnOnce('Invalid UTF-8 leading byte 0x' + u0.toString(16) + ' encountered when deserializing a UTF-8 string in wasm memory to a JS string!');
+        u0 = ((u0 & 7) << 18) | (u1 << 12) | (u2 << 6) | (heapOrArray[idx++] & 63);
+      }
 
-    if (u0 < 0x10000) {
-      str += String.fromCharCode(u0);
-    } else {
-      var ch = u0 - 0x10000;
-      str += String.fromCharCode(0xD800 | (ch >> 10), 0xDC00 | (ch & 0x3FF));
+      if (u0 < 0x10000) {
+        str += String.fromCharCode(u0);
+      } else {
+        var ch = u0 - 0x10000;
+        str += String.fromCharCode(0xD800 | (ch >> 10), 0xDC00 | (ch & 0x3FF));
+      }
     }
   }
   return str;
 }
 
+// Given a pointer 'ptr' to a null-terminated UTF8-encoded string in the emscripten HEAP, returns a
+// copy of that string as a Javascript String object.
+// maxBytesToRead: an optional length that specifies the maximum number of bytes to read. You can omit
+//                 this parameter to scan the string until the first \0 byte. If maxBytesToRead is
+//                 passed, and the string at [ptr, ptr+maxBytesToReadr[ contains a null byte in the
+//                 middle, then the string will cut short at that byte index (i.e. maxBytesToRead will
+//                 not produce a string of exact length [ptr, ptr+maxBytesToRead[)
+//                 N.B. mixing frequent uses of UTF8ToString() with and without maxBytesToRead may
+//                 throw JS JIT optimizations off, so it is worth to consider consistently using one
+//                 style or the other.
 /**
- * Given a pointer 'ptr' to a null-terminated UTF8-encoded string in the
- * emscripten HEAP, returns a copy of that string as a Javascript String object.
- *
  * @param {number} ptr
- * @param {number=} maxBytesToRead - An optional length that specifies the
- *   maximum number of bytes to read. You can omit this parameter to scan the
- *   string until the first \0 byte. If maxBytesToRead is passed, and the string
- *   at [ptr, ptr+maxBytesToReadr[ contains a null byte in the middle, then the
- *   string will cut short at that byte index (i.e. maxBytesToRead will not
- *   produce a string of exact length [ptr, ptr+maxBytesToRead[) N.B. mixing
- *   frequent uses of UTF8ToString() with and without maxBytesToRead may throw
- *   JS JIT optimizations off, so it is worth to consider consistently using one
+ * @param {number=} maxBytesToRead
  * @return {string}
  */
 function UTF8ToString(ptr, maxBytesToRead) {
   return ptr ? UTF8ArrayToString(HEAPU8, ptr, maxBytesToRead) : '';
 }
 
-/**
- * Copies the given Javascript String object 'str' to the given byte array at
- * address 'outIdx', encoded in UTF8 form and null-terminated. The copy will
- * require at most str.length*4+1 bytes of space in the HEAP.  Use the function
- * lengthBytesUTF8 to compute the exact number of bytes (excluding null
- * terminator) that this function will write.
- *
- * @param {string} str - The Javascript string to copy.
- * @param {ArrayBufferView|Array<number>} heap - The array to copy to. Each
- *                                               index in this array is assumed
- *                                               to be one 8-byte element.
- * @param {number} outIdx - The starting offset in the array to begin the copying.
- * @param {number} maxBytesToWrite - The maximum number of bytes this function
- *                                   can write to the array.  This count should
- *                                   include the null terminator, i.e. if
- *                                   maxBytesToWrite=1, only the null terminator
- *                                   will be written and nothing else.
- *                                   maxBytesToWrite=0 does not write any bytes
- *                                   to the output, not even the null
- *                                   terminator.
- * @return {number} The number of bytes written, EXCLUDING the null terminator.
- */
+// Copies the given Javascript String object 'str' to the given byte array at address 'outIdx',
+// encoded in UTF8 form and null-terminated. The copy will require at most str.length*4+1 bytes of space in the HEAP.
+// Use the function lengthBytesUTF8 to compute the exact number of bytes (excluding null terminator) that this function will write.
+// Parameters:
+//   str: the Javascript string to copy.
+//   heap: the array to copy to. Each index in this array is assumed to be one 8-byte element.
+//   outIdx: The starting offset in the array to begin the copying.
+//   maxBytesToWrite: The maximum number of bytes this function can write to the array.
+//                    This count should include the null terminator,
+//                    i.e. if maxBytesToWrite=1, only the null terminator will be written and nothing else.
+//                    maxBytesToWrite=0 does not write any bytes to the output, not even the null terminator.
+// Returns the number of bytes written, EXCLUDING the null terminator.
+
 function stringToUTF8Array(str, heap, outIdx, maxBytesToWrite) {
-  // Parameter maxBytesToWrite is not optional. Negative values, 0, null,
-  // undefined and false each don't write out any bytes.
-  if (!(maxBytesToWrite > 0))
+  if (!(maxBytesToWrite > 0)) // Parameter maxBytesToWrite is not optional. Negative values, 0, null, undefined and false each don't write out any bytes.
     return 0;
 
   var startIdx = outIdx;
   var endIdx = outIdx + maxBytesToWrite - 1; // -1 for string null terminator.
   for (var i = 0; i < str.length; ++i) {
-    // Gotcha: charCodeAt returns a 16-bit word that is a UTF-16 encoded code
-    // unit, not a Unicode code point of the character! So decode
-    // UTF16->UTF32->UTF8.
+    // Gotcha: charCodeAt returns a 16-bit word that is a UTF-16 encoded code unit, not a Unicode code point of the character! So decode UTF16->UTF32->UTF8.
     // See http://unicode.org/faq/utf_bom.html#utf16-3
-    // For UTF8 byte structure, see http://en.wikipedia.org/wiki/UTF-8#Description
-    // and https://www.ietf.org/rfc/rfc2279.txt
-    // and https://tools.ietf.org/html/rfc3629
+    // For UTF8 byte structure, see http://en.wikipedia.org/wiki/UTF-8#Description and https://www.ietf.org/rfc/rfc2279.txt and https://tools.ietf.org/html/rfc3629
     var u = str.charCodeAt(i); // possibly a lead surrogate
     if (u >= 0xD800 && u <= 0xDFFF) {
       var u1 = str.charCodeAt(++i);
@@ -535,7 +2207,7 @@ function stringToUTF8Array(str, heap, outIdx, maxBytesToWrite) {
       heap[outIdx++] = 0x80 | (u & 63);
     } else {
       if (outIdx + 3 >= endIdx) break;
-      if (u > 0x10FFFF) warnOnce('Invalid Unicode code point ' + ptrToString(u) + ' encountered when serializing a JS string to a UTF-8 string in wasm memory! (Valid unicode code points should be in range 0-0x10FFFF).');
+      if (u > 0x10FFFF) warnOnce('Invalid Unicode code point 0x' + u.toString(16) + ' encountered when serializing a JS string to a UTF-8 string in wasm memory! (Valid unicode code points should be in range 0-0x10FFFF).');
       heap[outIdx++] = 0xF0 | (u >> 18);
       heap[outIdx++] = 0x80 | ((u >> 12) & 63);
       heap[outIdx++] = 0x80 | ((u >> 6) & 63);
@@ -547,52 +2219,266 @@ function stringToUTF8Array(str, heap, outIdx, maxBytesToWrite) {
   return outIdx - startIdx;
 }
 
-/**
- * Copies the given Javascript String object 'str' to the emscripten HEAP at
- * address 'outPtr', null-terminated and encoded in UTF8 form. The copy will
- * require at most str.length*4+1 bytes of space in the HEAP.
- * Use the function lengthBytesUTF8 to compute the exact number of bytes
- * (excluding null terminator) that this function will write.
- *
- * @return {number} The number of bytes written, EXCLUDING the null terminator.
- */
+// Copies the given Javascript String object 'str' to the emscripten HEAP at address 'outPtr',
+// null-terminated and encoded in UTF8 form. The copy will require at most str.length*4+1 bytes of space in the HEAP.
+// Use the function lengthBytesUTF8 to compute the exact number of bytes (excluding null terminator) that this function will write.
+// Returns the number of bytes written, EXCLUDING the null terminator.
+
 function stringToUTF8(str, outPtr, maxBytesToWrite) {
   assert(typeof maxBytesToWrite == 'number', 'stringToUTF8(str, outPtr, maxBytesToWrite) is missing the third parameter that specifies the length of the output buffer!');
   return stringToUTF8Array(str, HEAPU8,outPtr, maxBytesToWrite);
 }
 
-/**
- * Returns the number of bytes the given Javascript string takes if encoded as a
- * UTF8 byte array, EXCLUDING the null terminator byte.
- *
- * @param {string} str - JavaScript string to operator on
- * @return {number} Length, in bytes, of the UTF8 encoded string.
- */
+// Returns the number of bytes the given Javascript string takes if encoded as a UTF8 byte array, EXCLUDING the null terminator byte.
 function lengthBytesUTF8(str) {
   var len = 0;
   for (var i = 0; i < str.length; ++i) {
-    // Gotcha: charCodeAt returns a 16-bit word that is a UTF-16 encoded code
-    // unit, not a Unicode code point of the character! So decode
-    // UTF16->UTF32->UTF8.
+    // Gotcha: charCodeAt returns a 16-bit word that is a UTF-16 encoded code unit, not a Unicode code point of the character! So decode UTF16->UTF32->UTF8.
     // See http://unicode.org/faq/utf_bom.html#utf16-3
-    var c = str.charCodeAt(i); // possibly a lead surrogate
-    if (c <= 0x7F) {
-      len++;
-    } else if (c <= 0x7FF) {
-      len += 2;
-    } else if (c >= 0xD800 && c <= 0xDFFF) {
-      len += 4; ++i;
-    } else {
-      len += 3;
-    }
+    var u = str.charCodeAt(i); // possibly a lead surrogate
+    if (u >= 0xD800 && u <= 0xDFFF) u = 0x10000 + ((u & 0x3FF) << 10) | (str.charCodeAt(++i) & 0x3FF);
+    if (u <= 0x7F) ++len;
+    else if (u <= 0x7FF) len += 2;
+    else if (u <= 0xFFFF) len += 3;
+    else len += 4;
   }
   return len;
 }
 
 // end include: runtime_strings.js
+// include: runtime_strings_extra.js
+
+
+// runtime_strings_extra.js: Strings related runtime functions that are available only in regular runtime.
+
+// Given a pointer 'ptr' to a null-terminated ASCII-encoded string in the emscripten HEAP, returns
+// a copy of that string as a Javascript String object.
+
+function AsciiToString(ptr) {
+  var str = '';
+  while (1) {
+    var ch = HEAPU8[((ptr++)>>0)];
+    if (!ch) return str;
+    str += String.fromCharCode(ch);
+  }
+}
+
+// Copies the given Javascript String object 'str' to the emscripten HEAP at address 'outPtr',
+// null-terminated and encoded in ASCII form. The copy will require at most str.length+1 bytes of space in the HEAP.
+
+function stringToAscii(str, outPtr) {
+  return writeAsciiToMemory(str, outPtr, false);
+}
+
+// Given a pointer 'ptr' to a null-terminated UTF16LE-encoded string in the emscripten HEAP, returns
+// a copy of that string as a Javascript String object.
+
+var UTF16Decoder = typeof TextDecoder != 'undefined' ? new TextDecoder('utf-16le') : undefined;
+
+function UTF16ToString(ptr, maxBytesToRead) {
+  assert(ptr % 2 == 0, 'Pointer passed to UTF16ToString must be aligned to two bytes!');
+  var endPtr = ptr;
+  // TextDecoder needs to know the byte length in advance, it doesn't stop on null terminator by itself.
+  // Also, use the length info to avoid running tiny strings through TextDecoder, since .subarray() allocates garbage.
+  var idx = endPtr >> 1;
+  var maxIdx = idx + maxBytesToRead / 2;
+  // If maxBytesToRead is not passed explicitly, it will be undefined, and this
+  // will always evaluate to true. This saves on code size.
+  while (!(idx >= maxIdx) && HEAPU16[idx]) ++idx;
+  endPtr = idx << 1;
+
+  if (endPtr - ptr > 32 && UTF16Decoder) {
+    return UTF16Decoder.decode(HEAPU8.subarray(ptr, endPtr));
+  } else {
+    var str = '';
+
+    // If maxBytesToRead is not passed explicitly, it will be undefined, and the for-loop's condition
+    // will always evaluate to true. The loop is then terminated on the first null char.
+    for (var i = 0; !(i >= maxBytesToRead / 2); ++i) {
+      var codeUnit = HEAP16[(((ptr)+(i*2))>>1)];
+      if (codeUnit == 0) break;
+      // fromCharCode constructs a character from a UTF-16 code unit, so we can pass the UTF16 string right through.
+      str += String.fromCharCode(codeUnit);
+    }
+
+    return str;
+  }
+}
+
+// Copies the given Javascript String object 'str' to the emscripten HEAP at address 'outPtr',
+// null-terminated and encoded in UTF16 form. The copy will require at most str.length*4+2 bytes of space in the HEAP.
+// Use the function lengthBytesUTF16() to compute the exact number of bytes (excluding null terminator) that this function will write.
+// Parameters:
+//   str: the Javascript string to copy.
+//   outPtr: Byte address in Emscripten HEAP where to write the string to.
+//   maxBytesToWrite: The maximum number of bytes this function can write to the array. This count should include the null
+//                    terminator, i.e. if maxBytesToWrite=2, only the null terminator will be written and nothing else.
+//                    maxBytesToWrite<2 does not write any bytes to the output, not even the null terminator.
+// Returns the number of bytes written, EXCLUDING the null terminator.
+
+function stringToUTF16(str, outPtr, maxBytesToWrite) {
+  assert(outPtr % 2 == 0, 'Pointer passed to stringToUTF16 must be aligned to two bytes!');
+  assert(typeof maxBytesToWrite == 'number', 'stringToUTF16(str, outPtr, maxBytesToWrite) is missing the third parameter that specifies the length of the output buffer!');
+  // Backwards compatibility: if max bytes is not specified, assume unsafe unbounded write is allowed.
+  if (maxBytesToWrite === undefined) {
+    maxBytesToWrite = 0x7FFFFFFF;
+  }
+  if (maxBytesToWrite < 2) return 0;
+  maxBytesToWrite -= 2; // Null terminator.
+  var startPtr = outPtr;
+  var numCharsToWrite = (maxBytesToWrite < str.length*2) ? (maxBytesToWrite / 2) : str.length;
+  for (var i = 0; i < numCharsToWrite; ++i) {
+    // charCodeAt returns a UTF-16 encoded code unit, so it can be directly written to the HEAP.
+    var codeUnit = str.charCodeAt(i); // possibly a lead surrogate
+    HEAP16[((outPtr)>>1)] = codeUnit;
+    outPtr += 2;
+  }
+  // Null-terminate the pointer to the HEAP.
+  HEAP16[((outPtr)>>1)] = 0;
+  return outPtr - startPtr;
+}
+
+// Returns the number of bytes the given Javascript string takes if encoded as a UTF16 byte array, EXCLUDING the null terminator byte.
+
+function lengthBytesUTF16(str) {
+  return str.length*2;
+}
+
+function UTF32ToString(ptr, maxBytesToRead) {
+  assert(ptr % 4 == 0, 'Pointer passed to UTF32ToString must be aligned to four bytes!');
+  var i = 0;
+
+  var str = '';
+  // If maxBytesToRead is not passed explicitly, it will be undefined, and this
+  // will always evaluate to true. This saves on code size.
+  while (!(i >= maxBytesToRead / 4)) {
+    var utf32 = HEAP32[(((ptr)+(i*4))>>2)];
+    if (utf32 == 0) break;
+    ++i;
+    // Gotcha: fromCharCode constructs a character from a UTF-16 encoded code (pair), not from a Unicode code point! So encode the code point to UTF-16 for constructing.
+    // See http://unicode.org/faq/utf_bom.html#utf16-3
+    if (utf32 >= 0x10000) {
+      var ch = utf32 - 0x10000;
+      str += String.fromCharCode(0xD800 | (ch >> 10), 0xDC00 | (ch & 0x3FF));
+    } else {
+      str += String.fromCharCode(utf32);
+    }
+  }
+  return str;
+}
+
+// Copies the given Javascript String object 'str' to the emscripten HEAP at address 'outPtr',
+// null-terminated and encoded in UTF32 form. The copy will require at most str.length*4+4 bytes of space in the HEAP.
+// Use the function lengthBytesUTF32() to compute the exact number of bytes (excluding null terminator) that this function will write.
+// Parameters:
+//   str: the Javascript string to copy.
+//   outPtr: Byte address in Emscripten HEAP where to write the string to.
+//   maxBytesToWrite: The maximum number of bytes this function can write to the array. This count should include the null
+//                    terminator, i.e. if maxBytesToWrite=4, only the null terminator will be written and nothing else.
+//                    maxBytesToWrite<4 does not write any bytes to the output, not even the null terminator.
+// Returns the number of bytes written, EXCLUDING the null terminator.
+
+function stringToUTF32(str, outPtr, maxBytesToWrite) {
+  assert(outPtr % 4 == 0, 'Pointer passed to stringToUTF32 must be aligned to four bytes!');
+  assert(typeof maxBytesToWrite == 'number', 'stringToUTF32(str, outPtr, maxBytesToWrite) is missing the third parameter that specifies the length of the output buffer!');
+  // Backwards compatibility: if max bytes is not specified, assume unsafe unbounded write is allowed.
+  if (maxBytesToWrite === undefined) {
+    maxBytesToWrite = 0x7FFFFFFF;
+  }
+  if (maxBytesToWrite < 4) return 0;
+  var startPtr = outPtr;
+  var endPtr = startPtr + maxBytesToWrite - 4;
+  for (var i = 0; i < str.length; ++i) {
+    // Gotcha: charCodeAt returns a 16-bit word that is a UTF-16 encoded code unit, not a Unicode code point of the character! We must decode the string to UTF-32 to the heap.
+    // See http://unicode.org/faq/utf_bom.html#utf16-3
+    var codeUnit = str.charCodeAt(i); // possibly a lead surrogate
+    if (codeUnit >= 0xD800 && codeUnit <= 0xDFFF) {
+      var trailSurrogate = str.charCodeAt(++i);
+      codeUnit = 0x10000 + ((codeUnit & 0x3FF) << 10) | (trailSurrogate & 0x3FF);
+    }
+    HEAP32[((outPtr)>>2)] = codeUnit;
+    outPtr += 4;
+    if (outPtr + 4 > endPtr) break;
+  }
+  // Null-terminate the pointer to the HEAP.
+  HEAP32[((outPtr)>>2)] = 0;
+  return outPtr - startPtr;
+}
+
+// Returns the number of bytes the given Javascript string takes if encoded as a UTF16 byte array, EXCLUDING the null terminator byte.
+
+function lengthBytesUTF32(str) {
+  var len = 0;
+  for (var i = 0; i < str.length; ++i) {
+    // Gotcha: charCodeAt returns a 16-bit word that is a UTF-16 encoded code unit, not a Unicode code point of the character! We must decode the string to UTF-32 to the heap.
+    // See http://unicode.org/faq/utf_bom.html#utf16-3
+    var codeUnit = str.charCodeAt(i);
+    if (codeUnit >= 0xD800 && codeUnit <= 0xDFFF) ++i; // possibly a lead surrogate, so skip over the tail surrogate.
+    len += 4;
+  }
+
+  return len;
+}
+
+// Allocate heap space for a JS string, and write it there.
+// It is the responsibility of the caller to free() that memory.
+function allocateUTF8(str) {
+  var size = lengthBytesUTF8(str) + 1;
+  var ret = _malloc(size);
+  if (ret) stringToUTF8Array(str, HEAP8, ret, size);
+  return ret;
+}
+
+// Allocate stack space for a JS string, and write it there.
+function allocateUTF8OnStack(str) {
+  var size = lengthBytesUTF8(str) + 1;
+  var ret = stackAlloc(size);
+  stringToUTF8Array(str, HEAP8, ret, size);
+  return ret;
+}
+
+// Deprecated: This function should not be called because it is unsafe and does not provide
+// a maximum length limit of how many bytes it is allowed to write. Prefer calling the
+// function stringToUTF8Array() instead, which takes in a maximum length that can be used
+// to be secure from out of bounds writes.
+/** @deprecated
+    @param {boolean=} dontAddNull */
+function writeStringToMemory(string, buffer, dontAddNull) {
+  warnOnce('writeStringToMemory is deprecated and should not be called! Use stringToUTF8() instead!');
+
+  var /** @type {number} */ lastChar, /** @type {number} */ end;
+  if (dontAddNull) {
+    // stringToUTF8Array always appends null. If we don't want to do that, remember the
+    // character that existed at the location where the null will be placed, and restore
+    // that after the write (below).
+    end = buffer + lengthBytesUTF8(string);
+    lastChar = HEAP8[end];
+  }
+  stringToUTF8(string, buffer, Infinity);
+  if (dontAddNull) HEAP8[end] = lastChar; // Restore the value under the null character.
+}
+
+function writeArrayToMemory(array, buffer) {
+  assert(array.length >= 0, 'writeArrayToMemory array must have a length (should be an array or typed array)')
+  HEAP8.set(array, buffer);
+}
+
+/** @param {boolean=} dontAddNull */
+function writeAsciiToMemory(str, buffer, dontAddNull) {
+  for (var i = 0; i < str.length; ++i) {
+    assert(str.charCodeAt(i) === (str.charCodeAt(i) & 0xff));
+    HEAP8[((buffer++)>>0)] = str.charCodeAt(i);
+  }
+  // Null-terminate the pointer to the HEAP.
+  if (!dontAddNull) HEAP8[((buffer)>>0)] = 0;
+}
+
+// end include: runtime_strings_extra.js
 // Memory management
 
 var HEAP,
+/** @type {!ArrayBuffer} */
+  buffer,
 /** @type {!Int8Array} */
   HEAP8,
 /** @type {!Uint8Array} */
@@ -610,26 +2496,32 @@ var HEAP,
 /** @type {!Float64Array} */
   HEAPF64;
 
-function updateMemoryViews() {
-  var b = wasmMemory.buffer;
-  Module['HEAP8'] = HEAP8 = new Int8Array(b);
-  Module['HEAP16'] = HEAP16 = new Int16Array(b);
-  Module['HEAP32'] = HEAP32 = new Int32Array(b);
-  Module['HEAPU8'] = HEAPU8 = new Uint8Array(b);
-  Module['HEAPU16'] = HEAPU16 = new Uint16Array(b);
-  Module['HEAPU32'] = HEAPU32 = new Uint32Array(b);
-  Module['HEAPF32'] = HEAPF32 = new Float32Array(b);
-  Module['HEAPF64'] = HEAPF64 = new Float64Array(b);
+function updateGlobalBufferAndViews(buf) {
+  buffer = buf;
+  Module['HEAP8'] = HEAP8 = new Int8Array(buf);
+  Module['HEAP16'] = HEAP16 = new Int16Array(buf);
+  Module['HEAP32'] = HEAP32 = new Int32Array(buf);
+  Module['HEAPU8'] = HEAPU8 = new Uint8Array(buf);
+  Module['HEAPU16'] = HEAPU16 = new Uint16Array(buf);
+  Module['HEAPU32'] = HEAPU32 = new Uint32Array(buf);
+  Module['HEAPF32'] = HEAPF32 = new Float32Array(buf);
+  Module['HEAPF64'] = HEAPF64 = new Float64Array(buf);
 }
 
-assert(!Module['STACK_SIZE'], 'STACK_SIZE can no longer be set at runtime.  Use -sSTACK_SIZE at link time')
+var TOTAL_STACK = 5242880;
+if (Module['TOTAL_STACK']) assert(TOTAL_STACK === Module['TOTAL_STACK'], 'the stack size can no longer be determined at runtime')
 
+var INITIAL_MEMORY = Module['INITIAL_MEMORY'] || 16777216;legacyModuleProp('INITIAL_MEMORY', 'INITIAL_MEMORY');
+
+assert(INITIAL_MEMORY >= TOTAL_STACK, 'INITIAL_MEMORY should be larger than TOTAL_STACK, was ' + INITIAL_MEMORY + '! (TOTAL_STACK=' + TOTAL_STACK + ')');
+
+// check for full engine support (use string 'subarray' to avoid closure compiler confusion)
 assert(typeof Int32Array != 'undefined' && typeof Float64Array !== 'undefined' && Int32Array.prototype.subarray != undefined && Int32Array.prototype.set != undefined,
        'JS engine does not provide full typed array support');
 
-// If memory is defined in wasm, the user can't provide it, or set INITIAL_MEMORY
+// If memory is defined in wasm, the user can't provide it.
 assert(!Module['wasmMemory'], 'Use of `wasmMemory` detected.  Use -sIMPORTED_MEMORY to define wasmMemory externally');
-assert(!Module['INITIAL_MEMORY'], 'Detected runtime INITIAL_MEMORY setting.  Use -sIMPORTED_MEMORY to define wasmMemory dynamically');
+assert(INITIAL_MEMORY == 16777216, 'Detected runtime INITIAL_MEMORY setting.  Use -sIMPORTED_MEMORY to define wasmMemory dynamically');
 
 // include: runtime_init_table.js
 // In regular non-RELOCATABLE mode the table is exported
@@ -639,21 +2531,17 @@ var wasmTable;
 
 // end include: runtime_init_table.js
 // include: runtime_stack_check.js
+
+
 // Initializes the stack cookie. Called at the startup of main and at the startup of each thread in pthreads mode.
 function writeStackCookie() {
   var max = _emscripten_stack_get_end();
   assert((max & 3) == 0);
-  // If the stack ends at address zero we write our cookies 4 bytes into the
-  // stack.  This prevents interference with the (separate) address-zero check
-  // below.
-  if (max == 0) {
-    max += 4;
-  }
   // The stack grow downwards towards _emscripten_stack_get_end.
   // We write cookies to the final two words in the stack and detect if they are
   // ever overwritten.
-  HEAPU32[((max)>>2)] = 0x2135467;
-  HEAPU32[(((max)+(4))>>2)] = 0x89BACDFE;
+  HEAP32[((max)>>2)] = 0x2135467;
+  HEAP32[(((max)+(4))>>2)] = 0x89BACDFE;
   // Also test the global address 0 for integrity.
   HEAPU32[0] = 0x63736d65; /* 'emsc' */
 }
@@ -661,23 +2549,19 @@ function writeStackCookie() {
 function checkStackCookie() {
   if (ABORT) return;
   var max = _emscripten_stack_get_end();
-  // See writeStackCookie().
-  if (max == 0) {
-    max += 4;
-  }
   var cookie1 = HEAPU32[((max)>>2)];
   var cookie2 = HEAPU32[(((max)+(4))>>2)];
   if (cookie1 != 0x2135467 || cookie2 != 0x89BACDFE) {
-    abort('Stack overflow! Stack cookie has been overwritten at ' + ptrToString(max) + ', expected hex dwords 0x89BACDFE and 0x2135467, but received ' + ptrToString(cookie2) + ' ' + ptrToString(cookie1));
+    abort('Stack overflow! Stack cookie has been overwritten, expected hex dwords 0x89BACDFE and 0x2135467, but received 0x' + cookie2.toString(16) + ' 0x' + cookie1.toString(16));
   }
   // Also test the global address 0 for integrity.
-  if (HEAPU32[0] !== 0x63736d65 /* 'emsc' */) {
-    abort('Runtime error: The application has corrupted its heap memory area (address zero)!');
-  }
+  if (HEAPU32[0] !== 0x63736d65 /* 'emsc' */) abort('Runtime error: The application has corrupted its heap memory area (address zero)!');
 }
 
 // end include: runtime_stack_check.js
 // include: runtime_assertions.js
+
+
 // Endianness check
 (function() {
   var h16 = new Int16Array(1);
@@ -699,20 +2583,21 @@ function keepRuntimeAlive() {
 }
 
 function preRun() {
+
   if (Module['preRun']) {
     if (typeof Module['preRun'] == 'function') Module['preRun'] = [Module['preRun']];
     while (Module['preRun'].length) {
       addOnPreRun(Module['preRun'].shift());
     }
   }
+
   callRuntimeCallbacks(__ATPRERUN__);
 }
 
 function initRuntime() {
+  checkStackCookie();
   assert(!runtimeInitialized);
   runtimeInitialized = true;
-
-  checkStackCookie();
 
   
 if (!Module["noFSInit"] && !FS.init.initialized)
@@ -752,6 +2637,8 @@ function addOnPostRun(cb) {
 }
 
 // include: runtime_math.js
+
+
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/imul
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround
@@ -850,8 +2737,10 @@ function removeRunDependency(id) {
 
 /** @param {string|number=} what */
 function abort(what) {
-  if (Module['onAbort']) {
-    Module['onAbort'](what);
+  {
+    if (Module['onAbort']) {
+      Module['onAbort'](what);
+    }
   }
 
   what = 'Aborted(' + what + ')';
@@ -885,9 +2774,15 @@ function abort(what) {
   throw e;
 }
 
+// {{MEM_INITIALIZER}}
+
 // include: memoryprofiler.js
+
+
 // end include: memoryprofiler.js
 // include: URIUtils.js
+
+
 // Prefix of data URIs emitted by SINGLE_FILE and related options.
 var dataURIPrefix = 'data:application/octet-stream;base64,';
 
@@ -932,8 +2827,9 @@ function getBinary(file) {
     }
     if (readBinary) {
       return readBinary(file);
+    } else {
+      throw "both async and sync fetching of the wasm failed";
     }
-    throw "both async and sync fetching of the wasm failed";
   }
   catch (err) {
     abort(err);
@@ -978,8 +2874,8 @@ function getBinaryPromise() {
 function createWasm() {
   // prepare imports
   var info = {
-    'env': wasmImports,
-    'wasi_snapshot_preview1': wasmImports,
+    'env': asmLibraryArg,
+    'wasi_snapshot_preview1': asmLibraryArg,
   };
   // Load the wasm module and create an instance of using native support in the JS engine.
   // handle a generated wasm instance, receiving its exports and
@@ -996,7 +2892,7 @@ function createWasm() {
     // mode.
     // TODO(sbc): Read INITIAL_MEMORY out of the wasm file in post-link mode.
     //assert(wasmMemory.buffer.byteLength === 16777216);
-    updateMemoryViews();
+    updateGlobalBufferAndViews(wasmMemory.buffer);
 
     wasmTable = Module['asm']['__indirect_function_table'];
     assert(wasmTable, "table not found in wasm exports");
@@ -1006,7 +2902,7 @@ function createWasm() {
     removeRunDependency('wasm-instantiate');
 
   }
-  // wait for the pthread pool (if any)
+  // we can't run yet (except in a pthread, where we have a custom sync instantiator)
   addRunDependency('wasm-instantiate');
 
   // Prefer streaming instantiation if available.
@@ -1046,13 +2942,6 @@ function createWasm() {
         !isDataURI(wasmBinaryFile) &&
         // Don't use streaming for file:// delivered objects in a webview, fetch them synchronously.
         !isFileURI(wasmBinaryFile) &&
-        // Avoid instantiateStreaming() on Node.js environment for now, as while
-        // Node.js v18.1.0 implements it, it does not have a full fetch()
-        // implementation yet.
-        //
-        // Reference:
-        //   https://github.com/emscripten-core/emscripten/pull/16917
-        !ENVIRONMENT_IS_NODE &&
         typeof fetch == 'function') {
       return fetch(wasmBinaryFile, { credentials: 'same-origin' }).then(function(response) {
         // Suppress closure warning here since the upstream definition for
@@ -1087,8 +2976,7 @@ function createWasm() {
       return exports;
     } catch(e) {
       err('Module.instantiateWasm callback failed with error: ' + e);
-        // If instantiation fails, reject the module ready promise.
-        readyPromiseReject(e);
+      return false;
     }
   }
 
@@ -1101,116 +2989,61 @@ function createWasm() {
 var tempDouble;
 var tempI64;
 
-// include: runtime_debug.js
-function legacyModuleProp(prop, newName) {
-  if (!Object.getOwnPropertyDescriptor(Module, prop)) {
-    Object.defineProperty(Module, prop, {
-      configurable: true,
-      get: function() {
-        abort('Module.' + prop + ' has been replaced with plain ' + newName + ' (the initial value can be provided on Module, but after startup the value is only looked for on a local variable of that name)');
-      }
-    });
-  }
-}
-
-function ignoredModuleProp(prop) {
-  if (Object.getOwnPropertyDescriptor(Module, prop)) {
-    abort('`Module.' + prop + '` was supplied but `' + prop + '` not included in INCOMING_MODULE_JS_API');
-  }
-}
-
-// forcing the filesystem exports a few things by default
-function isExportedByForceFilesystem(name) {
-  return name === 'FS_createPath' ||
-         name === 'FS_createDataFile' ||
-         name === 'FS_createPreloadedFile' ||
-         name === 'FS_unlink' ||
-         name === 'addRunDependency' ||
-         // The old FS has some functionality that WasmFS lacks.
-         name === 'FS_createLazyFile' ||
-         name === 'FS_createDevice' ||
-         name === 'removeRunDependency';
-}
-
-function missingGlobal(sym, msg) {
-  if (typeof globalThis !== 'undefined') {
-    Object.defineProperty(globalThis, sym, {
-      configurable: true,
-      get: function() {
-        warnOnce('`' + sym + '` is not longer defined by emscripten. ' + msg);
-        return undefined;
-      }
-    });
-  }
-}
-
-missingGlobal('buffer', 'Please use HEAP8.buffer or wasmMemory.buffer');
-
-function missingLibrarySymbol(sym) {
-  if (typeof globalThis !== 'undefined' && !Object.getOwnPropertyDescriptor(globalThis, sym)) {
-    Object.defineProperty(globalThis, sym, {
-      configurable: true,
-      get: function() {
-        // Can't `abort()` here because it would break code that does runtime
-        // checks.  e.g. `if (typeof SDL === 'undefined')`.
-        var msg = '`' + sym + '` is a library symbol and not included by default; add it to your library.js __deps or to DEFAULT_LIBRARY_FUNCS_TO_INCLUDE on the command line';
-        // DEFAULT_LIBRARY_FUNCS_TO_INCLUDE requires the name as it appears in
-        // library.js, which means $name for a JS name with no prefix, or name
-        // for a JS name like _name.
-        var librarySymbol = sym;
-        if (!librarySymbol.startsWith('_')) {
-          librarySymbol = '$' + sym;
-        }
-        msg += " (e.g. -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=" + librarySymbol + ")";
-        if (isExportedByForceFilesystem(sym)) {
-          msg += '. Alternatively, forcing filesystem support (-sFORCE_FILESYSTEM) can export this for you';
-        }
-        warnOnce(msg);
-        return undefined;
-      }
-    });
-  }
-  // Any symbol that is not included from the JS libary is also (by definttion)
-  // not exported on the Module object.
-  unexportedRuntimeSymbol(sym);
-}
-
-function unexportedRuntimeSymbol(sym) {
-  if (!Object.getOwnPropertyDescriptor(Module, sym)) {
-    Object.defineProperty(Module, sym, {
-      configurable: true,
-      get: function() {
-        var msg = "'" + sym + "' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)";
-        if (isExportedByForceFilesystem(sym)) {
-          msg += '. Alternatively, forcing filesystem support (-sFORCE_FILESYSTEM) can export this for you';
-        }
-        abort(msg);
-      }
-    });
-  }
-}
-
-// end include: runtime_debug.js
 // === Body ===
 
+var ASM_CONSTS = {
+  
+};
 function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out of bounds: [0,' + size + ')'; }
 
 
 
-// end include: preamble.js
 
-  /** @constructor */
-  function ExitStatus(status) {
-      this.name = 'ExitStatus';
-      this.message = 'Program terminated with exit(' + status + ')';
-      this.status = status;
-    }
 
   function callRuntimeCallbacks(callbacks) {
       while (callbacks.length > 0) {
-        // Pass the module as the first argument.
-        callbacks.shift()(Module);
+        var callback = callbacks.shift();
+        if (typeof callback == 'function') {
+          callback(Module); // Pass the module as the first argument.
+          continue;
+        }
+        var func = callback.func;
+        if (typeof func == 'number') {
+          if (callback.arg === undefined) {
+            // Run the wasm function ptr with signature 'v'. If no function
+            // with such signature was exported, this call does not need
+            // to be emitted (and would confuse Closure)
+            getWasmTableEntry(func)();
+          } else {
+            // If any function with signature 'vi' was exported, run
+            // the callback with that signature.
+            getWasmTableEntry(func)(callback.arg);
+          }
+        } else {
+          func(callback.arg === undefined ? null : callback.arg);
+        }
       }
+    }
+
+  function withStackSave(f) {
+      var stack = stackSave();
+      var ret = f();
+      stackRestore(stack);
+      return ret;
+    }
+  function demangle(func) {
+      warnOnce('warning: build with -sDEMANGLE_SUPPORT to link in libcxxabi demangling');
+      return func;
+    }
+
+  function demangleAll(text) {
+      var regex =
+        /\b_Z[\w\d_]+/g;
+      return text.replace(regex,
+        function(x) {
+          var y = demangle(x);
+          return x === y ? x : (y + ' [' + x + ']');
+        });
     }
 
   
@@ -1219,7 +3052,7 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
      * @param {string} type
      */
   function getValue(ptr, type = 'i8') {
-      if (type.endsWith('*')) type = '*';
+      if (type.endsWith('*')) type = 'i32';
       switch (type) {
         case 'i1': return HEAP8[((ptr)>>0)];
         case 'i8': return HEAP8[((ptr)>>0)];
@@ -1227,16 +3060,50 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         case 'i32': return HEAP32[((ptr)>>2)];
         case 'i64': return HEAP32[((ptr)>>2)];
         case 'float': return HEAPF32[((ptr)>>2)];
-        case 'double': return HEAPF64[((ptr)>>3)];
-        case '*': return HEAPU32[((ptr)>>2)];
+        case 'double': return Number(HEAPF64[((ptr)>>3)]);
         default: abort('invalid type for getValue: ' + type);
       }
       return null;
     }
 
-  function ptrToString(ptr) {
-      assert(typeof ptr === 'number');
-      return '0x' + ptr.toString(16).padStart(8, '0');
+  var wasmTableMirror = [];
+  function getWasmTableEntry(funcPtr) {
+      var func = wasmTableMirror[funcPtr];
+      if (!func) {
+        if (funcPtr >= wasmTableMirror.length) wasmTableMirror.length = funcPtr + 1;
+        wasmTableMirror[funcPtr] = func = wasmTable.get(funcPtr);
+      }
+      assert(wasmTable.get(funcPtr) == func, "JavaScript-side Wasm function table mirror is out of date!");
+      return func;
+    }
+
+  function handleException(e) {
+      // Certain exception types we do not treat as errors since they are used for
+      // internal control flow.
+      // 1. ExitStatus, which is thrown by exit()
+      // 2. "unwind", which is thrown by emscripten_unwind_to_js_event_loop() and others
+      //    that wish to return to JS event loop.
+      if (e instanceof ExitStatus || e == 'unwind') {
+        return EXITSTATUS;
+      }
+      quit_(1, e);
+    }
+
+  function jsStackTrace() {
+      var error = new Error();
+      if (!error.stack) {
+        // IE10+ special cases: It does have callstack info, but it is only
+        // populated if an Error object is thrown, so try that as a special-case.
+        try {
+          throw new Error();
+        } catch(e) {
+          error = e;
+        }
+        if (!error.stack) {
+          return '(no stack trace available)';
+        }
+      }
+      return error.stack.toString();
     }
 
   
@@ -1246,7 +3113,7 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
      * @param {string} type
      */
   function setValue(ptr, value, type = 'i8') {
-      if (type.endsWith('*')) type = '*';
+      if (type.endsWith('*')) type = 'i32';
       switch (type) {
         case 'i1': HEAP8[((ptr)>>0)] = value; break;
         case 'i8': HEAP8[((ptr)>>0)] = value; break;
@@ -1255,22 +3122,31 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         case 'i64': (tempI64 = [value>>>0,(tempDouble=value,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[((ptr)>>2)] = tempI64[0],HEAP32[(((ptr)+(4))>>2)] = tempI64[1]); break;
         case 'float': HEAPF32[((ptr)>>2)] = value; break;
         case 'double': HEAPF64[((ptr)>>3)] = value; break;
-        case '*': HEAPU32[((ptr)>>2)] = value; break;
         default: abort('invalid type for setValue: ' + type);
       }
     }
 
-  function warnOnce(text) {
-      if (!warnOnce.shown) warnOnce.shown = {};
-      if (!warnOnce.shown[text]) {
-        warnOnce.shown[text] = 1;
-        if (ENVIRONMENT_IS_NODE) text = 'warning: ' + text;
-        err(text);
-      }
+  function setWasmTableEntry(idx, func) {
+      wasmTable.set(idx, func);
+      // With ABORT_ON_WASM_EXCEPTIONS wasmTable.get is overriden to return wrapped
+      // functions so we need to call it here to retrieve the potential wrapper correctly
+      // instead of just storing 'func' directly into wasmTableMirror
+      wasmTableMirror[idx] = wasmTable.get(idx);
+    }
+
+  function stackTrace() {
+      var js = jsStackTrace();
+      if (Module['extraStackTrace']) js += '\n' + Module['extraStackTrace']();
+      return demangleAll(js);
     }
 
   function ___assert_fail(condition, filename, line, func) {
       abort('Assertion failed: ' + UTF8ToString(condition) + ', at: ' + [filename ? UTF8ToString(filename) : 'unknown filename', line, func ? UTF8ToString(func) : 'unknown function']);
+    }
+
+  function ___cxa_allocate_exception(size) {
+      // Thrown object is prepended by exception metadata block
+      return _malloc(size + 24) + 24;
     }
 
   /** @constructor */
@@ -1433,16 +3309,6 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
       return getEnvStrings.strings;
     }
   
-  /** @param {boolean=} dontAddNull */
-  function writeAsciiToMemory(str, buffer, dontAddNull) {
-      for (var i = 0; i < str.length; ++i) {
-        assert(str.charCodeAt(i) === (str.charCodeAt(i) & 0xff));
-        HEAP8[((buffer++)>>0)] = str.charCodeAt(i);
-      }
-      // Null-terminate the pointer to the HEAP.
-      if (!dontAddNull) HEAP8[((buffer)>>0)] = 0;
-    }
-  
   var PATH = {isAbs:(path) => path.charAt(0) === '/',splitPath:(filename) => {
         var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
         return splitPathRe.exec(filename).slice(1);
@@ -1502,7 +3368,7 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         if (lastSlash === -1) return path;
         return path.substr(lastSlash+1);
       },join:function() {
-        var paths = Array.prototype.slice.call(arguments);
+        var paths = Array.prototype.slice.call(arguments, 0);
         return PATH.normalize(paths.join('/'));
       },join2:(l, r) => {
         return PATH.normalize(l + '/' + r);
@@ -1512,23 +3378,21 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
       if (typeof crypto == 'object' && typeof crypto['getRandomValues'] == 'function') {
         // for modern web browsers
         var randomBuffer = new Uint8Array(1);
-        return () => { crypto.getRandomValues(randomBuffer); return randomBuffer[0]; };
+        return function() { crypto.getRandomValues(randomBuffer); return randomBuffer[0]; };
       } else
       if (ENVIRONMENT_IS_NODE) {
         // for nodejs with or without crypto support included
         try {
           var crypto_module = require('crypto');
           // nodejs has crypto support
-          return () => crypto_module['randomBytes'](1)[0];
+          return function() { return crypto_module['randomBytes'](1)[0]; };
         } catch (e) {
           // nodejs doesn't have crypto support
         }
       }
       // we couldn't find a proper implementation, as Math.random() is not suitable for /dev/random, see emscripten-core/emscripten/pull/7096
-      return () => abort("no cryptographic support found for randomDevice. consider polyfilling it if you want to use something insecure like Math.random(), e.g. put this in a --pre-js: var crypto = { getRandomValues: function(array) { for (var i = 0; i < array.length; i++) array[i] = (Math.random()*256)|0 } };");
+      return function() { abort("no cryptographic support found for randomDevice. consider polyfilling it if you want to use something insecure like Math.random(), e.g. put this in a --pre-js: var crypto = { getRandomValues: function(array) { for (var i = 0; i < array.length; i++) array[i] = (Math.random()*256)|0 } };"); };
     }
-  
-  
   
   var PATH_FS = {resolve:function() {
         var resolvedPath = '',
@@ -1581,15 +3445,6 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         return outputParts.join('/');
       }};
   
-  
-  /** @type {function(string, boolean=, number=)} */
-  function intArrayFromString(stringy, dontAddNull, length) {
-    var len = length > 0 ? length : lengthBytesUTF8(stringy)+1;
-    var u8array = new Array(len);
-    var numBytesWritten = stringToUTF8Array(stringy, u8array, 0, u8array.length);
-    if (dontAddNull) u8array.length = numBytesWritten;
-    return u8array;
-  }
   var TTY = {ttys:[],init:function () {
         // https://github.com/emscripten-core/emscripten/pull/1555
         // if (ENVIRONMENT_IS_NODE) {
@@ -1621,9 +3476,9 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
           stream.seekable = false;
         },close:function(stream) {
           // flush any pending line data
-          stream.tty.ops.fsync(stream.tty);
-        },fsync:function(stream) {
-          stream.tty.ops.fsync(stream.tty);
+          stream.tty.ops.flush(stream.tty);
+        },flush:function(stream) {
+          stream.tty.ops.flush(stream.tty);
         },read:function(stream, buffer, offset, length, pos /* ignored */) {
           if (!stream.tty || !stream.tty.ops.get_char) {
             throw new FS.ErrnoError(60);
@@ -1713,7 +3568,7 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
           } else {
             if (val != 0) tty.output.push(val); // val == 0 would cut text output off in the middle.
           }
-        },fsync:function(tty) {
+        },flush:function(tty) {
           if (tty.output && tty.output.length > 0) {
             out(UTF8ArrayToString(tty.output, 0));
             tty.output = [];
@@ -1725,17 +3580,15 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
           } else {
             if (val != 0) tty.output.push(val);
           }
-        },fsync:function(tty) {
+        },flush:function(tty) {
           if (tty.output && tty.output.length > 0) {
             err(UTF8ArrayToString(tty.output, 0));
             tty.output = [];
           }
         }}};
   
-  
   function zeroMemory(address, size) {
       HEAPU8.fill(0, address, address + size);
-      return address;
     }
   
   function alignMemory(size, alignment) {
@@ -2018,9 +3871,9 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
           var allocated;
           var contents = stream.node.contents;
           // Only make a new copy when MAP_PRIVATE is specified.
-          if (!(flags & 2) && contents.buffer === HEAP8.buffer) {
-            // We can't emulate MAP_SHARED when the file is not backed by the
-            // buffer we're mapping to (e.g. the HEAP buffer).
+          if (!(flags & 2) && contents.buffer === buffer) {
+            // We can't emulate MAP_SHARED when the file is not backed by the buffer
+            // we're mapping to (e.g. the HEAP buffer).
             allocated = false;
             ptr = contents.byteOffset;
           } else {
@@ -2041,7 +3894,15 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
           }
           return { ptr: ptr, allocated: allocated };
         },msync:function(stream, buffer, offset, length, mmapFlags) {
-          MEMFS.stream_ops.write(stream, buffer, 0, length, offset, false);
+          if (!FS.isFile(stream.node.mode)) {
+            throw new FS.ErrnoError(43);
+          }
+          if (mmapFlags & 2) {
+            // MAP_PRIVATE calls need not to be synced back to underlying fs
+            return 0;
+          }
+  
+          var bytesWritten = MEMFS.stream_ops.write(stream, buffer, 0, length, offset, false);
           // should we check if bytesWritten and length are the same?
           return 0;
         }}};
@@ -2049,11 +3910,11 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
   /** @param {boolean=} noRunDep */
   function asyncLoad(url, onload, onerror, noRunDep) {
       var dep = !noRunDep ? getUniqueRunDependency('al ' + url) : '';
-      readAsync(url, (arrayBuffer) => {
+      readAsync(url, function(arrayBuffer) {
         assert(arrayBuffer, 'Loading data file "' + url + '" failed (no arrayBuffer).');
         onload(new Uint8Array(arrayBuffer));
         if (dep) removeRunDependency(dep);
-      }, (event) => {
+      }, function(event) {
         if (onerror) {
           onerror();
         } else {
@@ -2063,26 +3924,11 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
       if (dep) addRunDependency(dep);
     }
   
-  
   var ERRNO_MESSAGES = {0:"Success",1:"Arg list too long",2:"Permission denied",3:"Address already in use",4:"Address not available",5:"Address family not supported by protocol family",6:"No more processes",7:"Socket already connected",8:"Bad file number",9:"Trying to read unreadable message",10:"Mount device busy",11:"Operation canceled",12:"No children",13:"Connection aborted",14:"Connection refused",15:"Connection reset by peer",16:"File locking deadlock error",17:"Destination address required",18:"Math arg out of domain of func",19:"Quota exceeded",20:"File exists",21:"Bad address",22:"File too large",23:"Host is unreachable",24:"Identifier removed",25:"Illegal byte sequence",26:"Connection already in progress",27:"Interrupted system call",28:"Invalid argument",29:"I/O error",30:"Socket is already connected",31:"Is a directory",32:"Too many symbolic links",33:"Too many open files",34:"Too many links",35:"Message too long",36:"Multihop attempted",37:"File or path name too long",38:"Network interface is not configured",39:"Connection reset by network",40:"Network is unreachable",41:"Too many open files in system",42:"No buffer space available",43:"No such device",44:"No such file or directory",45:"Exec format error",46:"No record locks available",47:"The link has been severed",48:"Not enough core",49:"No message of desired type",50:"Protocol not available",51:"No space left on device",52:"Function not implemented",53:"Socket is not connected",54:"Not a directory",55:"Directory not empty",56:"State not recoverable",57:"Socket operation on non-socket",59:"Not a typewriter",60:"No such device or address",61:"Value too large for defined data type",62:"Previous owner died",63:"Not super-user",64:"Broken pipe",65:"Protocol error",66:"Unknown protocol",67:"Protocol wrong type for socket",68:"Math result not representable",69:"Read only file system",70:"Illegal seek",71:"No such process",72:"Stale file handle",73:"Connection timed out",74:"Text file busy",75:"Cross-device link",100:"Device not a stream",101:"Bad font file fmt",102:"Invalid slot",103:"Invalid request code",104:"No anode",105:"Block device required",106:"Channel number out of range",107:"Level 3 halted",108:"Level 3 reset",109:"Link number out of range",110:"Protocol driver not attached",111:"No CSI structure available",112:"Level 2 halted",113:"Invalid exchange",114:"Invalid request descriptor",115:"Exchange full",116:"No data (for no delay io)",117:"Timer expired",118:"Out of streams resources",119:"Machine is not on the network",120:"Package not installed",121:"The object is remote",122:"Advertise error",123:"Srmount error",124:"Communication error on send",125:"Cross mount point (not really error)",126:"Given log. name not unique",127:"f.d. invalid for this operation",128:"Remote address changed",129:"Can   access a needed shared lib",130:"Accessing a corrupted shared lib",131:".lib section in a.out corrupted",132:"Attempting to link in too many libs",133:"Attempting to exec a shared library",135:"Streams pipe error",136:"Too many users",137:"Socket type not supported",138:"Not supported",139:"Protocol family not supported",140:"Can't send after socket shutdown",141:"Too many references",142:"Host is down",148:"No medium (in tape drive)",156:"Level 2 not synchronized"};
   
   var ERRNO_CODES = {};
-  
-  function demangle(func) {
-      warnOnce('warning: build with -sDEMANGLE_SUPPORT to link in libcxxabi demangling');
-      return func;
-    }
-  function demangleAll(text) {
-      var regex =
-        /\b_Z[\w\d_]+/g;
-      return text.replace(regex,
-        function(x) {
-          var y = demangle(x);
-          return x === y ? x : (y + ' [' + x + ']');
-        });
-    }
   var FS = {root:null,mounts:[],devices:{},streams:[],nextInode:1,nameTable:null,currentPath:"/",initialized:false,ignorePermissions:true,ErrnoError:null,genericErrors:{},filesystems:null,syncFSRequests:0,lookupPath:(path, opts = {}) => {
-        path = PATH_FS.resolve(path);
+        path = PATH_FS.resolve(FS.cwd(), path);
   
         if (!path) return { path: '', node: null };
   
@@ -2096,8 +3942,8 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
           throw new FS.ErrnoError(32);
         }
   
-        // split the absolute path
-        var parts = path.split('/').filter((p) => !!p);
+        // split the path
+        var parts = PATH.normalizeArray(path.split('/').filter((p) => !!p), false);
   
         // start at the root
         var current = FS.root;
@@ -2302,39 +4148,29 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
           FS.FSStream = /** @constructor */ function() {
             this.shared = { };
           };
-          FS.FSStream.prototype = {};
-          Object.defineProperties(FS.FSStream.prototype, {
+          FS.FSStream.prototype = {
             object: {
-              /** @this {FS.FSStream} */
               get: function() { return this.node; },
-              /** @this {FS.FSStream} */
               set: function(val) { this.node = val; }
             },
             isRead: {
-              /** @this {FS.FSStream} */
               get: function() { return (this.flags & 2097155) !== 1; }
             },
             isWrite: {
-              /** @this {FS.FSStream} */
               get: function() { return (this.flags & 2097155) !== 0; }
             },
             isAppend: {
-              /** @this {FS.FSStream} */
               get: function() { return (this.flags & 1024); }
             },
             flags: {
-              /** @this {FS.FSStream} */
               get: function() { return this.shared.flags; },
-              /** @this {FS.FSStream} */
               set: function(val) { this.shared.flags = val; },
             },
             position : {
-              /** @this {FS.FSStream} */
-              get: function() { return this.shared.position; },
-              /** @this {FS.FSStream} */
+              get function() { return this.shared.position; },
               set: function(val) { this.shared.position = val; },
             },
-          });
+          };
         }
         // clone it, so we can return an instance of FSStream
         stream = Object.assign(new FS.FSStream(), stream);
@@ -3008,7 +4844,7 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         }
         return stream.stream_ops.mmap(stream, length, position, prot, flags);
       },msync:(stream, buffer, offset, length, mmapFlags) => {
-        if (!stream.stream_ops.msync) {
+        if (!stream || !stream.stream_ops.msync) {
           return 0;
         }
         return stream.stream_ops.msync(stream, buffer, offset, length, mmapFlags);
@@ -3224,10 +5060,11 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         return mode;
       },findObject:(path, dontResolveLastLink) => {
         var ret = FS.analyzePath(path, dontResolveLastLink);
-        if (!ret.exists) {
+        if (ret.exists) {
+          return ret.object;
+        } else {
           return null;
         }
-        return ret.object;
       },analyzePath:(path, dontResolveLastLink) => {
         // operate from within the context of the symlink's target
         try {
@@ -3419,8 +5256,9 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
             if (!(xhr.status >= 200 && xhr.status < 300 || xhr.status === 304)) throw new Error("Couldn't load " + url + ". Status: " + xhr.status);
             if (xhr.response !== undefined) {
               return new Uint8Array(/** @type{Array<number>} */(xhr.response || []));
+            } else {
+              return intArrayFromString(xhr.responseText || '', true);
             }
-            return intArrayFromString(xhr.responseText || '', true);
           };
           var lazyArray = this;
           lazyArray.setDataGetter((chunkNum) => {
@@ -3499,7 +5337,9 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
             return fn.apply(null, arguments);
           };
         });
-        function writeChunks(stream, buffer, offset, length, position) {
+        // use a custom read function
+        stream_ops.read = (stream, buffer, offset, length, position) => {
+          FS.forceLoadFile(node);
           var contents = stream.node.contents;
           if (position >= contents.length)
             return 0;
@@ -3515,21 +5355,6 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
             }
           }
           return size;
-        }
-        // use a custom read function
-        stream_ops.read = (stream, buffer, offset, length, position) => {
-          FS.forceLoadFile(node);
-          return writeChunks(stream, buffer, offset, length, position)
-        };
-        // use a custom mmap function
-        stream_ops.mmap = (stream, length, position, prot, flags) => {
-          FS.forceLoadFile(node);
-          var ptr = mmapAlloc(length);
-          if (!ptr) {
-            throw new FS.ErrnoError(48);
-          }
-          writeChunks(stream, HEAP8, ptr, length, position);
-          return { ptr: ptr, allocated: true };
         };
         node.stream_ops = stream_ops;
         return node;
@@ -3565,7 +5390,9 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         return window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
       },DB_NAME:() => {
         return 'EM_FS_' + window.location.pathname;
-      },DB_VERSION:20,DB_STORE_NAME:"FILE_DATA",saveFilesToDB:(paths, onload = (() => {}), onerror = (() => {})) => {
+      },DB_VERSION:20,DB_STORE_NAME:"FILE_DATA",saveFilesToDB:(paths, onload, onerror) => {
+        onload = onload || (() => {});
+        onerror = onerror || (() => {});
         var indexedDB = FS.indexedDB();
         try {
           var openRequest = indexedDB.open(FS.DB_NAME(), FS.DB_VERSION);
@@ -3593,7 +5420,9 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
           transaction.onerror = onerror;
         };
         openRequest.onerror = onerror;
-      },loadFilesFromDB:(paths, onload = (() => {}), onerror = (() => {})) => {
+      },loadFilesFromDB:(paths, onload, onerror) => {
+        onload = onload || (() => {});
+        onerror = onerror || (() => {});
         var indexedDB = FS.indexedDB();
         try {
           var openRequest = indexedDB.open(FS.DB_NAME(), FS.DB_VERSION);
@@ -3651,7 +5480,8 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         if (dirfd === -100) {
           dir = FS.cwd();
         } else {
-          var dirstream = SYSCALLS.getStreamFromFD(dirfd);
+          var dirstream = FS.getStream(dirfd);
+          if (!dirstream) throw new FS.ErrnoError(8);
           dir = dirstream.path;
         }
         if (path.length == 0) {
@@ -3672,34 +5502,26 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
           throw e;
         }
         HEAP32[((buf)>>2)] = stat.dev;
+        HEAP32[(((buf)+(4))>>2)] = 0;
         HEAP32[(((buf)+(8))>>2)] = stat.ino;
         HEAP32[(((buf)+(12))>>2)] = stat.mode;
-        HEAPU32[(((buf)+(16))>>2)] = stat.nlink;
+        HEAP32[(((buf)+(16))>>2)] = stat.nlink;
         HEAP32[(((buf)+(20))>>2)] = stat.uid;
         HEAP32[(((buf)+(24))>>2)] = stat.gid;
         HEAP32[(((buf)+(28))>>2)] = stat.rdev;
+        HEAP32[(((buf)+(32))>>2)] = 0;
         (tempI64 = [stat.size>>>0,(tempDouble=stat.size,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[(((buf)+(40))>>2)] = tempI64[0],HEAP32[(((buf)+(44))>>2)] = tempI64[1]);
         HEAP32[(((buf)+(48))>>2)] = 4096;
         HEAP32[(((buf)+(52))>>2)] = stat.blocks;
-        var atime = stat.atime.getTime();
-        var mtime = stat.mtime.getTime();
-        var ctime = stat.ctime.getTime();
-        (tempI64 = [Math.floor(atime / 1000)>>>0,(tempDouble=Math.floor(atime / 1000),(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[(((buf)+(56))>>2)] = tempI64[0],HEAP32[(((buf)+(60))>>2)] = tempI64[1]);
-        HEAPU32[(((buf)+(64))>>2)] = (atime % 1000) * 1000;
-        (tempI64 = [Math.floor(mtime / 1000)>>>0,(tempDouble=Math.floor(mtime / 1000),(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[(((buf)+(72))>>2)] = tempI64[0],HEAP32[(((buf)+(76))>>2)] = tempI64[1]);
-        HEAPU32[(((buf)+(80))>>2)] = (mtime % 1000) * 1000;
-        (tempI64 = [Math.floor(ctime / 1000)>>>0,(tempDouble=Math.floor(ctime / 1000),(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[(((buf)+(88))>>2)] = tempI64[0],HEAP32[(((buf)+(92))>>2)] = tempI64[1]);
-        HEAPU32[(((buf)+(96))>>2)] = (ctime % 1000) * 1000;
-        (tempI64 = [stat.ino>>>0,(tempDouble=stat.ino,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[(((buf)+(104))>>2)] = tempI64[0],HEAP32[(((buf)+(108))>>2)] = tempI64[1]);
+        HEAP32[(((buf)+(56))>>2)] = (stat.atime.getTime() / 1000)|0;
+        HEAP32[(((buf)+(60))>>2)] = 0;
+        HEAP32[(((buf)+(64))>>2)] = (stat.mtime.getTime() / 1000)|0;
+        HEAP32[(((buf)+(68))>>2)] = 0;
+        HEAP32[(((buf)+(72))>>2)] = (stat.ctime.getTime() / 1000)|0;
+        HEAP32[(((buf)+(76))>>2)] = 0;
+        (tempI64 = [stat.ino>>>0,(tempDouble=stat.ino,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[(((buf)+(80))>>2)] = tempI64[0],HEAP32[(((buf)+(84))>>2)] = tempI64[1]);
         return 0;
       },doMsync:function(addr, stream, len, flags, offset) {
-        if (!FS.isFile(stream.node.mode)) {
-          throw new FS.ErrnoError(43);
-        }
-        if (flags & 2) {
-          // MAP_PRIVATE calls need not to be synced back to underlying fs
-          return 0;
-        }
         var buffer = HEAPU8.slice(addr, addr + len);
         FS.msync(stream, buffer, offset, len, flags);
       },varargs:undefined,get:function() {
@@ -3726,7 +5548,6 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
       return 0;
     }
 
-  
   function _environ_sizes_get(penviron_count, penviron_buf_size) {
       var strings = getEnvStrings();
       HEAPU32[((penviron_count)>>2)] = strings.length;
@@ -3761,19 +5582,15 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         if (curr < 0) return -1;
         ret += curr;
         if (curr < len) break; // nothing more to read
-        if (typeof offset !== 'undefined') {
-          offset += curr;
-        }
       }
       return ret;
     }
-  
   function _fd_read(fd, iov, iovcnt, pnum) {
   try {
   
       var stream = SYSCALLS.getStreamFromFD(fd);
       var num = doReadv(stream, iov, iovcnt);
-      HEAPU32[((pnum)>>2)] = num;
+      HEAP32[((pnum)>>2)] = num;
       return 0;
     } catch (e) {
     if (typeof FS == 'undefined' || !(e instanceof FS.ErrnoError)) throw e;
@@ -3786,10 +5603,6 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
       assert(hi === (hi|0));                    // hi should be a i32
       return ((hi + 0x200000) >>> 0 < 0x400001 - !!lo) ? (lo >>> 0) + hi * 4294967296 : NaN;
     }
-  
-  
-  
-  
   function _fd_seek(fd, offset_low, offset_high, whence, newOffset) {
   try {
   
@@ -3815,13 +5628,9 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         var curr = FS.write(stream, HEAP8,ptr, len, offset);
         if (curr < 0) return -1;
         ret += curr;
-        if (typeof offset !== 'undefined') {
-          offset += curr;
-        }
       }
       return ret;
     }
-  
   function _fd_write(fd, iov, iovcnt, pnum) {
   try {
   
@@ -3835,6 +5644,10 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
   }
   }
 
+  function _setTempRet0(val) {
+      setTempRet0(val);
+    }
+
   function __isLeapYear(year) {
         return year%4 === 0 && (year%100 !== 0 || year%400 === 0);
     }
@@ -3846,7 +5659,6 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
       }
       return sum;
     }
-  
   
   var __MONTH_DAYS_LEAP = [31,29,31,30,31,30,31,31,30,31,30,31];
   
@@ -3876,14 +5688,6 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
       }
   
       return newDate;
-    }
-  
-  
-  
-  
-  function writeArrayToMemory(array, buffer) {
-      assert(array.length >= 0, 'writeArrayToMemory array must have a length (should be an array or typed array)')
-      HEAP8.set(array, buffer);
     }
   function _strftime(s, maxsize, format, tm) {
       // size_t strftime(char *restrict s, size_t maxsize, const char *restrict format, const struct tm *restrict timeptr);
@@ -4004,10 +5808,12 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
             // this date is after the start of the first week of this year
             if (compareByDay(firstWeekStartNextYear, thisDate) <= 0) {
               return thisDate.getFullYear()+1;
+            } else {
+              return thisDate.getFullYear();
             }
-            return thisDate.getFullYear();
+          } else {
+            return thisDate.getFullYear()-1;
           }
-          return thisDate.getFullYear()-1;
       }
   
       var EXPANSION_RULES_2 = {
@@ -4074,8 +5880,9 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
         '%p': function(date) {
           if (date.tm_hour >= 0 && date.tm_hour < 12) {
             return 'AM';
+          } else {
+            return 'PM';
           }
-          return 'PM';
         },
         '%S': function(date) {
           return leadingNulls(date.tm_sec, 2);
@@ -4170,10 +5977,9 @@ function array_bounds_check_error(idx,size) { throw 'Array index ' + idx + ' out
       writeArrayToMemory(bytes, s);
       return bytes.length-1;
     }
-  function _strftime_l(s, maxsize, format, tm, loc) {
+  function _strftime_l(s, maxsize, format, tm) {
       return _strftime(s, maxsize, format, tm); // no locale support yet
     }
-
 
   var FSNode = /** @constructor */ function(parent, name, mode, rdev) {
     if (!parent) {
@@ -4344,13 +6150,44 @@ ERRNO_CODES = {
       'EOWNERDEAD': 62,
       'ESTRPIPE': 135,
     };;
+var ASSERTIONS = true;
+
+
+
+/** @type {function(string, boolean=, number=)} */
+function intArrayFromString(stringy, dontAddNull, length) {
+  var len = length > 0 ? length : lengthBytesUTF8(stringy)+1;
+  var u8array = new Array(len);
+  var numBytesWritten = stringToUTF8Array(stringy, u8array, 0, u8array.length);
+  if (dontAddNull) u8array.length = numBytesWritten;
+  return u8array;
+}
+
+function intArrayToString(array) {
+  var ret = [];
+  for (var i = 0; i < array.length; i++) {
+    var chr = array[i];
+    if (chr > 0xFF) {
+      if (ASSERTIONS) {
+        assert(false, 'Character code ' + chr + ' (' + String.fromCharCode(chr) + ')  at offset ' + i + ' not in 0x00-0xFF.');
+      }
+      chr &= 0xFF;
+    }
+    ret.push(String.fromCharCode(chr));
+  }
+  return ret.join('');
+}
+
+
 function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
-var wasmImports = {
+var asmLibraryArg = {
   "__assert_fail": ___assert_fail,
+  "__cxa_allocate_exception": ___cxa_allocate_exception,
   "__cxa_throw": ___cxa_throw,
   "abort": _abort,
+  "array_bounds_check_error": array_bounds_check_error,
   "emscripten_memcpy_big": _emscripten_memcpy_big,
   "emscripten_resize_heap": _emscripten_resize_heap,
   "environ_get": _environ_get,
@@ -4359,758 +6196,973 @@ var wasmImports = {
   "fd_read": _fd_read,
   "fd_seek": _fd_seek,
   "fd_write": _fd_write,
+  "setTempRet0": _setTempRet0,
   "strftime_l": _strftime_l
 };
 var asm = createWasm();
 /** @type {function(...*):?} */
-var ___wasm_call_ctors = createExportWrapper("__wasm_call_ctors");
+var ___wasm_call_ctors = Module["___wasm_call_ctors"] = createExportWrapper("__wasm_call_ctors");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_VoidPtr___destroy___0 = Module["_emscripten_bind_VoidPtr___destroy___0"] = createExportWrapper("emscripten_bind_VoidPtr___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_Vec2_0 = Module["_emscripten_bind_Vec2_Vec2_0"] = createExportWrapper("emscripten_bind_Vec2_Vec2_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_Vec2_1 = Module["_emscripten_bind_Vec2_Vec2_1"] = createExportWrapper("emscripten_bind_Vec2_Vec2_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_Vec2_2 = Module["_emscripten_bind_Vec2_Vec2_2"] = createExportWrapper("emscripten_bind_Vec2_Vec2_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_set_2 = Module["_emscripten_bind_Vec2_set_2"] = createExportWrapper("emscripten_bind_Vec2_set_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_norm_0 = Module["_emscripten_bind_Vec2_norm_0"] = createExportWrapper("emscripten_bind_Vec2_norm_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_norm2_0 = Module["_emscripten_bind_Vec2_norm2_0"] = createExportWrapper("emscripten_bind_Vec2_norm2_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_normalize_0 = Module["_emscripten_bind_Vec2_normalize_0"] = createExportWrapper("emscripten_bind_Vec2_normalize_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_add_1 = Module["_emscripten_bind_Vec2_add_1"] = createExportWrapper("emscripten_bind_Vec2_add_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_sub_1 = Module["_emscripten_bind_Vec2_sub_1"] = createExportWrapper("emscripten_bind_Vec2_sub_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_mult_1 = Module["_emscripten_bind_Vec2_mult_1"] = createExportWrapper("emscripten_bind_Vec2_mult_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_get_x_0 = Module["_emscripten_bind_Vec2_get_x_0"] = createExportWrapper("emscripten_bind_Vec2_get_x_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_set_x_1 = Module["_emscripten_bind_Vec2_set_x_1"] = createExportWrapper("emscripten_bind_Vec2_set_x_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_get_y_0 = Module["_emscripten_bind_Vec2_get_y_0"] = createExportWrapper("emscripten_bind_Vec2_get_y_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2_set_y_1 = Module["_emscripten_bind_Vec2_set_y_1"] = createExportWrapper("emscripten_bind_Vec2_set_y_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Vec2___destroy___0 = Module["_emscripten_bind_Vec2___destroy___0"] = createExportWrapper("emscripten_bind_Vec2___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_Mat2_0 = Module["_emscripten_bind_Mat2_Mat2_0"] = createExportWrapper("emscripten_bind_Mat2_Mat2_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_Mat2_1 = Module["_emscripten_bind_Mat2_Mat2_1"] = createExportWrapper("emscripten_bind_Mat2_Mat2_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_Mat2_4 = Module["_emscripten_bind_Mat2_Mat2_4"] = createExportWrapper("emscripten_bind_Mat2_Mat2_4");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_zero_0 = Module["_emscripten_bind_Mat2_zero_0"] = createExportWrapper("emscripten_bind_Mat2_zero_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_identity_0 = Module["_emscripten_bind_Mat2_identity_0"] = createExportWrapper("emscripten_bind_Mat2_identity_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_at_2 = Module["_emscripten_bind_Mat2_at_2"] = createExportWrapper("emscripten_bind_Mat2_at_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_set_3 = Module["_emscripten_bind_Mat2_set_3"] = createExportWrapper("emscripten_bind_Mat2_set_3");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_add_1 = Module["_emscripten_bind_Mat2_add_1"] = createExportWrapper("emscripten_bind_Mat2_add_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_sub_1 = Module["_emscripten_bind_Mat2_sub_1"] = createExportWrapper("emscripten_bind_Mat2_sub_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_mult_1 = Module["_emscripten_bind_Mat2_mult_1"] = createExportWrapper("emscripten_bind_Mat2_mult_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_determinant_0 = Module["_emscripten_bind_Mat2_determinant_0"] = createExportWrapper("emscripten_bind_Mat2_determinant_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_inverse_0 = Module["_emscripten_bind_Mat2_inverse_0"] = createExportWrapper("emscripten_bind_Mat2_inverse_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_invert_0 = Module["_emscripten_bind_Mat2_invert_0"] = createExportWrapper("emscripten_bind_Mat2_invert_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_transpose_0 = Module["_emscripten_bind_Mat2_transpose_0"] = createExportWrapper("emscripten_bind_Mat2_transpose_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_get_data_1 = Module["_emscripten_bind_Mat2_get_data_1"] = createExportWrapper("emscripten_bind_Mat2_get_data_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2_set_data_2 = Module["_emscripten_bind_Mat2_set_data_2"] = createExportWrapper("emscripten_bind_Mat2_set_data_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat2___destroy___0 = Module["_emscripten_bind_Mat2___destroy___0"] = createExportWrapper("emscripten_bind_Mat2___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3_Mat3_0 = Module["_emscripten_bind_Mat3_Mat3_0"] = createExportWrapper("emscripten_bind_Mat3_Mat3_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3_Mat3_1 = Module["_emscripten_bind_Mat3_Mat3_1"] = createExportWrapper("emscripten_bind_Mat3_Mat3_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3_Mat3_6 = Module["_emscripten_bind_Mat3_Mat3_6"] = createExportWrapper("emscripten_bind_Mat3_Mat3_6");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3_identity_0 = Module["_emscripten_bind_Mat3_identity_0"] = createExportWrapper("emscripten_bind_Mat3_identity_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3_at_2 = Module["_emscripten_bind_Mat3_at_2"] = createExportWrapper("emscripten_bind_Mat3_at_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3_set_3 = Module["_emscripten_bind_Mat3_set_3"] = createExportWrapper("emscripten_bind_Mat3_set_3");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3_determinant_0 = Module["_emscripten_bind_Mat3_determinant_0"] = createExportWrapper("emscripten_bind_Mat3_determinant_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3_inverse_0 = Module["_emscripten_bind_Mat3_inverse_0"] = createExportWrapper("emscripten_bind_Mat3_inverse_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3_invert_0 = Module["_emscripten_bind_Mat3_invert_0"] = createExportWrapper("emscripten_bind_Mat3_invert_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Mat3___destroy___0 = Module["_emscripten_bind_Mat3___destroy___0"] = createExportWrapper("emscripten_bind_Mat3___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_origin_0 = Module["_emscripten_bind_Collider_origin_0"] = createExportWrapper("emscripten_bind_Collider_origin_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_getBody_0 = Module["_emscripten_bind_Collider_getBody_0"] = createExportWrapper("emscripten_bind_Collider_getBody_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_getTransform_0 = Module["_emscripten_bind_Collider_getTransform_0"] = createExportWrapper("emscripten_bind_Collider_getTransform_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_getInvTransform_0 = Module["_emscripten_bind_Collider_getInvTransform_0"] = createExportWrapper("emscripten_bind_Collider_getInvTransform_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_setTransform_1 = Module["_emscripten_bind_Collider_setTransform_1"] = createExportWrapper("emscripten_bind_Collider_setTransform_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_setInvTransform_1 = Module["_emscripten_bind_Collider_setInvTransform_1"] = createExportWrapper("emscripten_bind_Collider_setInvTransform_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_collider2Object_1 = Module["_emscripten_bind_Collider_collider2Object_1"] = createExportWrapper("emscripten_bind_Collider_collider2Object_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_object2Collider_1 = Module["_emscripten_bind_Collider_object2Collider_1"] = createExportWrapper("emscripten_bind_Collider_object2Collider_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_rotCollider2Object_1 = Module["_emscripten_bind_Collider_rotCollider2Object_1"] = createExportWrapper("emscripten_bind_Collider_rotCollider2Object_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Collider_rotObject2Collider_1 = Module["_emscripten_bind_Collider_rotObject2Collider_1"] = createExportWrapper("emscripten_bind_Collider_rotObject2Collider_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_Rigidbody_0 = Module["_emscripten_bind_Rigidbody_Rigidbody_0"] = createExportWrapper("emscripten_bind_Rigidbody_Rigidbody_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getPos_0 = Module["_emscripten_bind_Rigidbody_getPos_0"] = createExportWrapper("emscripten_bind_Rigidbody_getPos_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getVel_0 = Module["_emscripten_bind_Rigidbody_getVel_0"] = createExportWrapper("emscripten_bind_Rigidbody_getVel_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getAcc_0 = Module["_emscripten_bind_Rigidbody_getAcc_0"] = createExportWrapper("emscripten_bind_Rigidbody_getAcc_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getAngle_0 = Module["_emscripten_bind_Rigidbody_getAngle_0"] = createExportWrapper("emscripten_bind_Rigidbody_getAngle_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getAngVel_0 = Module["_emscripten_bind_Rigidbody_getAngVel_0"] = createExportWrapper("emscripten_bind_Rigidbody_getAngVel_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getMass_0 = Module["_emscripten_bind_Rigidbody_getMass_0"] = createExportWrapper("emscripten_bind_Rigidbody_getMass_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getInvMass_0 = Module["_emscripten_bind_Rigidbody_getInvMass_0"] = createExportWrapper("emscripten_bind_Rigidbody_getInvMass_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getInertia_0 = Module["_emscripten_bind_Rigidbody_getInertia_0"] = createExportWrapper("emscripten_bind_Rigidbody_getInertia_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getInvInertia_0 = Module["_emscripten_bind_Rigidbody_getInvInertia_0"] = createExportWrapper("emscripten_bind_Rigidbody_getInvInertia_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getLinearDamping_0 = Module["_emscripten_bind_Rigidbody_getLinearDamping_0"] = createExportWrapper("emscripten_bind_Rigidbody_getLinearDamping_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getAngularDamping_0 = Module["_emscripten_bind_Rigidbody_getAngularDamping_0"] = createExportWrapper("emscripten_bind_Rigidbody_getAngularDamping_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getCollider_0 = Module["_emscripten_bind_Rigidbody_getCollider_0"] = createExportWrapper("emscripten_bind_Rigidbody_getCollider_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getRestitution_0 = Module["_emscripten_bind_Rigidbody_getRestitution_0"] = createExportWrapper("emscripten_bind_Rigidbody_getRestitution_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getTransform_0 = Module["_emscripten_bind_Rigidbody_getTransform_0"] = createExportWrapper("emscripten_bind_Rigidbody_getTransform_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getInvTransform_0 = Module["_emscripten_bind_Rigidbody_getInvTransform_0"] = createExportWrapper("emscripten_bind_Rigidbody_getInvTransform_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_getStatic_0 = Module["_emscripten_bind_Rigidbody_getStatic_0"] = createExportWrapper("emscripten_bind_Rigidbody_getStatic_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setPos_1 = Module["_emscripten_bind_Rigidbody_setPos_1"] = createExportWrapper("emscripten_bind_Rigidbody_setPos_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setVel_1 = Module["_emscripten_bind_Rigidbody_setVel_1"] = createExportWrapper("emscripten_bind_Rigidbody_setVel_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setAcc_1 = Module["_emscripten_bind_Rigidbody_setAcc_1"] = createExportWrapper("emscripten_bind_Rigidbody_setAcc_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setAngle_1 = Module["_emscripten_bind_Rigidbody_setAngle_1"] = createExportWrapper("emscripten_bind_Rigidbody_setAngle_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setAngVel_1 = Module["_emscripten_bind_Rigidbody_setAngVel_1"] = createExportWrapper("emscripten_bind_Rigidbody_setAngVel_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setMass_1 = Module["_emscripten_bind_Rigidbody_setMass_1"] = createExportWrapper("emscripten_bind_Rigidbody_setMass_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setInvMass_1 = Module["_emscripten_bind_Rigidbody_setInvMass_1"] = createExportWrapper("emscripten_bind_Rigidbody_setInvMass_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setInertia_1 = Module["_emscripten_bind_Rigidbody_setInertia_1"] = createExportWrapper("emscripten_bind_Rigidbody_setInertia_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setInvInertia_1 = Module["_emscripten_bind_Rigidbody_setInvInertia_1"] = createExportWrapper("emscripten_bind_Rigidbody_setInvInertia_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setLinearDamping_1 = Module["_emscripten_bind_Rigidbody_setLinearDamping_1"] = createExportWrapper("emscripten_bind_Rigidbody_setLinearDamping_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setAngularDamping_1 = Module["_emscripten_bind_Rigidbody_setAngularDamping_1"] = createExportWrapper("emscripten_bind_Rigidbody_setAngularDamping_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setCollider_1 = Module["_emscripten_bind_Rigidbody_setCollider_1"] = createExportWrapper("emscripten_bind_Rigidbody_setCollider_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setRestitution_1 = Module["_emscripten_bind_Rigidbody_setRestitution_1"] = createExportWrapper("emscripten_bind_Rigidbody_setRestitution_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_setStatic_1 = Module["_emscripten_bind_Rigidbody_setStatic_1"] = createExportWrapper("emscripten_bind_Rigidbody_setStatic_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_world2Local_1 = Module["_emscripten_bind_Rigidbody_world2Local_1"] = createExportWrapper("emscripten_bind_Rigidbody_world2Local_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_local2World_1 = Module["_emscripten_bind_Rigidbody_local2World_1"] = createExportWrapper("emscripten_bind_Rigidbody_local2World_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_addForce_1 = Module["_emscripten_bind_Rigidbody_addForce_1"] = createExportWrapper("emscripten_bind_Rigidbody_addForce_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_addForceAt_2 = Module["_emscripten_bind_Rigidbody_addForceAt_2"] = createExportWrapper("emscripten_bind_Rigidbody_addForceAt_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_addForceAtLocal_2 = Module["_emscripten_bind_Rigidbody_addForceAtLocal_2"] = createExportWrapper("emscripten_bind_Rigidbody_addForceAtLocal_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_addTorque_1 = Module["_emscripten_bind_Rigidbody_addTorque_1"] = createExportWrapper("emscripten_bind_Rigidbody_addTorque_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_clearAccums_0 = Module["_emscripten_bind_Rigidbody_clearAccums_0"] = createExportWrapper("emscripten_bind_Rigidbody_clearAccums_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody_step_1 = Module["_emscripten_bind_Rigidbody_step_1"] = createExportWrapper("emscripten_bind_Rigidbody_step_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Rigidbody___destroy___0 = Module["_emscripten_bind_Rigidbody___destroy___0"] = createExportWrapper("emscripten_bind_Rigidbody___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ContactGenerator_generateContacts_0 = Module["_emscripten_bind_ContactGenerator_generateContacts_0"] = createExportWrapper("emscripten_bind_ContactGenerator_generateContacts_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_CircleCollider_2 = Module["_emscripten_bind_CircleCollider_CircleCollider_2"] = createExportWrapper("emscripten_bind_CircleCollider_CircleCollider_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_CircleCollider_3 = Module["_emscripten_bind_CircleCollider_CircleCollider_3"] = createExportWrapper("emscripten_bind_CircleCollider_CircleCollider_3");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_origin_0 = Module["_emscripten_bind_CircleCollider_origin_0"] = createExportWrapper("emscripten_bind_CircleCollider_origin_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_getBody_0 = Module["_emscripten_bind_CircleCollider_getBody_0"] = createExportWrapper("emscripten_bind_CircleCollider_getBody_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_getTransform_0 = Module["_emscripten_bind_CircleCollider_getTransform_0"] = createExportWrapper("emscripten_bind_CircleCollider_getTransform_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_getInvTransform_0 = Module["_emscripten_bind_CircleCollider_getInvTransform_0"] = createExportWrapper("emscripten_bind_CircleCollider_getInvTransform_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_setTransform_1 = Module["_emscripten_bind_CircleCollider_setTransform_1"] = createExportWrapper("emscripten_bind_CircleCollider_setTransform_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_setInvTransform_1 = Module["_emscripten_bind_CircleCollider_setInvTransform_1"] = createExportWrapper("emscripten_bind_CircleCollider_setInvTransform_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_collider2Object_1 = Module["_emscripten_bind_CircleCollider_collider2Object_1"] = createExportWrapper("emscripten_bind_CircleCollider_collider2Object_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_object2Collider_1 = Module["_emscripten_bind_CircleCollider_object2Collider_1"] = createExportWrapper("emscripten_bind_CircleCollider_object2Collider_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_rotCollider2Object_1 = Module["_emscripten_bind_CircleCollider_rotCollider2Object_1"] = createExportWrapper("emscripten_bind_CircleCollider_rotCollider2Object_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_rotObject2Collider_1 = Module["_emscripten_bind_CircleCollider_rotObject2Collider_1"] = createExportWrapper("emscripten_bind_CircleCollider_rotObject2Collider_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_get_radius_0 = Module["_emscripten_bind_CircleCollider_get_radius_0"] = createExportWrapper("emscripten_bind_CircleCollider_get_radius_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider_set_radius_1 = Module["_emscripten_bind_CircleCollider_set_radius_1"] = createExportWrapper("emscripten_bind_CircleCollider_set_radius_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_CircleCollider___destroy___0 = Module["_emscripten_bind_CircleCollider___destroy___0"] = createExportWrapper("emscripten_bind_CircleCollider___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_BoxCollider_2 = Module["_emscripten_bind_BoxCollider_BoxCollider_2"] = createExportWrapper("emscripten_bind_BoxCollider_BoxCollider_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_BoxCollider_3 = Module["_emscripten_bind_BoxCollider_BoxCollider_3"] = createExportWrapper("emscripten_bind_BoxCollider_BoxCollider_3");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_origin_0 = Module["_emscripten_bind_BoxCollider_origin_0"] = createExportWrapper("emscripten_bind_BoxCollider_origin_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_getBody_0 = Module["_emscripten_bind_BoxCollider_getBody_0"] = createExportWrapper("emscripten_bind_BoxCollider_getBody_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_getTransform_0 = Module["_emscripten_bind_BoxCollider_getTransform_0"] = createExportWrapper("emscripten_bind_BoxCollider_getTransform_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_getInvTransform_0 = Module["_emscripten_bind_BoxCollider_getInvTransform_0"] = createExportWrapper("emscripten_bind_BoxCollider_getInvTransform_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_setTransform_1 = Module["_emscripten_bind_BoxCollider_setTransform_1"] = createExportWrapper("emscripten_bind_BoxCollider_setTransform_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_setInvTransform_1 = Module["_emscripten_bind_BoxCollider_setInvTransform_1"] = createExportWrapper("emscripten_bind_BoxCollider_setInvTransform_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_collider2Object_1 = Module["_emscripten_bind_BoxCollider_collider2Object_1"] = createExportWrapper("emscripten_bind_BoxCollider_collider2Object_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_object2Collider_1 = Module["_emscripten_bind_BoxCollider_object2Collider_1"] = createExportWrapper("emscripten_bind_BoxCollider_object2Collider_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_rotCollider2Object_1 = Module["_emscripten_bind_BoxCollider_rotCollider2Object_1"] = createExportWrapper("emscripten_bind_BoxCollider_rotCollider2Object_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_rotObject2Collider_1 = Module["_emscripten_bind_BoxCollider_rotObject2Collider_1"] = createExportWrapper("emscripten_bind_BoxCollider_rotObject2Collider_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_get_halfSize_0 = Module["_emscripten_bind_BoxCollider_get_halfSize_0"] = createExportWrapper("emscripten_bind_BoxCollider_get_halfSize_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider_set_halfSize_1 = Module["_emscripten_bind_BoxCollider_set_halfSize_1"] = createExportWrapper("emscripten_bind_BoxCollider_set_halfSize_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_BoxCollider___destroy___0 = Module["_emscripten_bind_BoxCollider___destroy___0"] = createExportWrapper("emscripten_bind_BoxCollider___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_IntersectionDetector_circleCircle_2 = Module["_emscripten_bind_IntersectionDetector_circleCircle_2"] = createExportWrapper("emscripten_bind_IntersectionDetector_circleCircle_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_IntersectionDetector_boxCircle_2 = Module["_emscripten_bind_IntersectionDetector_boxCircle_2"] = createExportWrapper("emscripten_bind_IntersectionDetector_boxCircle_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_IntersectionDetector_boxBox_2 = Module["_emscripten_bind_IntersectionDetector_boxBox_2"] = createExportWrapper("emscripten_bind_IntersectionDetector_boxBox_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ForceGenerator_updateForce_2 = Module["_emscripten_bind_ForceGenerator_updateForce_2"] = createExportWrapper("emscripten_bind_ForceGenerator_updateForce_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Gravity_Gravity_1 = Module["_emscripten_bind_Gravity_Gravity_1"] = createExportWrapper("emscripten_bind_Gravity_Gravity_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Gravity_updateForce_2 = Module["_emscripten_bind_Gravity_updateForce_2"] = createExportWrapper("emscripten_bind_Gravity_updateForce_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Gravity___destroy___0 = Module["_emscripten_bind_Gravity___destroy___0"] = createExportWrapper("emscripten_bind_Gravity___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Spring_Spring_5 = Module["_emscripten_bind_Spring_Spring_5"] = createExportWrapper("emscripten_bind_Spring_Spring_5");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Spring_getEnd_0 = Module["_emscripten_bind_Spring_getEnd_0"] = createExportWrapper("emscripten_bind_Spring_getEnd_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Spring_setEnd_1 = Module["_emscripten_bind_Spring_setEnd_1"] = createExportWrapper("emscripten_bind_Spring_setEnd_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Spring_updateForce_2 = Module["_emscripten_bind_Spring_updateForce_2"] = createExportWrapper("emscripten_bind_Spring_updateForce_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Spring_get_k_0 = Module["_emscripten_bind_Spring_get_k_0"] = createExportWrapper("emscripten_bind_Spring_get_k_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Spring_set_k_1 = Module["_emscripten_bind_Spring_set_k_1"] = createExportWrapper("emscripten_bind_Spring_set_k_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Spring_get_length_0 = Module["_emscripten_bind_Spring_get_length_0"] = createExportWrapper("emscripten_bind_Spring_get_length_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Spring_set_length_1 = Module["_emscripten_bind_Spring_set_length_1"] = createExportWrapper("emscripten_bind_Spring_set_length_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Spring___destroy___0 = Module["_emscripten_bind_Spring___destroy___0"] = createExportWrapper("emscripten_bind_Spring___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_World_World_0 = Module["_emscripten_bind_World_World_0"] = createExportWrapper("emscripten_bind_World_World_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_World_addBody_1 = Module["_emscripten_bind_World_addBody_1"] = createExportWrapper("emscripten_bind_World_addBody_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_World_removeBody_1 = Module["_emscripten_bind_World_removeBody_1"] = createExportWrapper("emscripten_bind_World_removeBody_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_World_addFGen_2 = Module["_emscripten_bind_World_addFGen_2"] = createExportWrapper("emscripten_bind_World_addFGen_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_World_removeFGen_2 = Module["_emscripten_bind_World_removeFGen_2"] = createExportWrapper("emscripten_bind_World_removeFGen_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_World_addContactGen_1 = Module["_emscripten_bind_World_addContactGen_1"] = createExportWrapper("emscripten_bind_World_addContactGen_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_World_removeContactGen_1 = Module["_emscripten_bind_World_removeContactGen_1"] = createExportWrapper("emscripten_bind_World_removeContactGen_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_World_step_1 = Module["_emscripten_bind_World_step_1"] = createExportWrapper("emscripten_bind_World_step_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_World___destroy___0 = Module["_emscripten_bind_World___destroy___0"] = createExportWrapper("emscripten_bind_World___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_Particle_0 = Module["_emscripten_bind_Particle_Particle_0"] = createExportWrapper("emscripten_bind_Particle_Particle_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_Particle_1 = Module["_emscripten_bind_Particle_Particle_1"] = createExportWrapper("emscripten_bind_Particle_Particle_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_Particle_2 = Module["_emscripten_bind_Particle_Particle_2"] = createExportWrapper("emscripten_bind_Particle_Particle_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_getPos_0 = Module["_emscripten_bind_Particle_getPos_0"] = createExportWrapper("emscripten_bind_Particle_getPos_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_getVel_0 = Module["_emscripten_bind_Particle_getVel_0"] = createExportWrapper("emscripten_bind_Particle_getVel_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_getAcc_0 = Module["_emscripten_bind_Particle_getAcc_0"] = createExportWrapper("emscripten_bind_Particle_getAcc_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_getMass_0 = Module["_emscripten_bind_Particle_getMass_0"] = createExportWrapper("emscripten_bind_Particle_getMass_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_getInvMass_0 = Module["_emscripten_bind_Particle_getInvMass_0"] = createExportWrapper("emscripten_bind_Particle_getInvMass_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_getDamping_0 = Module["_emscripten_bind_Particle_getDamping_0"] = createExportWrapper("emscripten_bind_Particle_getDamping_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_setPos_1 = Module["_emscripten_bind_Particle_setPos_1"] = createExportWrapper("emscripten_bind_Particle_setPos_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_setVel_1 = Module["_emscripten_bind_Particle_setVel_1"] = createExportWrapper("emscripten_bind_Particle_setVel_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_setAcc_1 = Module["_emscripten_bind_Particle_setAcc_1"] = createExportWrapper("emscripten_bind_Particle_setAcc_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_setMass_1 = Module["_emscripten_bind_Particle_setMass_1"] = createExportWrapper("emscripten_bind_Particle_setMass_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_setInvMass_1 = Module["_emscripten_bind_Particle_setInvMass_1"] = createExportWrapper("emscripten_bind_Particle_setInvMass_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_setDamping_1 = Module["_emscripten_bind_Particle_setDamping_1"] = createExportWrapper("emscripten_bind_Particle_setDamping_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_addForce_1 = Module["_emscripten_bind_Particle_addForce_1"] = createExportWrapper("emscripten_bind_Particle_addForce_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_addImpulse_1 = Module["_emscripten_bind_Particle_addImpulse_1"] = createExportWrapper("emscripten_bind_Particle_addImpulse_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_clearForceAccum_0 = Module["_emscripten_bind_Particle_clearForceAccum_0"] = createExportWrapper("emscripten_bind_Particle_clearForceAccum_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_setStatic_0 = Module["_emscripten_bind_Particle_setStatic_0"] = createExportWrapper("emscripten_bind_Particle_setStatic_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_isStatic_0 = Module["_emscripten_bind_Particle_isStatic_0"] = createExportWrapper("emscripten_bind_Particle_isStatic_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle_step_1 = Module["_emscripten_bind_Particle_step_1"] = createExportWrapper("emscripten_bind_Particle_step_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_Particle___destroy___0 = Module["_emscripten_bind_Particle___destroy___0"] = createExportWrapper("emscripten_bind_Particle___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleForceGenerator_updateForce_2 = Module["_emscripten_bind_ParticleForceGenerator_updateForce_2"] = createExportWrapper("emscripten_bind_ParticleForceGenerator_updateForce_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleGravity_ParticleGravity_1 = Module["_emscripten_bind_ParticleGravity_ParticleGravity_1"] = createExportWrapper("emscripten_bind_ParticleGravity_ParticleGravity_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleGravity_updateForce_2 = Module["_emscripten_bind_ParticleGravity_updateForce_2"] = createExportWrapper("emscripten_bind_ParticleGravity_updateForce_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleGravity___destroy___0 = Module["_emscripten_bind_ParticleGravity___destroy___0"] = createExportWrapper("emscripten_bind_ParticleGravity___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleDrag_ParticleDrag_2 = Module["_emscripten_bind_ParticleDrag_ParticleDrag_2"] = createExportWrapper("emscripten_bind_ParticleDrag_ParticleDrag_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleDrag_updateForce_2 = Module["_emscripten_bind_ParticleDrag_updateForce_2"] = createExportWrapper("emscripten_bind_ParticleDrag_updateForce_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleDrag___destroy___0 = Module["_emscripten_bind_ParticleDrag___destroy___0"] = createExportWrapper("emscripten_bind_ParticleDrag___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleSpring_ParticleSpring_3 = Module["_emscripten_bind_ParticleSpring_ParticleSpring_3"] = createExportWrapper("emscripten_bind_ParticleSpring_ParticleSpring_3");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleSpring_setEnd_1 = Module["_emscripten_bind_ParticleSpring_setEnd_1"] = createExportWrapper("emscripten_bind_ParticleSpring_setEnd_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleSpring_getEnd_0 = Module["_emscripten_bind_ParticleSpring_getEnd_0"] = createExportWrapper("emscripten_bind_ParticleSpring_getEnd_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleSpring_updateForce_2 = Module["_emscripten_bind_ParticleSpring_updateForce_2"] = createExportWrapper("emscripten_bind_ParticleSpring_updateForce_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleSpring_get_k_0 = Module["_emscripten_bind_ParticleSpring_get_k_0"] = createExportWrapper("emscripten_bind_ParticleSpring_get_k_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleSpring_set_k_1 = Module["_emscripten_bind_ParticleSpring_set_k_1"] = createExportWrapper("emscripten_bind_ParticleSpring_set_k_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleSpring_get_length_0 = Module["_emscripten_bind_ParticleSpring_get_length_0"] = createExportWrapper("emscripten_bind_ParticleSpring_get_length_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleSpring_set_length_1 = Module["_emscripten_bind_ParticleSpring_set_length_1"] = createExportWrapper("emscripten_bind_ParticleSpring_set_length_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleSpring___destroy___0 = Module["_emscripten_bind_ParticleSpring___destroy___0"] = createExportWrapper("emscripten_bind_ParticleSpring___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleContactGenerator_generateContacts_0 = Module["_emscripten_bind_ParticleContactGenerator_generateContacts_0"] = createExportWrapper("emscripten_bind_ParticleContactGenerator_generateContacts_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleLink_setParticle_2 = Module["_emscripten_bind_ParticleLink_setParticle_2"] = createExportWrapper("emscripten_bind_ParticleLink_setParticle_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleLink_getParticle_1 = Module["_emscripten_bind_ParticleLink_getParticle_1"] = createExportWrapper("emscripten_bind_ParticleLink_getParticle_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleLink_generateContacts_0 = Module["_emscripten_bind_ParticleLink_generateContacts_0"] = createExportWrapper("emscripten_bind_ParticleLink_generateContacts_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleCable_ParticleCable_2 = Module["_emscripten_bind_ParticleCable_ParticleCable_2"] = createExportWrapper("emscripten_bind_ParticleCable_ParticleCable_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleCable_setParticle_2 = Module["_emscripten_bind_ParticleCable_setParticle_2"] = createExportWrapper("emscripten_bind_ParticleCable_setParticle_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleCable_getParticle_1 = Module["_emscripten_bind_ParticleCable_getParticle_1"] = createExportWrapper("emscripten_bind_ParticleCable_getParticle_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleCable_generateContacts_0 = Module["_emscripten_bind_ParticleCable_generateContacts_0"] = createExportWrapper("emscripten_bind_ParticleCable_generateContacts_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleCable_get_length_0 = Module["_emscripten_bind_ParticleCable_get_length_0"] = createExportWrapper("emscripten_bind_ParticleCable_get_length_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleCable_set_length_1 = Module["_emscripten_bind_ParticleCable_set_length_1"] = createExportWrapper("emscripten_bind_ParticleCable_set_length_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleCable_get_restitution_0 = Module["_emscripten_bind_ParticleCable_get_restitution_0"] = createExportWrapper("emscripten_bind_ParticleCable_get_restitution_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleCable_set_restitution_1 = Module["_emscripten_bind_ParticleCable_set_restitution_1"] = createExportWrapper("emscripten_bind_ParticleCable_set_restitution_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleCable___destroy___0 = Module["_emscripten_bind_ParticleCable___destroy___0"] = createExportWrapper("emscripten_bind_ParticleCable___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleRod_ParticleRod_1 = Module["_emscripten_bind_ParticleRod_ParticleRod_1"] = createExportWrapper("emscripten_bind_ParticleRod_ParticleRod_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleRod_setParticle_2 = Module["_emscripten_bind_ParticleRod_setParticle_2"] = createExportWrapper("emscripten_bind_ParticleRod_setParticle_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleRod_getParticle_1 = Module["_emscripten_bind_ParticleRod_getParticle_1"] = createExportWrapper("emscripten_bind_ParticleRod_getParticle_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleRod_generateContacts_0 = Module["_emscripten_bind_ParticleRod_generateContacts_0"] = createExportWrapper("emscripten_bind_ParticleRod_generateContacts_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleRod_get_length_0 = Module["_emscripten_bind_ParticleRod_get_length_0"] = createExportWrapper("emscripten_bind_ParticleRod_get_length_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleRod_set_length_1 = Module["_emscripten_bind_ParticleRod_set_length_1"] = createExportWrapper("emscripten_bind_ParticleRod_set_length_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleRod___destroy___0 = Module["_emscripten_bind_ParticleRod___destroy___0"] = createExportWrapper("emscripten_bind_ParticleRod___destroy___0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_ParticleWorld_0 = Module["_emscripten_bind_ParticleWorld_ParticleWorld_0"] = createExportWrapper("emscripten_bind_ParticleWorld_ParticleWorld_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_ParticleWorld_1 = Module["_emscripten_bind_ParticleWorld_ParticleWorld_1"] = createExportWrapper("emscripten_bind_ParticleWorld_ParticleWorld_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_addParticle_1 = Module["_emscripten_bind_ParticleWorld_addParticle_1"] = createExportWrapper("emscripten_bind_ParticleWorld_addParticle_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_removeParticle_1 = Module["_emscripten_bind_ParticleWorld_removeParticle_1"] = createExportWrapper("emscripten_bind_ParticleWorld_removeParticle_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_addPFGen_2 = Module["_emscripten_bind_ParticleWorld_addPFGen_2"] = createExportWrapper("emscripten_bind_ParticleWorld_addPFGen_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_removePFGen_2 = Module["_emscripten_bind_ParticleWorld_removePFGen_2"] = createExportWrapper("emscripten_bind_ParticleWorld_removePFGen_2");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_addPContactGenerator_1 = Module["_emscripten_bind_ParticleWorld_addPContactGenerator_1"] = createExportWrapper("emscripten_bind_ParticleWorld_addPContactGenerator_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_removePContactGenerator_1 = Module["_emscripten_bind_ParticleWorld_removePContactGenerator_1"] = createExportWrapper("emscripten_bind_ParticleWorld_removePContactGenerator_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_generateContacts_0 = Module["_emscripten_bind_ParticleWorld_generateContacts_0"] = createExportWrapper("emscripten_bind_ParticleWorld_generateContacts_0");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld_step_1 = Module["_emscripten_bind_ParticleWorld_step_1"] = createExportWrapper("emscripten_bind_ParticleWorld_step_1");
+
 /** @type {function(...*):?} */
 var _emscripten_bind_ParticleWorld___destroy___0 = Module["_emscripten_bind_ParticleWorld___destroy___0"] = createExportWrapper("emscripten_bind_ParticleWorld___destroy___0");
+
 /** @type {function(...*):?} */
-var ___errno_location = createExportWrapper("__errno_location");
+var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");
+
 /** @type {function(...*):?} */
 var _fflush = Module["_fflush"] = createExportWrapper("fflush");
+
 /** @type {function(...*):?} */
-var _emscripten_stack_init = function() {
-  return (_emscripten_stack_init = Module["asm"]["emscripten_stack_init"]).apply(null, arguments);
+var _malloc = Module["_malloc"] = createExportWrapper("malloc");
+
+/** @type {function(...*):?} */
+var _emscripten_stack_init = Module["_emscripten_stack_init"] = function() {
+  return (_emscripten_stack_init = Module["_emscripten_stack_init"] = Module["asm"]["emscripten_stack_init"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
-var _emscripten_stack_get_free = function() {
-  return (_emscripten_stack_get_free = Module["asm"]["emscripten_stack_get_free"]).apply(null, arguments);
+var _emscripten_stack_get_free = Module["_emscripten_stack_get_free"] = function() {
+  return (_emscripten_stack_get_free = Module["_emscripten_stack_get_free"] = Module["asm"]["emscripten_stack_get_free"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
-var _emscripten_stack_get_base = function() {
-  return (_emscripten_stack_get_base = Module["asm"]["emscripten_stack_get_base"]).apply(null, arguments);
+var _emscripten_stack_get_base = Module["_emscripten_stack_get_base"] = function() {
+  return (_emscripten_stack_get_base = Module["_emscripten_stack_get_base"] = Module["asm"]["emscripten_stack_get_base"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
-var _emscripten_stack_get_end = function() {
-  return (_emscripten_stack_get_end = Module["asm"]["emscripten_stack_get_end"]).apply(null, arguments);
+var _emscripten_stack_get_end = Module["_emscripten_stack_get_end"] = function() {
+  return (_emscripten_stack_get_end = Module["_emscripten_stack_get_end"] = Module["asm"]["emscripten_stack_get_end"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
-var stackSave = createExportWrapper("stackSave");
-/** @type {function(...*):?} */
-var stackRestore = createExportWrapper("stackRestore");
-/** @type {function(...*):?} */
-var stackAlloc = createExportWrapper("stackAlloc");
-/** @type {function(...*):?} */
-var _emscripten_stack_get_current = function() {
-  return (_emscripten_stack_get_current = Module["asm"]["emscripten_stack_get_current"]).apply(null, arguments);
-};
+var stackSave = Module["stackSave"] = createExportWrapper("stackSave");
 
 /** @type {function(...*):?} */
-var ___cxa_is_pointer_type = createExportWrapper("__cxa_is_pointer_type");
+var stackRestore = Module["stackRestore"] = createExportWrapper("stackRestore");
+
+/** @type {function(...*):?} */
+var stackAlloc = Module["stackAlloc"] = createExportWrapper("stackAlloc");
+
+/** @type {function(...*):?} */
+var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = createExportWrapper("__cxa_is_pointer_type");
+
 /** @type {function(...*):?} */
 var dynCall_viijii = Module["dynCall_viijii"] = createExportWrapper("dynCall_viijii");
+
 /** @type {function(...*):?} */
 var dynCall_jiji = Module["dynCall_jiji"] = createExportWrapper("dynCall_jiji");
+
 /** @type {function(...*):?} */
 var dynCall_iiiiij = Module["dynCall_iiiiij"] = createExportWrapper("dynCall_iiiiij");
+
 /** @type {function(...*):?} */
 var dynCall_iiiiijj = Module["dynCall_iiiiijj"] = createExportWrapper("dynCall_iiiiijj");
+
 /** @type {function(...*):?} */
 var dynCall_iiiiiijj = Module["dynCall_iiiiiijj"] = createExportWrapper("dynCall_iiiiiijj");
-var ___start_em_js = Module['___start_em_js'] = 84548;
-var ___stop_em_js = Module['___stop_em_js'] = 84646;
 
-// include: postamble.js
+
+
+
+
 // === Auto-generated postamble setup entry stuff ===
 
-var missingLibrarySymbols = [
-  'stringToNewUTF8',
-  'exitJS',
-  'emscripten_realloc_buffer',
-  'setErrNo',
-  'inetPton4',
-  'inetNtop4',
-  'inetPton6',
-  'inetNtop6',
-  'readSockaddr',
-  'writeSockaddr',
-  'getHostByName',
-  'traverseStack',
-  'convertPCtoSourceLocation',
-  'readEmAsmArgs',
-  'jstoi_q',
-  'jstoi_s',
-  'listenOnce',
-  'autoResumeAudioContext',
-  'dynCallLegacy',
-  'getDynCaller',
-  'dynCall',
-  'handleException',
-  'runtimeKeepalivePush',
-  'runtimeKeepalivePop',
-  'callUserCallback',
-  'maybeExit',
-  'safeSetTimeout',
-  'asmjsMangle',
-  'handleAllocator',
-  'getNativeTypeSize',
-  'STACK_SIZE',
-  'STACK_ALIGN',
-  'POINTER_SIZE',
-  'ASSERTIONS',
-  'writeI53ToI64',
-  'writeI53ToI64Clamped',
-  'writeI53ToI64Signaling',
-  'writeI53ToU64Clamped',
-  'writeI53ToU64Signaling',
-  'readI53FromI64',
-  'readI53FromU64',
-  'convertI32PairToI53',
-  'convertU32PairToI53',
-  'getCFunc',
-  'ccall',
-  'cwrap',
-  'uleb128Encode',
-  'sigToWasmTypes',
-  'generateFuncType',
-  'convertJsFunctionToWasm',
-  'getEmptyTableSlot',
-  'updateTableMap',
-  'getFunctionAddress',
-  'addFunction',
-  'removeFunction',
-  'reallyNegative',
-  'unSign',
-  'strLen',
-  'reSign',
-  'formatString',
-  'intArrayToString',
-  'AsciiToString',
-  'stringToAscii',
-  'UTF16ToString',
-  'stringToUTF16',
-  'lengthBytesUTF16',
-  'UTF32ToString',
-  'stringToUTF32',
-  'lengthBytesUTF32',
-  'allocateUTF8',
-  'allocateUTF8OnStack',
-  'writeStringToMemory',
-  'getSocketFromFD',
-  'getSocketAddress',
-  'registerKeyEventCallback',
-  'maybeCStringToJsString',
-  'findEventTarget',
-  'findCanvasEventTarget',
-  'getBoundingClientRect',
-  'fillMouseEventData',
-  'registerMouseEventCallback',
-  'registerWheelEventCallback',
-  'registerUiEventCallback',
-  'registerFocusEventCallback',
-  'fillDeviceOrientationEventData',
-  'registerDeviceOrientationEventCallback',
-  'fillDeviceMotionEventData',
-  'registerDeviceMotionEventCallback',
-  'screenOrientation',
-  'fillOrientationChangeEventData',
-  'registerOrientationChangeEventCallback',
-  'fillFullscreenChangeEventData',
-  'registerFullscreenChangeEventCallback',
-  'JSEvents_requestFullscreen',
-  'JSEvents_resizeCanvasForFullscreen',
-  'registerRestoreOldStyle',
-  'hideEverythingExceptGivenElement',
-  'restoreHiddenElements',
-  'setLetterbox',
-  'softFullscreenResizeWebGLRenderTarget',
-  'doRequestFullscreen',
-  'fillPointerlockChangeEventData',
-  'registerPointerlockChangeEventCallback',
-  'registerPointerlockErrorEventCallback',
-  'requestPointerLock',
-  'fillVisibilityChangeEventData',
-  'registerVisibilityChangeEventCallback',
-  'registerTouchEventCallback',
-  'fillGamepadEventData',
-  'registerGamepadEventCallback',
-  'registerBeforeUnloadEventCallback',
-  'fillBatteryEventData',
-  'battery',
-  'registerBatteryEventCallback',
-  'setCanvasElementSize',
-  'getCanvasElementSize',
-  'jsStackTrace',
-  'stackTrace',
-  'checkWasiClock',
-  'createDyncallWrapper',
-  'setImmediateWrapped',
-  'clearImmediateWrapped',
-  'polyfillSetImmediate',
-  'newNativePromise',
-  'getPromise',
-  'exception_addRef',
-  'exception_decRef',
-  'setMainLoop',
-  '_setNetworkCallback',
-  'heapObjectForWebGLType',
-  'heapAccessShiftForWebGLHeap',
-  'emscriptenWebGLGet',
-  'computeUnpackAlignedImageSize',
-  'emscriptenWebGLGetTexPixelData',
-  'emscriptenWebGLGetUniform',
-  'webglGetUniformLocation',
-  'webglPrepareUniformLocationsBeforeFirstUse',
-  'webglGetLeftBracePos',
-  'emscriptenWebGLGetVertexAttrib',
-  'writeGLArray',
-  'SDL_unicode',
-  'SDL_ttfContext',
-  'SDL_audio',
-  'GLFW_Window',
-  'runAndAbortIfError',
-  'ALLOC_NORMAL',
-  'ALLOC_STACK',
-  'allocate',
-];
-missingLibrarySymbols.forEach(missingLibrarySymbol)
-
-var unexportedSymbols = [
-  'run',
-  'UTF8ArrayToString',
-  'UTF8ToString',
-  'stringToUTF8Array',
-  'stringToUTF8',
-  'lengthBytesUTF8',
-  'addOnPreRun',
-  'addOnInit',
-  'addOnPreMain',
-  'addOnExit',
-  'addOnPostRun',
-  'addRunDependency',
-  'removeRunDependency',
-  'FS_createFolder',
-  'FS_createPath',
-  'FS_createDataFile',
-  'FS_createPreloadedFile',
-  'FS_createLazyFile',
-  'FS_createLink',
-  'FS_createDevice',
-  'FS_unlink',
-  'out',
-  'err',
-  'callMain',
-  'abort',
-  'keepRuntimeAlive',
-  'wasmMemory',
-  'stackAlloc',
-  'stackSave',
-  'stackRestore',
-  'getTempRet0',
-  'setTempRet0',
-  'writeStackCookie',
-  'checkStackCookie',
-  'ptrToString',
-  'zeroMemory',
-  'getHeapMax',
-  'abortOnCannotGrowMemory',
-  'ENV',
-  'ERRNO_CODES',
-  'ERRNO_MESSAGES',
-  'DNS',
-  'Protocols',
-  'Sockets',
-  'getRandomDevice',
-  'timers',
-  'warnOnce',
-  'UNWIND_CACHE',
-  'readEmAsmArgsArray',
-  'getExecutableName',
-  'asyncLoad',
-  'alignMemory',
-  'mmapAlloc',
-  'convertI32PairToI53Checked',
-  'freeTableIndexes',
-  'functionsInTableMap',
-  'setValue',
-  'getValue',
-  'PATH',
-  'PATH_FS',
-  'intArrayFromString',
-  'UTF16Decoder',
-  'writeArrayToMemory',
-  'writeAsciiToMemory',
-  'SYSCALLS',
-  'JSEvents',
-  'specialHTMLTargets',
-  'currentFullscreenStrategy',
-  'restoreOldWindowedStyle',
-  'demangle',
-  'demangleAll',
-  'ExitStatus',
-  'getEnvStrings',
-  'doReadv',
-  'doWritev',
-  'dlopenMissingError',
-  'promiseMap',
-  'uncaughtExceptionCount',
-  'exceptionLast',
-  'exceptionCaught',
-  'ExceptionInfo',
-  'Browser',
-  'wget',
-  'FS',
-  'MEMFS',
-  'TTY',
-  'PIPEFS',
-  'SOCKFS',
-  'tempFixedLengthArray',
-  'miniTempWebGLFloatBuffers',
-  'GL',
-  'AL',
-  'SDL',
-  'SDL_gfx',
-  'GLUT',
-  'EGL',
-  'GLFW',
-  'GLEW',
-  'IDBStore',
-];
-unexportedSymbols.forEach(unexportedRuntimeSymbol);
-
-
+unexportedRuntimeFunction('ccall', false);
+unexportedRuntimeFunction('cwrap', false);
+unexportedRuntimeFunction('allocate', false);
+unexportedRuntimeFunction('UTF8ArrayToString', false);
+unexportedRuntimeFunction('UTF8ToString', false);
+unexportedRuntimeFunction('stringToUTF8Array', false);
+unexportedRuntimeFunction('stringToUTF8', false);
+unexportedRuntimeFunction('lengthBytesUTF8', false);
+unexportedRuntimeFunction('addOnPreRun', false);
+unexportedRuntimeFunction('addOnInit', false);
+unexportedRuntimeFunction('addOnPreMain', false);
+unexportedRuntimeFunction('addOnExit', false);
+unexportedRuntimeFunction('addOnPostRun', false);
+unexportedRuntimeFunction('addRunDependency', true);
+unexportedRuntimeFunction('removeRunDependency', true);
+unexportedRuntimeFunction('FS_createFolder', false);
+unexportedRuntimeFunction('FS_createPath', true);
+unexportedRuntimeFunction('FS_createDataFile', true);
+unexportedRuntimeFunction('FS_createPreloadedFile', true);
+unexportedRuntimeFunction('FS_createLazyFile', true);
+unexportedRuntimeFunction('FS_createLink', false);
+unexportedRuntimeFunction('FS_createDevice', true);
+unexportedRuntimeFunction('FS_unlink', true);
+unexportedRuntimeFunction('getLEB', false);
+unexportedRuntimeFunction('getFunctionTables', false);
+unexportedRuntimeFunction('alignFunctionTables', false);
+unexportedRuntimeFunction('registerFunctions', false);
+unexportedRuntimeFunction('addFunction', false);
+unexportedRuntimeFunction('removeFunction', false);
+unexportedRuntimeFunction('prettyPrint', false);
+unexportedRuntimeFunction('getCompilerSetting', false);
+unexportedRuntimeFunction('print', false);
+unexportedRuntimeFunction('printErr', false);
+unexportedRuntimeFunction('getTempRet0', false);
+unexportedRuntimeFunction('setTempRet0', false);
+unexportedRuntimeFunction('callMain', false);
+unexportedRuntimeFunction('abort', false);
+unexportedRuntimeFunction('keepRuntimeAlive', false);
+unexportedRuntimeFunction('wasmMemory', false);
+unexportedRuntimeFunction('warnOnce', false);
+unexportedRuntimeFunction('stackSave', false);
+unexportedRuntimeFunction('stackRestore', false);
+unexportedRuntimeFunction('stackAlloc', false);
+unexportedRuntimeFunction('AsciiToString', false);
+unexportedRuntimeFunction('stringToAscii', false);
+unexportedRuntimeFunction('UTF16ToString', false);
+unexportedRuntimeFunction('stringToUTF16', false);
+unexportedRuntimeFunction('lengthBytesUTF16', false);
+unexportedRuntimeFunction('UTF32ToString', false);
+unexportedRuntimeFunction('stringToUTF32', false);
+unexportedRuntimeFunction('lengthBytesUTF32', false);
+unexportedRuntimeFunction('allocateUTF8', false);
+unexportedRuntimeFunction('allocateUTF8OnStack', false);
+unexportedRuntimeFunction('ExitStatus', false);
+unexportedRuntimeFunction('intArrayFromString', false);
+unexportedRuntimeFunction('intArrayToString', false);
+unexportedRuntimeFunction('writeStringToMemory', false);
+unexportedRuntimeFunction('writeArrayToMemory', false);
+unexportedRuntimeFunction('writeAsciiToMemory', false);
+Module["writeStackCookie"] = writeStackCookie;
+Module["checkStackCookie"] = checkStackCookie;
+unexportedRuntimeFunction('ptrToString', false);
+unexportedRuntimeFunction('zeroMemory', false);
+unexportedRuntimeFunction('stringToNewUTF8', false);
+unexportedRuntimeFunction('getHeapMax', false);
+unexportedRuntimeFunction('abortOnCannotGrowMemory', false);
+unexportedRuntimeFunction('emscripten_realloc_buffer', false);
+unexportedRuntimeFunction('ENV', false);
+unexportedRuntimeFunction('ERRNO_CODES', false);
+unexportedRuntimeFunction('ERRNO_MESSAGES', false);
+unexportedRuntimeFunction('setErrNo', false);
+unexportedRuntimeFunction('inetPton4', false);
+unexportedRuntimeFunction('inetNtop4', false);
+unexportedRuntimeFunction('inetPton6', false);
+unexportedRuntimeFunction('inetNtop6', false);
+unexportedRuntimeFunction('readSockaddr', false);
+unexportedRuntimeFunction('writeSockaddr', false);
+unexportedRuntimeFunction('DNS', false);
+unexportedRuntimeFunction('getHostByName', false);
+unexportedRuntimeFunction('Protocols', false);
+unexportedRuntimeFunction('Sockets', false);
+unexportedRuntimeFunction('getRandomDevice', false);
+unexportedRuntimeFunction('traverseStack', false);
+unexportedRuntimeFunction('UNWIND_CACHE', false);
+unexportedRuntimeFunction('convertPCtoSourceLocation', false);
+unexportedRuntimeFunction('readAsmConstArgsArray', false);
+unexportedRuntimeFunction('readAsmConstArgs', false);
+unexportedRuntimeFunction('mainThreadEM_ASM', false);
+unexportedRuntimeFunction('jstoi_q', false);
+unexportedRuntimeFunction('jstoi_s', false);
+unexportedRuntimeFunction('getExecutableName', false);
+unexportedRuntimeFunction('listenOnce', false);
+unexportedRuntimeFunction('autoResumeAudioContext', false);
+unexportedRuntimeFunction('dynCallLegacy', false);
+unexportedRuntimeFunction('getDynCaller', false);
+unexportedRuntimeFunction('dynCall', false);
+unexportedRuntimeFunction('handleException', false);
+unexportedRuntimeFunction('runtimeKeepalivePush', false);
+unexportedRuntimeFunction('runtimeKeepalivePop', false);
+unexportedRuntimeFunction('callUserCallback', false);
+unexportedRuntimeFunction('maybeExit', false);
+unexportedRuntimeFunction('safeSetTimeout', false);
+unexportedRuntimeFunction('asmjsMangle', false);
+unexportedRuntimeFunction('asyncLoad', false);
+unexportedRuntimeFunction('alignMemory', false);
+unexportedRuntimeFunction('mmapAlloc', false);
+unexportedRuntimeFunction('writeI53ToI64', false);
+unexportedRuntimeFunction('writeI53ToI64Clamped', false);
+unexportedRuntimeFunction('writeI53ToI64Signaling', false);
+unexportedRuntimeFunction('writeI53ToU64Clamped', false);
+unexportedRuntimeFunction('writeI53ToU64Signaling', false);
+unexportedRuntimeFunction('readI53FromI64', false);
+unexportedRuntimeFunction('readI53FromU64', false);
+unexportedRuntimeFunction('convertI32PairToI53', false);
+unexportedRuntimeFunction('convertI32PairToI53Checked', false);
+unexportedRuntimeFunction('convertU32PairToI53', false);
+unexportedRuntimeFunction('reallyNegative', false);
+unexportedRuntimeFunction('unSign', false);
+unexportedRuntimeFunction('strLen', false);
+unexportedRuntimeFunction('reSign', false);
+unexportedRuntimeFunction('formatString', false);
+unexportedRuntimeFunction('setValue', false);
+unexportedRuntimeFunction('getValue', false);
+unexportedRuntimeFunction('PATH', false);
+unexportedRuntimeFunction('PATH_FS', false);
+unexportedRuntimeFunction('SYSCALLS', false);
+unexportedRuntimeFunction('getSocketFromFD', false);
+unexportedRuntimeFunction('getSocketAddress', false);
+unexportedRuntimeFunction('JSEvents', false);
+unexportedRuntimeFunction('registerKeyEventCallback', false);
+unexportedRuntimeFunction('specialHTMLTargets', false);
+unexportedRuntimeFunction('maybeCStringToJsString', false);
+unexportedRuntimeFunction('findEventTarget', false);
+unexportedRuntimeFunction('findCanvasEventTarget', false);
+unexportedRuntimeFunction('getBoundingClientRect', false);
+unexportedRuntimeFunction('fillMouseEventData', false);
+unexportedRuntimeFunction('registerMouseEventCallback', false);
+unexportedRuntimeFunction('registerWheelEventCallback', false);
+unexportedRuntimeFunction('registerUiEventCallback', false);
+unexportedRuntimeFunction('registerFocusEventCallback', false);
+unexportedRuntimeFunction('fillDeviceOrientationEventData', false);
+unexportedRuntimeFunction('registerDeviceOrientationEventCallback', false);
+unexportedRuntimeFunction('fillDeviceMotionEventData', false);
+unexportedRuntimeFunction('registerDeviceMotionEventCallback', false);
+unexportedRuntimeFunction('screenOrientation', false);
+unexportedRuntimeFunction('fillOrientationChangeEventData', false);
+unexportedRuntimeFunction('registerOrientationChangeEventCallback', false);
+unexportedRuntimeFunction('fillFullscreenChangeEventData', false);
+unexportedRuntimeFunction('registerFullscreenChangeEventCallback', false);
+unexportedRuntimeFunction('JSEvents_requestFullscreen', false);
+unexportedRuntimeFunction('JSEvents_resizeCanvasForFullscreen', false);
+unexportedRuntimeFunction('registerRestoreOldStyle', false);
+unexportedRuntimeFunction('hideEverythingExceptGivenElement', false);
+unexportedRuntimeFunction('restoreHiddenElements', false);
+unexportedRuntimeFunction('setLetterbox', false);
+unexportedRuntimeFunction('currentFullscreenStrategy', false);
+unexportedRuntimeFunction('restoreOldWindowedStyle', false);
+unexportedRuntimeFunction('softFullscreenResizeWebGLRenderTarget', false);
+unexportedRuntimeFunction('doRequestFullscreen', false);
+unexportedRuntimeFunction('fillPointerlockChangeEventData', false);
+unexportedRuntimeFunction('registerPointerlockChangeEventCallback', false);
+unexportedRuntimeFunction('registerPointerlockErrorEventCallback', false);
+unexportedRuntimeFunction('requestPointerLock', false);
+unexportedRuntimeFunction('fillVisibilityChangeEventData', false);
+unexportedRuntimeFunction('registerVisibilityChangeEventCallback', false);
+unexportedRuntimeFunction('registerTouchEventCallback', false);
+unexportedRuntimeFunction('fillGamepadEventData', false);
+unexportedRuntimeFunction('registerGamepadEventCallback', false);
+unexportedRuntimeFunction('registerBeforeUnloadEventCallback', false);
+unexportedRuntimeFunction('fillBatteryEventData', false);
+unexportedRuntimeFunction('battery', false);
+unexportedRuntimeFunction('registerBatteryEventCallback', false);
+unexportedRuntimeFunction('setCanvasElementSize', false);
+unexportedRuntimeFunction('getCanvasElementSize', false);
+unexportedRuntimeFunction('demangle', false);
+unexportedRuntimeFunction('demangleAll', false);
+unexportedRuntimeFunction('jsStackTrace', false);
+unexportedRuntimeFunction('stackTrace', false);
+unexportedRuntimeFunction('getEnvStrings', false);
+unexportedRuntimeFunction('checkWasiClock', false);
+unexportedRuntimeFunction('doReadv', false);
+unexportedRuntimeFunction('doWritev', false);
+unexportedRuntimeFunction('dlopenMissingError', false);
+unexportedRuntimeFunction('setImmediateWrapped', false);
+unexportedRuntimeFunction('clearImmediateWrapped', false);
+unexportedRuntimeFunction('polyfillSetImmediate', false);
+unexportedRuntimeFunction('uncaughtExceptionCount', false);
+unexportedRuntimeFunction('exceptionLast', false);
+unexportedRuntimeFunction('exceptionCaught', false);
+unexportedRuntimeFunction('ExceptionInfo', false);
+unexportedRuntimeFunction('exception_addRef', false);
+unexportedRuntimeFunction('exception_decRef', false);
+unexportedRuntimeFunction('Browser', false);
+unexportedRuntimeFunction('setMainLoop', false);
+unexportedRuntimeFunction('wget', false);
+unexportedRuntimeFunction('FS', false);
+unexportedRuntimeFunction('MEMFS', false);
+unexportedRuntimeFunction('TTY', false);
+unexportedRuntimeFunction('PIPEFS', false);
+unexportedRuntimeFunction('SOCKFS', false);
+unexportedRuntimeFunction('_setNetworkCallback', false);
+unexportedRuntimeFunction('tempFixedLengthArray', false);
+unexportedRuntimeFunction('miniTempWebGLFloatBuffers', false);
+unexportedRuntimeFunction('heapObjectForWebGLType', false);
+unexportedRuntimeFunction('heapAccessShiftForWebGLHeap', false);
+unexportedRuntimeFunction('GL', false);
+unexportedRuntimeFunction('emscriptenWebGLGet', false);
+unexportedRuntimeFunction('computeUnpackAlignedImageSize', false);
+unexportedRuntimeFunction('emscriptenWebGLGetTexPixelData', false);
+unexportedRuntimeFunction('emscriptenWebGLGetUniform', false);
+unexportedRuntimeFunction('webglGetUniformLocation', false);
+unexportedRuntimeFunction('webglPrepareUniformLocationsBeforeFirstUse', false);
+unexportedRuntimeFunction('webglGetLeftBracePos', false);
+unexportedRuntimeFunction('emscriptenWebGLGetVertexAttrib', false);
+unexportedRuntimeFunction('writeGLArray', false);
+unexportedRuntimeFunction('AL', false);
+unexportedRuntimeFunction('SDL_unicode', false);
+unexportedRuntimeFunction('SDL_ttfContext', false);
+unexportedRuntimeFunction('SDL_audio', false);
+unexportedRuntimeFunction('SDL', false);
+unexportedRuntimeFunction('SDL_gfx', false);
+unexportedRuntimeFunction('GLUT', false);
+unexportedRuntimeFunction('EGL', false);
+unexportedRuntimeFunction('GLFW_Window', false);
+unexportedRuntimeFunction('GLFW', false);
+unexportedRuntimeFunction('GLEW', false);
+unexportedRuntimeFunction('IDBStore', false);
+unexportedRuntimeFunction('runAndAbortIfError', false);
+unexportedRuntimeSymbol('ALLOC_NORMAL', false);
+unexportedRuntimeSymbol('ALLOC_STACK', false);
 
 var calledRun;
+
+/**
+ * @constructor
+ * @this {ExitStatus}
+ */
+function ExitStatus(status) {
+  this.name = "ExitStatus";
+  this.message = "Program terminated with exit(" + status + ")";
+  this.status = status;
+}
+
+var calledMain = false;
 
 dependenciesFulfilled = function runCaller() {
   // If run has never been called, and we should call run (INVOKE_RUN is true, and Module.noInitialRun is not false)
@@ -5122,19 +7174,20 @@ function stackCheckInit() {
   // This is normally called automatically during __wasm_call_ctors but need to
   // get these values before even running any of the ctors so we call it redundantly
   // here.
-  _emscripten_stack_init();
   // TODO(sbc): Move writeStackCookie to native to to avoid this.
+  _emscripten_stack_init();
   writeStackCookie();
 }
 
 /** @type {function(Array=)} */
-function run() {
+function run(args) {
+  args = args || arguments_;
 
   if (runDependencies > 0) {
     return;
   }
 
-    stackCheckInit();
+  stackCheckInit();
 
   preRun();
 
@@ -5176,6 +7229,7 @@ function run() {
   }
   checkStackCookie();
 }
+Module['run'] = run;
 
 function checkUnflushedContent() {
   // Compiler settings do not allow exiting the runtime, so flushing
@@ -5216,6 +7270,31 @@ function checkUnflushedContent() {
   }
 }
 
+/** @param {boolean|number=} implicit */
+function exit(status, implicit) {
+  EXITSTATUS = status;
+
+  checkUnflushedContent();
+
+  // if exit() was called explicitly, warn the user if the runtime isn't actually being shut down
+  if (keepRuntimeAlive() && !implicit) {
+    var msg = 'program exited (with status: ' + status + '), but EXIT_RUNTIME is not set, so halting execution but not exiting the runtime or preventing further async execution (build with EXIT_RUNTIME=1, if you want a true shutdown)';
+    readyPromiseReject(msg);
+    err(msg);
+  }
+
+  procExit(status);
+}
+
+function procExit(code) {
+  EXITSTATUS = code;
+  if (!keepRuntimeAlive()) {
+    if (Module['onExit']) Module['onExit'](code);
+    ABORT = true;
+  }
+  quit_(code, new ExitStatus(code));
+}
+
 if (Module['preInit']) {
   if (typeof Module['preInit'] == 'function') Module['preInit'] = [Module['preInit']];
   while (Module['preInit'].length > 0) {
@@ -5226,8 +7305,9 @@ if (Module['preInit']) {
 run();
 
 
-// end include: postamble.js
-// include: /home/runner/work/ephys/ephys/build/glue.js
+
+
+
 
 // Bindings utilities
 
@@ -5413,6 +7493,7 @@ function ensureFloat64(value) {
   }
   return value;
 }
+
 
 // VoidPtr
 /** @suppress {undefinedVars, duplicate} @this{Object} */function VoidPtr() { throw "cannot construct a VoidPtr, no constructor in IDL" }
@@ -6781,9 +8862,6 @@ ParticleWorld.prototype['step'] = ParticleWorld.prototype.step = /** @suppress {
   var self = this.ptr;
   _emscripten_bind_ParticleWorld___destroy___0(self);
 };
-
-// end include: /home/runner/work/ephys/ephys/build/glue.js
-
 
   return ephys.ready
 }
