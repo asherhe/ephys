@@ -1,12 +1,10 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy content to Pages
+# Builds the wasm engine and deploys demos/ to GitHub Pages as an Actions artifact.
+# Build output is uploaded directly and never committed back to the repository.
+name: Deploy demo to Pages
 
 on:
-  workflow_run:
-    workflows: [Release Build]
-    types:
-      - completed
-
+  push:
+    branches: [main]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -16,27 +14,43 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
+# Allow one concurrent deployment, but let an in-progress deployment finish
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Install emsdk
+        run: |
+          git clone --depth 1 https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          "$RUNNER_TEMP/emsdk/emsdk" install latest
+          "$RUNNER_TEMP/emsdk/emsdk" activate latest
+          source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
+          echo "PATH=$PATH" >> "$GITHUB_ENV"
+          echo "EMSDK=$EMSDK" >> "$GITHUB_ENV"
+      - name: Configure CMake
+        run: emcmake cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build -t ephys
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./demos
+
   deploy:
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: "./demos"
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
