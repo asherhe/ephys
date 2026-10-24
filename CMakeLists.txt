@@ -96,4 +96,6 @@ if(NOT EMSCRIPTEN)
   add_library(ephys_core STATIC ${EPHYS_SOURCES})
   target_include_directories(ephys_core PUBLIC ${EPHYS_INCLUDE_DIR})
   target_compile_features(ephys_core PUBLIC cxx_std_17)
+
+  add_subdirectory(desktop)
 endif()
