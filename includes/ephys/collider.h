@@ -51,7 +51,7 @@ namespace ephys
     // center is based on offset
     float radius;
 
-    CircleCollider(float radius, Rigidbody &body, const Mat3 &transform = Mat3::identity()) : radius(abs(radius)), Collider(body, transform) {}
+    CircleCollider(float radius, Rigidbody &body, const Mat3 &transform = Mat3::identity()) : radius(fabsf(radius)), Collider(body, transform) {}
   };
 
   class BoxCollider : public Collider
@@ -59,7 +59,7 @@ namespace ephys
   public:
     Vec2 halfSize;
 
-    BoxCollider(const Vec2 &halfSize, Rigidbody &body, const Mat3 &transform = Mat3::identity()) : halfSize(abs(halfSize.x), abs(halfSize.y)), Collider(body, transform) {}
+    BoxCollider(const Vec2 &halfSize, Rigidbody &body, const Mat3 &transform = Mat3::identity()) : halfSize(halfSize.abs()), Collider(body, transform) {}
   };
 }
 

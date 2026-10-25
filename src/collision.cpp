@@ -500,7 +500,7 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
   for (++it; it != boundingVolumes.end(); ++it)
     bvtree.insert(it->second, it->first);
 
-  auto potentialContacts = bvtree.getPotentialContacts();
+  auto &potentialContacts = bvtree.getPotentialContacts();
   // remove duplicates
   potentialContacts.sort();
   potentialContacts.unique();

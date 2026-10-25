@@ -33,10 +33,10 @@ jobs:
           source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
           echo "PATH=$PATH" >> "$GITHUB_ENV"
           echo "EMSDK=$EMSDK" >> "$GITHUB_ENV"
-      - name: Configure CMake
-        run: emcmake cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
-      - name: Build
-        run: cmake --build build -t ephys
+      - name: Install Ninja
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+      - name: Configure and build
+        run: cmake --workflow --preset web-release
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

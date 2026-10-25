@@ -43,7 +43,7 @@ namespace ephys
     Rigidbody() : linearDamping(0.9), angularDamping(0.9),
                   restitution(0.5),
                   mass(1), invMass(1),
-                  inertia(1), invInertia(1), id(Rigidbody::idCount++)
+                  inertia(1), invInertia(1), collider(nullptr), id(Rigidbody::idCount++)
     {
       calcDerivedData();
     }
@@ -104,7 +104,8 @@ namespace ephys
     inline void setAngularDamping(float angularDamping) { this->angularDamping = angularDamping; }
     inline void setCollider(Collider &collider)
     {
-      this->collider->body = nullptr;
+      if (this->collider)
+        this->collider->body = nullptr;
       this->collider = &collider;
       collider.body = this;
     }
