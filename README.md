@@ -46,14 +46,9 @@ cmake --build build -t ephys
 
 Use `-D CMAKE_BUILD_TYPE=Release` for an optimized (`-O3`) build. To use Ninja, add `-G Ninja` to the first command.
 
-The build doesn't track changes to individual source files, so do a clean build after editing anything in `src/` or `includes/`:
+Rebuilds are incremental: editing anything in `src/`, `includes/` or `web/` rebuilds the wasm module. On Windows, `build.bat` runs the build command.
 
-```sh
-cmake --build build -t clean
-cmake --build build -t ephys
-```
-
-On Windows, `build.bat` runs both of those commands.
+The wasm build's files (`ephys.idl`, `ephys-headers.h` and the target's `CMakeLists.txt`) live in `web/`.
 
 ### Run the demo
 
