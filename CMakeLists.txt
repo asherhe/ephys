@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
 project(ephys VERSION 0.1)
 
@@ -21,13 +21,12 @@ set(EPHYS_SOURCES
 list(TRANSFORM EPHYS_SOURCES PREPEND ${EPHYS_SRC_DIR})
 file(GLOB EPHYS_HEADER_FILES ${EPHYS_INCLUDE_DIR}/ephys/*.h)
 
-# wasm target: ephys
-if(DEFINED ENV{EMSDK})
+# each build directory has one frontend, picked by the toolchain (see CMakePresets.json)
+if(EMSCRIPTEN)
+  # wasm target: ephys
   add_subdirectory(web)
-endif()
-
-# native target: ephys_desktop
-if(NOT EMSCRIPTEN)
+else()
+  # native target: ephys_desktop
   add_library(ephys_core STATIC ${EPHYS_SOURCES})
   target_include_directories(ephys_core PUBLIC ${EPHYS_INCLUDE_DIR})
   target_compile_features(ephys_core PUBLIC cxx_std_17)

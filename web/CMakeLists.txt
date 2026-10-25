@@ -1,9 +1,9 @@
 # wasm target: ephys
 # calls em++ directly, so it works from both an emcmake and a native configure
 
-set(EMSDK $ENV{EMSDK})
-set(WEBIDL_BINDER ${EMSDK}/upstream/emscripten/tools/webidl_binder.py)
-find_program(EMXX NAMES em++ em++.bat PATHS ${EMSDK}/upstream/emscripten REQUIRED)
+# configured with the Emscripten toolchain file, which sets EMSCRIPTEN_ROOT_PATH and makes the C++ compiler em++
+set(WEBIDL_BINDER ${EMSCRIPTEN_ROOT_PATH}/tools/webidl_binder.py)
+set(EMXX ${CMAKE_CXX_COMPILER})
 set(IDL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/ephys.idl)
 set(EPHYS_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/ephys-headers.h)
 set(GLUE_BASE ${CMAKE_CURRENT_BINARY_DIR}/glue)
@@ -67,7 +67,7 @@ add_custom_command(
   COMMENT "compiling ephys code to wasm"
   VERBATIM
 )
-add_custom_target(ephys DEPENDS ${EPHYS_JS} ${EPHYS_WASM})
+add_custom_target(ephys ALL DEPENDS ${EPHYS_JS} ${EPHYS_WASM})
 
 # copy static site files into dist alongside the wasm output
 add_custom_command(

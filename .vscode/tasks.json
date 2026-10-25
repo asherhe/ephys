@@ -1,12 +1,34 @@
 {
   // See https://go.microsoft.com/fwlink/?LinkId=733558
   // for the documentation about the tasks.json format
+  // each task runs a workflow preset from CMakePresets.json (configure if needed, then build)
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build ephys",
+      "label": "build ephys (web)",
       "type": "shell",
-      "command": "./build.bat",
+      "command": "cmake --workflow --preset web-debug",
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": [
+          "autoDetect",
+          "${workspaceFolder}"
+        ],
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(\\w):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "group": "build"
+    },
+    {
+      "label": "build ephys (desktop)",
+      "type": "shell",
+      "command": "cmake --workflow --preset desktop-debug",
       "problemMatcher": {
         "owner": "cpp",
         "fileLocation": [

@@ -1,0 +1,82 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 25, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}"
+    },
+    {
+      "name": "web-base",
+      "hidden": true,
+      "inherits": "base",
+      "toolchainFile": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+    },
+    {
+      "name": "web-debug",
+      "displayName": "Web (Debug)",
+      "description": "wasm engine + browser demo, -O0 -g. Needs EMSDK set.",
+      "inherits": "web-base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "web-release",
+      "displayName": "Web (Release)",
+      "description": "wasm engine + browser demo, -O3. Needs EMSDK set.",
+      "inherits": "web-base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "desktop-debug",
+      "displayName": "Desktop (Debug)",
+      "description": "native SDL3 + ImGui app, with debug info",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "desktop-release",
+      "displayName": "Desktop (Release)",
+      "description": "native SDL3 + ImGui app, optimized",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "web-debug", "configurePreset": "web-debug" },
+    { "name": "web-release", "configurePreset": "web-release" },
+    { "name": "desktop-debug", "configurePreset": "desktop-debug" },
+    { "name": "desktop-release", "configurePreset": "desktop-release" }
+  ],
+  "workflowPresets": [
+    {
+      "name": "web-debug",
+      "steps": [
+        { "type": "configure", "name": "web-debug" },
+        { "type": "build", "name": "web-debug" }
+      ]
+    },
+    {
+      "name": "web-release",
+      "steps": [
+        { "type": "configure", "name": "web-release" },
+        { "type": "build", "name": "web-release" }
+      ]
+    },
+    {
+      "name": "desktop-debug",
+      "steps": [
+        { "type": "configure", "name": "desktop-debug" },
+        { "type": "build", "name": "desktop-debug" }
+      ]
+    },
+    {
+      "name": "desktop-release",
+      "steps": [
+        { "type": "configure", "name": "desktop-release" },
+        { "type": "build", "name": "desktop-release" }
+      ]
+    }
+  ]
+}
