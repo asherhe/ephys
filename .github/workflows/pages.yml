@@ -1,4 +1,4 @@
-# Builds the wasm engine and deploys demos/ to GitHub Pages as an Actions artifact.
+# Builds the wasm engine and deploys web/dist/ to GitHub Pages as an Actions artifact.
 # Build output is uploaded directly and never committed back to the repository.
 name: Deploy demo to Pages
 
@@ -42,7 +42,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./demos
+          path: ./web/dist
 
   deploy:
     needs: build

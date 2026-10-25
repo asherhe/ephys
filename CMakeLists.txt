@@ -4,6 +4,7 @@ project(ephys VERSION 0.1)
 
 set(EMSDK $ENV{EMSDK})
 set(WEBIDL_BINDER ${EMSDK}/upstream/emscripten/tools/webidl_binder.py)
+find_program(EMXX NAMES em++ em++.bat PATHS ${EMSDK}/upstream/emscripten REQUIRED)
 set(EPHYS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/)
 set(EPHYS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/includes/)
 set(IDL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/ephys.idl)
@@ -13,7 +14,9 @@ set(GLUE_JS ${GLUE_BASE}.js)
 set(GLUE_CPP ${GLUE_BASE}.cpp)
 set(GLUE_O ${GLUE_BASE}.o)
 set(GLUE_WRAPPER ${CMAKE_CURRENT_SOURCE_DIR}/glue-wrapper.cpp)
-set(OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/demos/js/ephys)
+set(WEB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/web)
+set(DIST_DIR ${WEB_DIR}/dist)
+set(OUTPUT_DIR ${DIST_DIR}/js/ephys)
 set(EPHYS_JS ${OUTPUT_DIR}/ephys.js)
 set(EPHYS_WASM ${OUTPUT_DIR}/ephys.wasm)
 
@@ -72,15 +75,27 @@ add_custom_command(
 add_custom_command(
   OUTPUT ${GLUE_O}
   DEPENDS ${GLUE_CPP}
-  COMMAND emcc ${GLUE_CPP} ${EMCC_GLUE_ARGS} -o ${GLUE_O}
+  COMMAND ${EMXX} ${GLUE_CPP} ${EMCC_GLUE_ARGS} -o ${GLUE_O}
   COMMENT "compiling bindings"
   VERBATIM
 )
 add_custom_command(
   OUTPUT ${EPHYS_JS} ${EPHYS_WASM}
   DEPENDS ${GLUE_JS} ${GLUE_O} ${SOURCE_DIR}
-  COMMAND emcc ${GLUE_O} ${EPHYS_SOURCES} ${EMCC_ARGS} -o ${EPHYS_JS}
+  COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}
+  COMMAND ${EMXX} ${GLUE_O} ${EPHYS_SOURCES} ${EMCC_ARGS} -o ${EPHYS_JS}
   COMMENT "compiling ephys code to wasm"
   VERBATIM
 )
 add_custom_target(ephys ALL DEPENDS ${EPHYS_JS} ${EPHYS_WASM})
+
+# copy static site files into dist alongside the wasm output
+add_custom_command(
+  TARGET ephys POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${WEB_DIR}/css ${DIST_DIR}/css
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${WEB_DIR}/img ${DIST_DIR}/img
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${WEB_DIR}/js ${DIST_DIR}/js
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${WEB_DIR}/index.html ${DIST_DIR}/index.html
+  COMMENT "copying web files to dist"
+  VERBATIM
+)
