@@ -1,8 +1,10 @@
 # ephys
 
-A simple 2d rigidbody physics engine inspired by [cyclone physics](https://github.com/idmillington/cyclone-physics/) ([Game Physics Engine Development](https://www.amazon.com/Game-Physics-Engine-Development-Commercial-Grade/dp/0123819768)).
+<img src="./web/img/favicon/favicon.svg" align="right" width="15%" />
 
-[live demo](https://asherhe.github.io/ephys/)
+A simple 2d rigidbody physics engine inspired by the [Cyclone physics](https://github.com/idmillington/cyclone-physics/) engine.
+
+See it in action here! [ephys live demo!](https://asherhe.github.io/ephys/)
 
 ## Building
 
