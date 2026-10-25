@@ -83,9 +83,9 @@ static void handleEvent(App &app, const SDL_Event &event)
   case SDL_EVENT_MOUSE_MOTION:
     if (app.panning)
     {
-      // screen is y-down, world is y-up
-      app.camera.x -= event.motion.xrel / app.camera.size;
-      app.camera.y += event.motion.yrel / app.camera.size;
+      // screen is y-down, world is y-up; motion is in render pixels
+      app.camera.x -= event.motion.xrel / (app.camera.size * app.camera.scale);
+      app.camera.y += event.motion.yrel / (app.camera.size * app.camera.scale);
     }
     break;
 
@@ -170,9 +170,11 @@ static void drawInspector(Shape &shape)
 
 static void drawUI(App &app)
 {
-  ImGui::SetNextWindowPos(ImVec2(8, 8), ImGuiCond_FirstUseEver);
+  // fixed sizes below are in unscaled pixels
+  const float scale = ImGui::GetStyle().FontScaleDpi;
+  ImGui::SetNextWindowPos(ImVec2(8 * scale, 8 * scale), ImGuiCond_FirstUseEver);
   ImGui::Begin("ephys", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-  ImGui::PushItemWidth(160);
+  ImGui::PushItemWidth(160 * scale);
 
   if (ImGui::CollapsingHeader("simulation", ImGuiTreeNodeFlags_DefaultOpen))
   {
@@ -208,7 +210,7 @@ static void drawUI(App &app)
     ImGui::TextDisabled("click a body to select it");
 
     float swatch = ImGui::GetTextLineHeight();
-    ImGui::BeginChild("body list", ImVec2(260, 8 * ImGui::GetTextLineHeightWithSpacing()), ImGuiChildFlags_Borders);
+    ImGui::BeginChild("body list", ImVec2(260 * scale, 8 * ImGui::GetTextLineHeightWithSpacing()), ImGuiChildFlags_Borders);
     for (int i = 0; i < (int)shapes.size(); i++)
     {
       ImGui::PushID(i);
@@ -242,6 +244,8 @@ struct State
   SDL_Renderer *renderer = nullptr;
   App app;
   Uint64 prevTicks = 0;
+  ImFont *pixelFont = nullptr;  // ProggyClean, only sharp at whole multiples of its 13px size
+  ImFont *vectorFont = nullptr; // scalable, for fractional display scales
 };
 
 // camera needs the viewport size before mouse events are mapped to world space
@@ -251,6 +255,22 @@ static void updateViewport(State &state)
   SDL_GetCurrentRenderOutputSize(state.renderer, &width, &height);
   state.app.camera.width = (float)width;
   state.app.camera.height = (float)height;
+  // render pixels per unscaled pixel: the browser's devicePixelRatio on the web,
+  // the OS scale setting on Windows, the backing scale on macOS
+  state.app.camera.scale = SDL_GetWindowDisplayScale(state.window);
+}
+
+// imgui lays out and draws in render pixels (see SDL_AppIterate), so its style and font take
+// the whole display scale; rebuilt from scratch since ScaleAllSizes compounds
+static void updateUiScale(State &state)
+{
+  float scale = SDL_GetWindowDisplayScale(state.window);
+  ImGuiStyle &style = ImGui::GetStyle();
+  style = ImGuiStyle();
+  ImGui::StyleColorsDark(&style);
+  style.ScaleAllSizes(scale);
+  style.FontScaleDpi = scale;
+  ImGui::GetIO().FontDefault = scale == SDL_floorf(scale) ? state.pixelFont : state.vectorFont;
 }
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
@@ -263,7 +283,22 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 
   State *state = new State;
   *appstate = state;
-  if (!SDL_CreateWindowAndRenderer("ephys", 1280, 720, SDL_WINDOW_RESIZABLE, &state->window, &state->renderer))
+  // window sizes are in OS units, which are pixels on Windows, so scale the default size too
+  // (ignored on the web, where css sizes the canvas)
+  float scale = SDL_GetDisplayContentScale(SDL_GetPrimaryDisplay());
+  if (scale <= 0)
+    scale = 1;
+  SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY;
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+  // create the window ready for the GLES2 (WebGL) renderer; otherwise the renderer recreates it,
+  // and tearing down a HiDPI window leaves an inline 1px css size on the canvas, so the new
+  // window no longer sees the stylesheet's size and falls back to 1280x720
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  flags |= SDL_WINDOW_OPENGL;
+#endif
+  if (!SDL_CreateWindowAndRenderer("ephys", (int)(1280 * scale), (int)(720 * scale), flags, &state->window, &state->renderer))
   {
     SDL_Log("SDL_CreateWindowAndRenderer failed: %s", SDL_GetError());
     return SDL_APP_FAILURE;
@@ -272,8 +307,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
-  ImGui::GetIO().IniFilename = nullptr; // don't write imgui.ini next to the exe
-  ImGui::StyleColorsDark();
+  ImGuiIO &io = ImGui::GetIO();
+  io.IniFilename = nullptr; // don't write imgui.ini next to the exe
+  state->pixelFont = io.Fonts->AddFontDefaultBitmap();
+  state->vectorFont = io.Fonts->AddFontDefaultVector();
+  updateUiScale(*state);
   ImGui_ImplSDL3_InitForSDLRenderer(state->window, state->renderer);
   ImGui_ImplSDLRenderer3_Init(state->renderer);
 
@@ -286,13 +324,17 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 {
   State &state = *(State *)appstate;
 
-  // imgui wants window coordinates, the camera wants render coordinates
-  ImGui_ImplSDL3_ProcessEvent(event);
+  // imgui and the camera both work in render pixels
   SDL_ConvertEventToRenderCoordinates(state.renderer, event);
+  ImGui_ImplSDL3_ProcessEvent(event);
   if (event->type == SDL_EVENT_QUIT)
     return SDL_APP_SUCCESS;
   if (event->type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event->window.windowID == SDL_GetWindowID(state.window))
     return SDL_APP_SUCCESS;
+
+  // moved to another monitor, OS scale changed, or browser zoom / devicePixelRatio changed
+  if (event->type == SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED)
+    updateUiScale(state);
 
   updateViewport(state);
   handleEvent(state.app, *event);
@@ -327,6 +369,12 @@ SDL_AppResult SDL_AppIterate(void *appstate)
 
   ImGui_ImplSDLRenderer3_NewFrame();
   ImGui_ImplSDL3_NewFrame();
+  // run imgui in render pixels instead of window units, so it snaps layout and text to physical
+  // pixels; scaling window units up by a fractional pixel density lands edges between pixels
+  ImGuiIO &io = ImGui::GetIO();
+  if (io.DisplaySize.x > 0 && io.DisplaySize.y > 0) // zero while minimized
+    io.DisplaySize = ImVec2(app.camera.width, app.camera.height);
+  io.DisplayFramebufferScale = ImVec2(1, 1);
   ImGui::NewFrame();
   drawUI(app);
   ImGui::Render();
