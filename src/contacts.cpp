@@ -76,11 +76,6 @@ float Contact::normalImpulse()
   float contactVelocity = closingVelocity * normal,
         dv = -(restitution + 1) * contactVelocity;
 
-  std::cout << "normal impulse:\n"
-            << "  dv " << dv << "\n"
-            << "  per impulse " << dvPerImpulse << "\n"
-            << "  impulse " << dv / dvPerImpulse << "\n";
-
   // impulse in world coords
   return dv / dvPerImpulse;
 }

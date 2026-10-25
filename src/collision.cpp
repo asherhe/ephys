@@ -295,8 +295,6 @@ size_t clipSegment(ClipPoint vout[2], ClipPoint vin[2], const Vec2 &normal, floa
 
 std::list<Contact> &CollisionDetector::boxBox(const BoxCollider &b1, const BoxCollider &b2, const CollisionProperties &properties)
 {
-  std::cout << "box box\n";
-
   // box vertex/edge ids
   //     e0
   //    1--0
@@ -435,11 +433,6 @@ std::list<Contact> &CollisionDetector::boxBox(const BoxCollider &b1, const BoxCo
   if (numPoints < 2)
     return *contacts;
 
-  std::cout << "  clip\n"
-            << "    " << incFace[0].v << "-" << incFace[1].v << "\n"
-            << "    " << cp1[0].v << "-" << cp1[1].v << "\n"
-            << "    " << cp2[0].v << "-" << cp2[1].v << "\n";
-
   for (int i = 0; i < 2; ++i)
   {
     float separation = frontNormal * cp2[i].v - front;
@@ -453,11 +446,6 @@ std::list<Contact> &CollisionDetector::boxBox(const BoxCollider &b1, const BoxCo
       contact.normal = normal;
       contact.restitution = properties.restitution;
       contact.penetration = -separation;
-
-      std::cout << "  vertex " << cp2[i].v << "\n"
-                << "  front normal " << frontNormal << "\n"
-                << "  front " << front << "\n"
-                << "  penetration " << contact.penetration << "\n";
 
       contacts->push_back(contact);
     }
@@ -552,8 +540,6 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
   }
 
   delete &potentialContacts;
-
-  std::cout << contacts->size() << " contacts\n";
 
   return *contacts;
 }
