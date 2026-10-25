@@ -33,16 +33,17 @@ add_library(imgui STATIC
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends)
 target_link_libraries(imgui PUBLIC SDL3::SDL3)
 
-#################### ephys_desktop ####################
-add_executable(ephys_desktop
+#################### ephys_app ####################
+# native exe, or the wasm module when built with Emscripten (output configured in web/CMakeLists.txt)
+add_executable(ephys_app
   main.cpp
   render.cpp
   scene.cpp
 )
-target_link_libraries(ephys_desktop PRIVATE ephys_core imgui SDL3::SDL3)
-target_compile_features(ephys_desktop PRIVATE cxx_std_17)
+target_link_libraries(ephys_app PRIVATE ephys_core imgui SDL3::SDL3)
+target_compile_features(ephys_app PRIVATE cxx_std_17)
 
 if(MINGW)
   # don't depend on the MinGW runtime DLLs being on PATH
-  target_link_options(ephys_desktop PRIVATE -static)
+  target_link_options(ephys_app PRIVATE -static)
 endif()
