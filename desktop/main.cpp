@@ -5,6 +5,13 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_sdlrenderer3.h"
 
+#include "camera.h"
+#include "render.h"
+#include "scene.h"
+
+// longest frame the sim will advance by, so stopping at a breakpoint doesn't blow up the next step
+constexpr float MAX_FRAME_TIME = 0.05f;
+
 int main(int argc, char *argv[])
 {
   if (!SDL_Init(SDL_INIT_VIDEO))
@@ -30,9 +37,17 @@ int main(int argc, char *argv[])
   ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
   ImGui_ImplSDLRenderer3_Init(renderer);
 
+  Scene scene;
+  Camera camera;
+
+  Uint64 prevTicks = SDL_GetTicksNS();
   bool running = true;
   while (running)
   {
+    Uint64 ticks = SDL_GetTicksNS();
+    float elapsed = SDL_min((ticks - prevTicks) / 1e9f, MAX_FRAME_TIME);
+    prevTicks = ticks;
+
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
@@ -41,6 +56,14 @@ int main(int argc, char *argv[])
         running = false;
       else if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event.window.windowID == SDL_GetWindowID(window))
         running = false;
+    }
+
+    // physics runs at twice the render rate, like the web demo
+    // Rigidbody::step asserts dt > 0, so skip frames where no time has passed
+    if (elapsed > 0)
+    {
+      scene.step(elapsed / 2);
+      scene.step(elapsed / 2);
     }
 
     ImGui_ImplSDLRenderer3_NewFrame();
@@ -57,6 +80,13 @@ int main(int argc, char *argv[])
     // background matches demos/css/styles.css (#222)
     SDL_SetRenderDrawColor(renderer, 0x22, 0x22, 0x22, 0xff);
     SDL_RenderClear(renderer);
+
+    int width, height;
+    SDL_GetCurrentRenderOutputSize(renderer, &width, &height);
+    camera.width = (float)width;
+    camera.height = (float)height;
+    drawScene(renderer, scene, camera);
+
     ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), renderer);
     SDL_RenderPresent(renderer);
   }

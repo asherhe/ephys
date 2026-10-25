@@ -36,6 +36,8 @@ target_link_libraries(imgui PUBLIC SDL3::SDL3)
 #################### ephys_desktop ####################
 add_executable(ephys_desktop
   main.cpp
+  render.cpp
+  scene.cpp
 )
 target_link_libraries(ephys_desktop PRIVATE ephys_core imgui SDL3::SDL3)
 target_compile_features(ephys_desktop PRIVATE cxx_std_17)
