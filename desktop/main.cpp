@@ -1,3 +1,5 @@
+// SDL owns the main loop (required on the web, where the browser drives frames)
+#define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
@@ -233,95 +235,125 @@ static void drawUI(App &app)
   ImGui::End();
 }
 
-int main(int argc, char *argv[])
+// everything the SDL callbacks share, passed around as appstate
+struct State
+{
+  SDL_Window *window = nullptr;
+  SDL_Renderer *renderer = nullptr;
+  App app;
+  Uint64 prevTicks = 0;
+};
+
+// camera needs the viewport size before mouse events are mapped to world space
+static void updateViewport(State &state)
+{
+  int width, height;
+  SDL_GetCurrentRenderOutputSize(state.renderer, &width, &height);
+  state.app.camera.width = (float)width;
+  state.app.camera.height = (float)height;
+}
+
+SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
   if (!SDL_Init(SDL_INIT_VIDEO))
   {
     SDL_Log("SDL_Init failed: %s", SDL_GetError());
-    return 1;
+    return SDL_APP_FAILURE;
   }
 
-  SDL_Window *window;
-  SDL_Renderer *renderer;
-  if (!SDL_CreateWindowAndRenderer("ephys", 1280, 720, SDL_WINDOW_RESIZABLE, &window, &renderer))
+  State *state = new State;
+  *appstate = state;
+  if (!SDL_CreateWindowAndRenderer("ephys", 1280, 720, SDL_WINDOW_RESIZABLE, &state->window, &state->renderer))
   {
     SDL_Log("SDL_CreateWindowAndRenderer failed: %s", SDL_GetError());
-    SDL_Quit();
-    return 1;
+    return SDL_APP_FAILURE;
   }
-  SDL_SetRenderVSync(renderer, 1);
+  SDL_SetRenderVSync(state->renderer, 1);
 
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
   ImGui::GetIO().IniFilename = nullptr; // don't write imgui.ini next to the exe
   ImGui::StyleColorsDark();
-  ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
-  ImGui_ImplSDLRenderer3_Init(renderer);
+  ImGui_ImplSDL3_InitForSDLRenderer(state->window, state->renderer);
+  ImGui_ImplSDLRenderer3_Init(state->renderer);
 
-  App app;
+  updateViewport(*state);
+  state->prevTicks = SDL_GetTicksNS();
+  return SDL_APP_CONTINUE;
+}
 
-  Uint64 prevTicks = SDL_GetTicksNS();
-  bool running = true;
-  while (running)
+SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
+{
+  State &state = *(State *)appstate;
+
+  // imgui wants window coordinates, the camera wants render coordinates
+  ImGui_ImplSDL3_ProcessEvent(event);
+  SDL_ConvertEventToRenderCoordinates(state.renderer, event);
+  if (event->type == SDL_EVENT_QUIT)
+    return SDL_APP_SUCCESS;
+  if (event->type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event->window.windowID == SDL_GetWindowID(state.window))
+    return SDL_APP_SUCCESS;
+
+  updateViewport(state);
+  handleEvent(state.app, *event);
+  return SDL_APP_CONTINUE;
+}
+
+SDL_AppResult SDL_AppIterate(void *appstate)
+{
+  State &state = *(State *)appstate;
+  App &app = state.app;
+
+  Uint64 ticks = SDL_GetTicksNS();
+  float elapsed = SDL_min((ticks - state.prevTicks) / 1e9f, MAX_FRAME_TIME);
+  state.prevTicks = ticks;
+
+  updateViewport(state);
+
+  float dt = app.paused ? (app.stepOnce ? STEP_TIME : 0) : elapsed;
+  dt *= app.timeScale;
+  app.stepOnce = false;
+
+  // physics runs at twice the render rate, like the web demo
+  // Rigidbody::step asserts dt > 0, so skip frames where no time has passed
+  if (dt > 0)
   {
-    Uint64 ticks = SDL_GetTicksNS();
-    float elapsed = SDL_min((ticks - prevTicks) / 1e9f, MAX_FRAME_TIME);
-    prevTicks = ticks;
-
-    // camera needs the viewport size before mouse events are mapped to world space
-    int width, height;
-    SDL_GetCurrentRenderOutputSize(renderer, &width, &height);
-    app.camera.width = (float)width;
-    app.camera.height = (float)height;
-
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-      // imgui wants window coordinates, the camera wants render coordinates
-      ImGui_ImplSDL3_ProcessEvent(&event);
-      SDL_ConvertEventToRenderCoordinates(renderer, &event);
-      if (event.type == SDL_EVENT_QUIT)
-        running = false;
-      else if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event.window.windowID == SDL_GetWindowID(window))
-        running = false;
-      else
-        handleEvent(app, event);
-    }
-
-    float dt = app.paused ? (app.stepOnce ? STEP_TIME : 0) : elapsed;
-    dt *= app.timeScale;
-    app.stepOnce = false;
-
-    // physics runs at twice the render rate, like the web demo
-    // Rigidbody::step asserts dt > 0, so skip frames where no time has passed
-    if (dt > 0)
-    {
-      Uint64 start = SDL_GetPerformanceCounter();
-      app.scene.step(dt / 2);
-      app.scene.step(dt / 2);
-      float ms = (SDL_GetPerformanceCounter() - start) * 1000.f / SDL_GetPerformanceFrequency();
-      app.stepMs = app.stepMs == 0 ? ms : app.stepMs * 0.95f + ms * 0.05f;
-    }
-
-    ImGui_ImplSDLRenderer3_NewFrame();
-    ImGui_ImplSDL3_NewFrame();
-    ImGui::NewFrame();
-    drawUI(app);
-    ImGui::Render();
-
-    // background matches web/css/styles.css (#222)
-    SDL_SetRenderDrawColor(renderer, 0x22, 0x22, 0x22, 0xff);
-    SDL_RenderClear(renderer);
-    drawScene(renderer, app.scene, app.camera, app.render);
-    ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), renderer);
-    SDL_RenderPresent(renderer);
+    Uint64 start = SDL_GetPerformanceCounter();
+    app.scene.step(dt / 2);
+    app.scene.step(dt / 2);
+    float ms = (SDL_GetPerformanceCounter() - start) * 1000.f / SDL_GetPerformanceFrequency();
+    app.stepMs = app.stepMs == 0 ? ms : app.stepMs * 0.95f + ms * 0.05f;
   }
 
-  ImGui_ImplSDLRenderer3_Shutdown();
-  ImGui_ImplSDL3_Shutdown();
-  ImGui::DestroyContext();
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
-  return 0;
+  ImGui_ImplSDLRenderer3_NewFrame();
+  ImGui_ImplSDL3_NewFrame();
+  ImGui::NewFrame();
+  drawUI(app);
+  ImGui::Render();
+
+  // background matches web/css/styles.css (#222)
+  SDL_SetRenderDrawColor(state.renderer, 0x22, 0x22, 0x22, 0xff);
+  SDL_RenderClear(state.renderer);
+  drawScene(state.renderer, app.scene, app.camera, app.render);
+  ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), state.renderer);
+  SDL_RenderPresent(state.renderer);
+  return SDL_APP_CONTINUE;
+}
+
+void SDL_AppQuit(void *appstate, SDL_AppResult result)
+{
+  State *state = (State *)appstate;
+  if (ImGui::GetCurrentContext())
+  {
+    ImGui_ImplSDLRenderer3_Shutdown();
+    ImGui_ImplSDL3_Shutdown();
+    ImGui::DestroyContext();
+  }
+  if (!state)
+    return; // SDL_Init failed before state was allocated
+  if (state->renderer)
+    SDL_DestroyRenderer(state->renderer);
+  if (state->window)
+    SDL_DestroyWindow(state->window);
+  delete state; // SDL_Quit is called for us after this returns
 }
