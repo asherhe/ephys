@@ -22,6 +22,16 @@ p {
   margin: 0;
 }
 
+/* full window; SDL reads this css size to size its window and the backing store */
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .info {
   position: absolute;
   top: 0;
@@ -66,6 +76,7 @@ p {
 
 footer {
   position: absolute;
+  z-index: 1; /* above the canvas */
   bottom: 0;
   padding: 8px;
   color: #888;
@@ -93,6 +104,7 @@ a.gh-link:hover>img {
 
 #loading-wrapper {
   position: absolute;
+  z-index: 1; /* above the canvas */
   flex-direction: column;
   flex-wrap: nowrap;
   display: flex;

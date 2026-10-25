@@ -8,17 +8,19 @@ See it in action here! [ephys live demo!](https://asherhe.github.io/ephys/)
 
 ## Building
 
-ephys has two CMake targets, both built from the engine sources in `src/` and `includes/`:
+The engine (`src/` and `includes/`) is built as a static library, `ephys_core`. One demo app, `ephys_app` in `desktop/`, uses it with [SDL3](https://www.libsdl.org/) and [Dear ImGui](https://github.com/ocornut/imgui), and builds for two platforms:
 
-- `ephys`: the engine compiled to WebAssembly with Emscripten, plus the browser demo in `web/`
-- `ephys_desktop`: a native demo app using [SDL3](https://www.libsdl.org/) and [Dear ImGui](https://github.com/ocornut/imgui), in `desktop/`
+- natively, as a desktop executable
+- to WebAssembly with Emscripten, as the browser demo. `web/` holds the page around it and the wasm build settings.
 
-Each target needs its own toolchain, so builds are set up with [CMake presets](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) in `CMakePresets.json`. Every preset gets its own directory under `build/`:
+Both builds run the same app with the same features.
 
-| Preset | Target | Build directory |
+Each platform needs its own toolchain, so builds are set up with [CMake presets](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) in `CMakePresets.json`. Every preset gets its own directory under `build/`:
+
+| Preset | Output | Build directory |
 | --- | --- | --- |
-| `web-debug` / `web-release` | `ephys` | `build/web-debug/`, `build/web-release/` |
-| `desktop-debug` / `desktop-release` | `ephys_desktop` | `build/desktop-debug/`, `build/desktop-release/` |
+| `web-debug` / `web-release` | `web/dist/` | `build/web-debug/`, `build/web-release/` |
+| `desktop-debug` / `desktop-release` | `ephys_app` executable | `build/desktop-debug/`, `build/desktop-release/` |
 
 `cmake --workflow --preset <name>` configures (if needed) and builds in one step, and rebuilds are incremental. `cmake --list-presets` lists them. Editors with CMake preset support (VS Code's CMake Tools, Visual Studio, CLion) pick them up automatically.
 
@@ -26,14 +28,15 @@ Each target needs its own toolchain, so builds are set up with [CMake presets](h
 
 - [CMake](https://cmake.org/) 3.25 or newer (for workflow presets)
 - [Ninja](https://ninja-build.org/), which every preset uses as its generator
-- [Git](https://git-scm.com/), to clone emsdk and for CMake to fetch the desktop dependencies
+- [Git](https://git-scm.com/), to clone emsdk and for CMake to fetch SDL3 and ImGui
+
+You don't install SDL3 (`release-3.4.18`) or Dear ImGui (`v1.92.9b`) yourself. CMake downloads them with `FetchContent` the first time you configure each preset, so a first configure needs a network connection and takes a while. SDL is built as a static library.
 
 ### Web
 
 #### Dependencies
 
-- [Emscripten SDK (emsdk)](https://emscripten.org/docs/getting_started/downloads.html): provides `em++`, `emcmake`, and the WebIDL binder used to generate the JS bindings
-- [Python 3](https://www.python.org/), available on your `PATH` as `python` (the build runs Emscripten's `webidl_binder.py` with it)
+- [Emscripten SDK (emsdk)](https://emscripten.org/docs/getting_started/downloads.html), which provides `em++` and `emcmake`
 
 #### Set up Emscripten
 
@@ -52,7 +55,7 @@ emsdk_env.bat           # Windows (cmd)
 .\emsdk_env.ps1         # Windows (PowerShell)
 ```
 
-This puts `em++` and `emcmake` on your `PATH` and sets the `EMSDK` environment variable. The web presets only need `EMSDK`: they load Emscripten's toolchain file from it, and the toolchain finds `em++` and the WebIDL binder on its own.
+This puts `em++` and `emcmake` on your `PATH` and sets the `EMSDK` environment variable. The web presets only need `EMSDK`: they load Emscripten's toolchain file from it, and the toolchain finds `em++` on its own.
 
 #### Build
 
@@ -64,21 +67,23 @@ cmake --workflow --preset web-debug
 
 Use `web-release` for an optimized (`-O3`) build.
 
-The build compiles `web/dist/js/ephys/ephys.js` and `web/dist/js/ephys/ephys.wasm`, then copies the demo page's files (`index.html`, `css/`, `img/` and `js/`) from `web/` into `web/dist/` alongside them. `web/dist/` is regenerated on every build and isn't tracked by git, so edit the files in `web/` instead.
+The build compiles the app to `web/dist/js/ephys/ephys.js` and `web/dist/js/ephys/ephys.wasm`. It then copies the demo page's files (`index.html`, `css/`, `img/` and `js/`) from `web/` into `web/dist/` next to them. `web/dist/` is regenerated on every build and isn't tracked by git, so edit the files in `web/` instead.
 
-Editing anything in `src/`, `includes/` or `web/` rebuilds the wasm module on the next build.
+Editing anything in `src/`, `includes/` or `desktop/` rebuilds the wasm module on the next build. The site files are copied again on every build.
 
-The wasm build's files (`ephys.idl`, `ephys-headers.h` and the target's `CMakeLists.txt`) also live in `web/`.
+`web/ephys.idl` and `web/ephys-headers.h` are the old WebIDL JS bindings. They're kept for reference, but the build no longer uses them.
 
 #### Run the demo
 
-Build first, then serve `web/dist/`. The demo has to be served over HTTP, because browsers won't load `.wasm` files from `file://`. Any static file server works:
+Build first, then serve `web/dist/`. The demo has to be served over HTTP, because browsers won't load `.wasm` files from `file://`. Any static file server works, for example Python's:
 
 ```sh
 python -m http.server 8000 -d web/dist
 ```
 
-Then open <http://localhost:8000>.
+Then open <http://localhost:8000>. The controls are the same as on [desktop](#run).
+
+The canvas fills the browser window and follows it when the window is resized. CSS sizes the canvas, and SDL matches its drawing buffer to that size.
 
 #### Deployment
 
@@ -90,8 +95,6 @@ Every push to `main` runs `.github/workflows/pages.yml`, which does a Release bu
 
 - A C++17 compiler: GCC, Clang, MSVC, or [MinGW-w64](https://www.mingw-w64.org/) on Windows
 - On Linux, the development packages SDL needs for windowing (X11 and/or Wayland). See SDL's [`docs/README-linux.md`](https://github.com/libsdl-org/SDL/blob/main/docs/README-linux.md).
-
-SDL3 (`release-3.4.18`) and Dear ImGui (`v1.92.9b`) don't need to be installed. CMake downloads them with `FetchContent` the first time you configure, so that first configure needs a network connection and takes a while. SDL is built as a static library.
 
 #### Build
 
@@ -108,9 +111,9 @@ The presets use whichever C++ compiler CMake finds first. To pick a specific one
 #### Run
 
 ```sh
-./build/desktop-debug/desktop/ephys_desktop
+./build/desktop-debug/desktop/ephys_app
 ```
 
-On Windows the executable is `ephys_desktop.exe`.
+On Windows the executable is `ephys_app.exe`.
 
 Space pauses, the right arrow steps once while paused, and `R` resets the scene. Left click selects a body, right drag pans, and the scroll wheel zooms.

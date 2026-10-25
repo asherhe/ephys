@@ -1,3 +1,5 @@
+// SDL owns the main loop (required on the web, where the browser drives frames)
+#define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
@@ -46,6 +48,44 @@ struct App
   }
 };
 
+// keys handleEvent acts on, without ctrl/alt/gui so browser and OS shortcuts like ctrl+r keep working
+static bool isHotkey(const SDL_KeyboardEvent &key)
+{
+  if (key.mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT | SDL_KMOD_GUI))
+    return false;
+  return key.key == SDLK_SPACE || key.key == SDLK_RIGHT || key.key == SDLK_R;
+}
+
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+// keys imgui's text fields act on as keys, with or without ctrl/shift (word jumps, select all,
+// undo); typed characters don't need their key events, they arrive as SDL_EVENT_TEXT_INPUT
+static bool isTextEditKey(SDL_Keycode key)
+{
+  switch (key)
+  {
+  case SDLK_LEFT: case SDLK_RIGHT: case SDLK_UP: case SDLK_DOWN:
+  case SDLK_HOME: case SDLK_END: case SDLK_BACKSPACE: case SDLK_DELETE:
+  case SDLK_RETURN: case SDLK_KP_ENTER: case SDLK_ESCAPE: case SDLK_TAB:
+  case SDLK_A: case SDLK_C: case SDLK_V: case SDLK_X: case SDLK_Y: case SDLK_Z:
+    return true;
+  default:
+    return false;
+  }
+}
+
+// on the web SDL calls preventDefault on every key event it posts, which swallows browser
+// shortcuts (ctrl+r, F5, F12...); so only post keys the app listens for, and leave every
+// other key to the browser by dropping it here
+static bool SDLCALL filterKeys(void *, SDL_Event *event)
+{
+  if (event->type != SDL_EVENT_KEY_DOWN)
+    return true; // key ups don't trigger shortcuts, and imgui needs them to release held keys
+  if (isHotkey(event->key))
+    return true;
+  return ImGui::GetCurrentContext() && ImGui::GetIO().WantTextInput && isTextEditKey(event->key.key);
+}
+#endif
+
 // event coordinates must already be in render coordinates
 static void handleEvent(App &app, const SDL_Event &event)
 {
@@ -53,7 +93,7 @@ static void handleEvent(App &app, const SDL_Event &event)
   switch (event.type)
   {
   case SDL_EVENT_KEY_DOWN:
-    if (io.WantCaptureKeyboard)
+    if (io.WantCaptureKeyboard || !isHotkey(event.key))
       break;
     if (event.key.key == SDLK_SPACE && !event.key.repeat)
       app.paused = !app.paused;
@@ -81,9 +121,9 @@ static void handleEvent(App &app, const SDL_Event &event)
   case SDL_EVENT_MOUSE_MOTION:
     if (app.panning)
     {
-      // screen is y-down, world is y-up
-      app.camera.x -= event.motion.xrel / app.camera.size;
-      app.camera.y += event.motion.yrel / app.camera.size;
+      // screen is y-down, world is y-up; motion is in render pixels
+      app.camera.x -= event.motion.xrel / (app.camera.size * app.camera.scale);
+      app.camera.y += event.motion.yrel / (app.camera.size * app.camera.scale);
     }
     break;
 
@@ -168,9 +208,11 @@ static void drawInspector(Shape &shape)
 
 static void drawUI(App &app)
 {
-  ImGui::SetNextWindowPos(ImVec2(8, 8), ImGuiCond_FirstUseEver);
+  // fixed sizes below are in unscaled pixels
+  const float scale = ImGui::GetStyle().FontScaleDpi;
+  ImGui::SetNextWindowPos(ImVec2(8 * scale, 8 * scale), ImGuiCond_FirstUseEver);
   ImGui::Begin("ephys", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-  ImGui::PushItemWidth(160);
+  ImGui::PushItemWidth(160 * scale);
 
   if (ImGui::CollapsingHeader("simulation", ImGuiTreeNodeFlags_DefaultOpen))
   {
@@ -206,7 +248,7 @@ static void drawUI(App &app)
     ImGui::TextDisabled("click a body to select it");
 
     float swatch = ImGui::GetTextLineHeight();
-    ImGui::BeginChild("body list", ImVec2(260, 8 * ImGui::GetTextLineHeightWithSpacing()), ImGuiChildFlags_Borders);
+    ImGui::BeginChild("body list", ImVec2(260 * scale, 8 * ImGui::GetTextLineHeightWithSpacing()), ImGuiChildFlags_Borders);
     for (int i = 0; i < (int)shapes.size(); i++)
     {
       ImGui::PushID(i);
@@ -233,95 +275,175 @@ static void drawUI(App &app)
   ImGui::End();
 }
 
-int main(int argc, char *argv[])
+// everything the SDL callbacks share, passed around as appstate
+struct State
+{
+  SDL_Window *window = nullptr;
+  SDL_Renderer *renderer = nullptr;
+  App app;
+  Uint64 prevTicks = 0;
+  ImFont *pixelFont = nullptr;  // ProggyClean, only sharp at whole multiples of its 13px size
+  ImFont *vectorFont = nullptr; // scalable, for fractional display scales
+};
+
+// camera needs the viewport size before mouse events are mapped to world space
+static void updateViewport(State &state)
+{
+  int width, height;
+  SDL_GetCurrentRenderOutputSize(state.renderer, &width, &height);
+  state.app.camera.width = (float)width;
+  state.app.camera.height = (float)height;
+  // render pixels per unscaled pixel: the browser's devicePixelRatio on the web,
+  // the OS scale setting on Windows, the backing scale on macOS
+  state.app.camera.scale = SDL_GetWindowDisplayScale(state.window);
+}
+
+// imgui lays out and draws in render pixels (see SDL_AppIterate), so its style and font take
+// the whole display scale; rebuilt from scratch since ScaleAllSizes compounds
+static void updateUiScale(State &state)
+{
+  float scale = SDL_GetWindowDisplayScale(state.window);
+  ImGuiStyle &style = ImGui::GetStyle();
+  style = ImGuiStyle();
+  ImGui::StyleColorsDark(&style);
+  style.ScaleAllSizes(scale);
+  style.FontScaleDpi = scale;
+  ImGui::GetIO().FontDefault = scale == SDL_floorf(scale) ? state.pixelFont : state.vectorFont;
+}
+
+SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
   if (!SDL_Init(SDL_INIT_VIDEO))
   {
     SDL_Log("SDL_Init failed: %s", SDL_GetError());
-    return 1;
+    return SDL_APP_FAILURE;
   }
 
-  SDL_Window *window;
-  SDL_Renderer *renderer;
-  if (!SDL_CreateWindowAndRenderer("ephys", 1280, 720, SDL_WINDOW_RESIZABLE, &window, &renderer))
+  State *state = new State;
+  *appstate = state;
+  // window sizes are in OS units, which are pixels on Windows, so scale the default size too
+  // (ignored on the web, where css sizes the canvas)
+  float scale = SDL_GetDisplayContentScale(SDL_GetPrimaryDisplay());
+  if (scale <= 0)
+    scale = 1;
+  SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY;
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+  // create the window ready for the GLES2 (WebGL) renderer; otherwise the renderer recreates it,
+  // and tearing down a HiDPI window leaves an inline 1px css size on the canvas, so the new
+  // window no longer sees the stylesheet's size and falls back to 1280x720
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  flags |= SDL_WINDOW_OPENGL;
+#endif
+  if (!SDL_CreateWindowAndRenderer("ephys", (int)(1280 * scale), (int)(720 * scale), flags, &state->window, &state->renderer))
   {
     SDL_Log("SDL_CreateWindowAndRenderer failed: %s", SDL_GetError());
-    SDL_Quit();
-    return 1;
+    return SDL_APP_FAILURE;
   }
-  SDL_SetRenderVSync(renderer, 1);
+  SDL_SetRenderVSync(state->renderer, 1);
 
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
-  ImGui::GetIO().IniFilename = nullptr; // don't write imgui.ini next to the exe
-  ImGui::StyleColorsDark();
-  ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
-  ImGui_ImplSDLRenderer3_Init(renderer);
+  ImGuiIO &io = ImGui::GetIO();
+  io.IniFilename = nullptr; // don't write imgui.ini next to the exe
+  state->pixelFont = io.Fonts->AddFontDefaultBitmap();
+  state->vectorFont = io.Fonts->AddFontDefaultVector();
+  updateUiScale(*state);
+  ImGui_ImplSDL3_InitForSDLRenderer(state->window, state->renderer);
+  ImGui_ImplSDLRenderer3_Init(state->renderer);
 
-  App app;
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+  SDL_SetEventFilter(filterKeys, nullptr);
+#endif
 
-  Uint64 prevTicks = SDL_GetTicksNS();
-  bool running = true;
-  while (running)
+  updateViewport(*state);
+  state->prevTicks = SDL_GetTicksNS();
+  return SDL_APP_CONTINUE;
+}
+
+SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
+{
+  State &state = *(State *)appstate;
+
+  // imgui and the camera both work in render pixels
+  SDL_ConvertEventToRenderCoordinates(state.renderer, event);
+  ImGui_ImplSDL3_ProcessEvent(event);
+  if (event->type == SDL_EVENT_QUIT)
+    return SDL_APP_SUCCESS;
+  if (event->type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event->window.windowID == SDL_GetWindowID(state.window))
+    return SDL_APP_SUCCESS;
+
+  // moved to another monitor, OS scale changed, or browser zoom / devicePixelRatio changed
+  if (event->type == SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED)
+    updateUiScale(state);
+
+  updateViewport(state);
+  handleEvent(state.app, *event);
+  return SDL_APP_CONTINUE;
+}
+
+SDL_AppResult SDL_AppIterate(void *appstate)
+{
+  State &state = *(State *)appstate;
+  App &app = state.app;
+
+  Uint64 ticks = SDL_GetTicksNS();
+  float elapsed = SDL_min((ticks - state.prevTicks) / 1e9f, MAX_FRAME_TIME);
+  state.prevTicks = ticks;
+
+  updateViewport(state);
+
+  float dt = app.paused ? (app.stepOnce ? STEP_TIME : 0) : elapsed;
+  dt *= app.timeScale;
+  app.stepOnce = false;
+
+  // physics runs at twice the render rate, like the web demo
+  // Rigidbody::step asserts dt > 0, so skip frames where no time has passed
+  if (dt > 0)
   {
-    Uint64 ticks = SDL_GetTicksNS();
-    float elapsed = SDL_min((ticks - prevTicks) / 1e9f, MAX_FRAME_TIME);
-    prevTicks = ticks;
-
-    // camera needs the viewport size before mouse events are mapped to world space
-    int width, height;
-    SDL_GetCurrentRenderOutputSize(renderer, &width, &height);
-    app.camera.width = (float)width;
-    app.camera.height = (float)height;
-
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-      // imgui wants window coordinates, the camera wants render coordinates
-      ImGui_ImplSDL3_ProcessEvent(&event);
-      SDL_ConvertEventToRenderCoordinates(renderer, &event);
-      if (event.type == SDL_EVENT_QUIT)
-        running = false;
-      else if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event.window.windowID == SDL_GetWindowID(window))
-        running = false;
-      else
-        handleEvent(app, event);
-    }
-
-    float dt = app.paused ? (app.stepOnce ? STEP_TIME : 0) : elapsed;
-    dt *= app.timeScale;
-    app.stepOnce = false;
-
-    // physics runs at twice the render rate, like the web demo
-    // Rigidbody::step asserts dt > 0, so skip frames where no time has passed
-    if (dt > 0)
-    {
-      Uint64 start = SDL_GetPerformanceCounter();
-      app.scene.step(dt / 2);
-      app.scene.step(dt / 2);
-      float ms = (SDL_GetPerformanceCounter() - start) * 1000.f / SDL_GetPerformanceFrequency();
-      app.stepMs = app.stepMs == 0 ? ms : app.stepMs * 0.95f + ms * 0.05f;
-    }
-
-    ImGui_ImplSDLRenderer3_NewFrame();
-    ImGui_ImplSDL3_NewFrame();
-    ImGui::NewFrame();
-    drawUI(app);
-    ImGui::Render();
-
-    // background matches web/css/styles.css (#222)
-    SDL_SetRenderDrawColor(renderer, 0x22, 0x22, 0x22, 0xff);
-    SDL_RenderClear(renderer);
-    drawScene(renderer, app.scene, app.camera, app.render);
-    ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), renderer);
-    SDL_RenderPresent(renderer);
+    Uint64 start = SDL_GetPerformanceCounter();
+    app.scene.step(dt / 2);
+    app.scene.step(dt / 2);
+    float ms = (SDL_GetPerformanceCounter() - start) * 1000.f / SDL_GetPerformanceFrequency();
+    app.stepMs = app.stepMs == 0 ? ms : app.stepMs * 0.95f + ms * 0.05f;
   }
 
-  ImGui_ImplSDLRenderer3_Shutdown();
-  ImGui_ImplSDL3_Shutdown();
-  ImGui::DestroyContext();
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
-  return 0;
+  ImGui_ImplSDLRenderer3_NewFrame();
+  ImGui_ImplSDL3_NewFrame();
+  // run imgui in render pixels instead of window units, so it snaps layout and text to physical
+  // pixels; scaling window units up by a fractional pixel density lands edges between pixels
+  ImGuiIO &io = ImGui::GetIO();
+  if (io.DisplaySize.x > 0 && io.DisplaySize.y > 0) // zero while minimized
+    io.DisplaySize = ImVec2(app.camera.width, app.camera.height);
+  io.DisplayFramebufferScale = ImVec2(1, 1);
+  ImGui::NewFrame();
+  drawUI(app);
+  ImGui::Render();
+
+  // background matches web/css/styles.css (#222)
+  SDL_SetRenderDrawColor(state.renderer, 0x22, 0x22, 0x22, 0xff);
+  SDL_RenderClear(state.renderer);
+  drawScene(state.renderer, app.scene, app.camera, app.render);
+  ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), state.renderer);
+  SDL_RenderPresent(state.renderer);
+  return SDL_APP_CONTINUE;
+}
+
+void SDL_AppQuit(void *appstate, SDL_AppResult result)
+{
+  State *state = (State *)appstate;
+  if (ImGui::GetCurrentContext())
+  {
+    ImGui_ImplSDLRenderer3_Shutdown();
+    ImGui_ImplSDL3_Shutdown();
+    ImGui::DestroyContext();
+  }
+  if (!state)
+    return; // SDL_Init failed before state was allocated
+  if (state->renderer)
+    SDL_DestroyRenderer(state->renderer);
+  if (state->window)
+    SDL_DestroyWindow(state->window);
+  delete state; // SDL_Quit is called for us after this returns
 }
