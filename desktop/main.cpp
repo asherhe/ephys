@@ -48,6 +48,44 @@ struct App
   }
 };
 
+// keys handleEvent acts on, without ctrl/alt/gui so browser and OS shortcuts like ctrl+r keep working
+static bool isHotkey(const SDL_KeyboardEvent &key)
+{
+  if (key.mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT | SDL_KMOD_GUI))
+    return false;
+  return key.key == SDLK_SPACE || key.key == SDLK_RIGHT || key.key == SDLK_R;
+}
+
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+// keys imgui's text fields act on as keys, with or without ctrl/shift (word jumps, select all,
+// undo); typed characters don't need their key events, they arrive as SDL_EVENT_TEXT_INPUT
+static bool isTextEditKey(SDL_Keycode key)
+{
+  switch (key)
+  {
+  case SDLK_LEFT: case SDLK_RIGHT: case SDLK_UP: case SDLK_DOWN:
+  case SDLK_HOME: case SDLK_END: case SDLK_BACKSPACE: case SDLK_DELETE:
+  case SDLK_RETURN: case SDLK_KP_ENTER: case SDLK_ESCAPE: case SDLK_TAB:
+  case SDLK_A: case SDLK_C: case SDLK_V: case SDLK_X: case SDLK_Y: case SDLK_Z:
+    return true;
+  default:
+    return false;
+  }
+}
+
+// on the web SDL calls preventDefault on every key event it posts, which swallows browser
+// shortcuts (ctrl+r, F5, F12...); so only post keys the app listens for, and leave every
+// other key to the browser by dropping it here
+static bool SDLCALL filterKeys(void *, SDL_Event *event)
+{
+  if (event->type != SDL_EVENT_KEY_DOWN)
+    return true; // key ups don't trigger shortcuts, and imgui needs them to release held keys
+  if (isHotkey(event->key))
+    return true;
+  return ImGui::GetCurrentContext() && ImGui::GetIO().WantTextInput && isTextEditKey(event->key.key);
+}
+#endif
+
 // event coordinates must already be in render coordinates
 static void handleEvent(App &app, const SDL_Event &event)
 {
@@ -55,7 +93,7 @@ static void handleEvent(App &app, const SDL_Event &event)
   switch (event.type)
   {
   case SDL_EVENT_KEY_DOWN:
-    if (io.WantCaptureKeyboard)
+    if (io.WantCaptureKeyboard || !isHotkey(event.key))
       break;
     if (event.key.key == SDLK_SPACE && !event.key.repeat)
       app.paused = !app.paused;
@@ -314,6 +352,10 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
   updateUiScale(*state);
   ImGui_ImplSDL3_InitForSDLRenderer(state->window, state->renderer);
   ImGui_ImplSDLRenderer3_Init(state->renderer);
+
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+  SDL_SetEventFilter(filterKeys, nullptr);
+#endif
 
   updateViewport(*state);
   state->prevTicks = SDL_GetTicksNS();
