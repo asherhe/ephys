@@ -16,10 +16,10 @@ void Rigidbody::calcTransform()
 {
   float cosAngle = cosf(angle), sinAngle = sinf(angle);
   transform[0] = cosAngle;
-  transform[1] = sinAngle;
+  transform[1] = -sinAngle;
   transform[2] = pos.x;
 
-  transform[3] = -sinAngle;
+  transform[3] = sinAngle;
   transform[4] = cosAngle;
   transform[5] = pos.y;
 
