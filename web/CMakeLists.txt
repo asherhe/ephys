@@ -10,7 +10,8 @@ set(GLUE_BASE ${CMAKE_CURRENT_BINARY_DIR}/glue)
 set(GLUE_JS ${GLUE_BASE}.js)
 set(GLUE_CPP ${GLUE_BASE}.cpp)
 set(GLUE_O ${GLUE_BASE}.o)
-set(OUTPUT_DIR ${PROJECT_SOURCE_DIR}/demos/js/ephys)
+set(DIST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dist)
+set(OUTPUT_DIR ${DIST_DIR}/js/ephys)
 set(EPHYS_JS ${OUTPUT_DIR}/ephys.js)
 set(EPHYS_WASM ${OUTPUT_DIR}/ephys.wasm)
 
@@ -61,8 +62,20 @@ add_custom_command(
 add_custom_command(
   OUTPUT ${EPHYS_JS} ${EPHYS_WASM}
   DEPENDS ${GLUE_JS} ${GLUE_O} ${EPHYS_SOURCES} ${EPHYS_HEADER_FILES}
+  COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}
   COMMAND ${EMXX} ${GLUE_O} ${EPHYS_SOURCES} ${EMCC_ARGS} -o ${EPHYS_JS}
   COMMENT "compiling ephys code to wasm"
   VERBATIM
 )
 add_custom_target(ephys DEPENDS ${EPHYS_JS} ${EPHYS_WASM})
+
+# copy static site files into dist alongside the wasm output
+add_custom_command(
+  TARGET ephys POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/css ${DIST_DIR}/css
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/img ${DIST_DIR}/img
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/js ${DIST_DIR}/js
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/index.html ${DIST_DIR}/index.html
+  COMMENT "copying web files to dist"
+  VERBATIM
+)

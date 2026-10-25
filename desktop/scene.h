@@ -29,7 +29,7 @@ class Scene
 public:
   Scene() { reset(); }
 
-  // rebuilds the demo scene from demos/js/main.js
+  // rebuilds the demo scene from web/js/main.js
   void reset();
 
   ephys::Rigidbody &circle(float radius);

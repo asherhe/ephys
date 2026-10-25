@@ -6,7 +6,7 @@ A simple 2d rigidbody physics engine inspired by [cyclone physics](https://githu
 
 ## Building
 
-ephys is compiled to WebAssembly with [Emscripten](https://emscripten.org/). The build produces `demos/js/ephys/ephys.js` and `demos/js/ephys/ephys.wasm`, which the demo page loads.
+ephys is compiled to WebAssembly with [Emscripten](https://emscripten.org/). The build produces `web/dist/js/ephys/ephys.js` and `web/dist/js/ephys/ephys.wasm`, then copies the demo page's files from `web/` into `web/dist/` alongside them.
 
 ### Dependencies
 
@@ -48,14 +48,14 @@ Use `-D CMAKE_BUILD_TYPE=Release` for an optimized (`-O3`) build. To use Ninja, 
 
 Rebuilds are incremental: editing anything in `src/`, `includes/` or `web/` rebuilds the wasm module. On Windows, `build.bat` runs the build command.
 
-The wasm build's files (`ephys.idl`, `ephys-headers.h` and the target's `CMakeLists.txt`) live in `web/`.
+The wasm build's files (`ephys.idl`, `ephys-headers.h` and the target's `CMakeLists.txt`) live in `web/`, along with the demo page's source (`index.html`, `css/`, `img/` and `js/`). `web/dist/` is generated on every build, so edit the files in `web/` instead.
 
 ### Run the demo
 
-The demo has to be served over HTTP, because browsers won't load `.wasm` files from `file://`. Any static file server works:
+Build first, then serve `web/dist/`. The demo has to be served over HTTP, because browsers won't load `.wasm` files from `file://`. Any static file server works:
 
 ```sh
-python -m http.server 8000 -d demos
+python -m http.server 8000 -d web/dist
 ```
 
 Then open <http://localhost:8000>.

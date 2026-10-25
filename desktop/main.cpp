@@ -309,7 +309,7 @@ int main(int argc, char *argv[])
     drawUI(app);
     ImGui::Render();
 
-    // background matches demos/css/styles.css (#222)
+    // background matches web/css/styles.css (#222)
     SDL_SetRenderDrawColor(renderer, 0x22, 0x22, 0x22, 0xff);
     SDL_RenderClear(renderer);
     drawScene(renderer, app.scene, app.camera, app.render);

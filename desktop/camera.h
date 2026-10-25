@@ -5,7 +5,7 @@
 
 #include <SDL3/SDL_rect.h>
 
-// same mapping as Camera in demos/js/main.js: y-up world, y-down screen
+// same mapping as Camera in web/js/main.js: y-up world, y-down screen
 struct Camera
 {
   float x = 0, y = 0;

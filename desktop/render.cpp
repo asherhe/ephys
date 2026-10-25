@@ -13,7 +13,7 @@ namespace
   // velocity vectors show the distance travelled in this many seconds
   constexpr float VELOCITY_SCALE = 0.25f;
 
-  // palette from demos/js/main.js
+  // palette from web/js/main.js
   const SDL_FColor palette[] = {
       {0xf8 / 255.f, 0x58 / 255.f, 0x3e / 255.f, 1},
       {0x5e / 255.f, 0x9e / 255.f, 0xea / 255.f, 1},
