@@ -37,6 +37,10 @@ public:
 
   inline void step(float dt) { world->step(dt); }
 
+  // index of the topmost shape whose collider contains a world-space point, or -1
+  int pick(const ephys::Vec2 &point) const;
+
+  inline std::vector<Shape> &getShapes() { return shapes; }
   inline const std::vector<Shape> &getShapes() const { return shapes; }
 };
 

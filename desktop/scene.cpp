@@ -1,5 +1,7 @@
 #include "scene.h"
 
+#include <cmath>
+
 using namespace ephys;
 
 void Scene::reset()
@@ -20,6 +22,22 @@ void Scene::reset()
     b2.setVel(Vec2(-7.5, 0));
     b2.setAngVel(0.5);
   }
+}
+
+int Scene::pick(const Vec2 &point) const
+{
+  // shapes are drawn in order, so search backwards to find the topmost one
+  for (int i = (int)shapes.size() - 1; i >= 0; i--)
+  {
+    const Shape &shape = shapes[i];
+    Vec2 local = shape.collider->object2Collider(shape.body->world2Local(point));
+    bool hit = shape.type == Shape::Type::Circle
+                   ? local.norm() <= shape.radius
+                   : fabsf(local.x) <= shape.halfSize.x && fabsf(local.y) <= shape.halfSize.y;
+    if (hit)
+      return i;
+  }
+  return -1;
 }
 
 Rigidbody &Scene::circle(float radius)

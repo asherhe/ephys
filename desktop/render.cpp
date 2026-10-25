@@ -8,6 +8,10 @@ namespace
 {
   constexpr float TAU = 6.28318530718f;
   constexpr int CIRCLE_SEGMENTS = 32;
+  // most points any outline has; circles have the most
+  constexpr int MAX_POINTS = CIRCLE_SEGMENTS;
+  // velocity vectors show the distance travelled in this many seconds
+  constexpr float VELOCITY_SCALE = 0.25f;
 
   // palette from demos/js/main.js
   const SDL_FColor palette[] = {
@@ -17,36 +21,33 @@ namespace
   };
   constexpr size_t PALETTE_SIZE = sizeof(palette) / sizeof(palette[0]);
 
+  const SDL_FColor SELECTED_COLOR = {1, 1, 1, 1};
+  const SDL_FColor COLLIDER_COLOR = {0.4f, 1, 0.4f, 1};
+  const SDL_FColor VELOCITY_COLOR = {0.8f, 0.8f, 0.8f, 1};
+
   inline SDL_Vertex vertex(const SDL_FPoint &p, const SDL_FColor &color)
   {
     return {p, color, {0, 0}};
   }
 
-  void drawCircle(SDL_Renderer *renderer, const Camera &camera, const Vec2 &center, float radius, const SDL_FColor &color)
+  inline void setColor(SDL_Renderer *renderer, const SDL_FColor &color)
   {
-    // triangle fan: vertex 0 is the center, 1..N are on the rim
-    SDL_Vertex verts[CIRCLE_SEGMENTS + 1];
-    int indices[CIRCLE_SEGMENTS * 3];
+    SDL_SetRenderDrawColorFloat(renderer, color.r, color.g, color.b, color.a);
+  }
 
-    SDL_FPoint c = camera.toScreen(center);
-    float r = radius * camera.size;
-    verts[0] = vertex(c, color);
+  void circlePoints(const Vec2 &center, float radius, Vec2 out[CIRCLE_SEGMENTS])
+  {
     for (int i = 0; i < CIRCLE_SEGMENTS; i++)
     {
       float theta = TAU * i / CIRCLE_SEGMENTS;
-      verts[i + 1] = vertex({c.x + r * cosf(theta), c.y + r * sinf(theta)}, color);
-
-      indices[i * 3] = 0;
-      indices[i * 3 + 1] = i + 1;
-      indices[i * 3 + 2] = (i + 1) % CIRCLE_SEGMENTS + 1;
+      out[i] = Vec2(center.x + radius * cosf(theta), center.y + radius * sinf(theta));
     }
-
-    SDL_RenderGeometry(renderer, nullptr, verts, CIRCLE_SEGMENTS + 1, indices, CIRCLE_SEGMENTS * 3);
   }
 
-  void drawBox(SDL_Renderer *renderer, const Camera &camera, const Vec2 &center, float angle, const Vec2 &halfSize, const SDL_FColor &color)
+  // corners of a box rotated counterclockwise by angle in world space,
+  // equivalent to ctx.rotate(-angle) on the y-down canvas in the web demo
+  void boxCorners(const Vec2 &center, float angle, const Vec2 &halfSize, Vec2 out[4])
   {
-    // rotate corners counterclockwise in world space; equivalent to ctx.rotate(-angle) on the y-down canvas
     float c = cosf(angle), s = sinf(angle);
     const Vec2 corners[4] = {
         Vec2(-halfSize.x, -halfSize.y),
@@ -54,31 +55,123 @@ namespace
         Vec2(halfSize.x, halfSize.y),
         Vec2(-halfSize.x, halfSize.y),
     };
-
-    SDL_Vertex verts[4];
     for (int i = 0; i < 4; i++)
-    {
-      Vec2 world(center.x + c * corners[i].x - s * corners[i].y,
-                 center.y + s * corners[i].x + c * corners[i].y);
-      verts[i] = vertex(camera.toScreen(world), color);
-    }
-    const int indices[6] = {0, 1, 2, 0, 2, 3};
+      out[i] = Vec2(center.x + c * corners[i].x - s * corners[i].y,
+                    center.y + s * corners[i].x + c * corners[i].y);
+  }
 
-    SDL_RenderGeometry(renderer, nullptr, verts, 4, indices, 6);
+  // the shape as the web demo draws it; returns the number of points written
+  int shapePoints(const Shape &shape, Vec2 out[MAX_POINTS])
+  {
+    Vec2 pos = shape.body->getPos();
+    if (shape.type == Shape::Type::Circle)
+    {
+      circlePoints(pos, shape.radius, out);
+      return CIRCLE_SEGMENTS;
+    }
+    boxCorners(pos, shape.body->getAngle(), shape.halfSize, out);
+    return 4;
+  }
+
+  // collider space -> world space, the same way the collision code does it
+  inline Vec2 colliderToWorld(const Shape &shape, const Vec2 &p)
+  {
+    return shape.body->local2World(shape.collider->collider2Object(p));
+  }
+
+  // the collider as the engine sees it; returns the number of points written
+  int colliderPoints(const Shape &shape, Vec2 out[MAX_POINTS])
+  {
+    int count;
+    if (shape.type == Shape::Type::Circle)
+    {
+      circlePoints(Vec2(0, 0), shape.radius, out);
+      count = CIRCLE_SEGMENTS;
+    }
+    else
+    {
+      boxCorners(Vec2(0, 0), 0, shape.halfSize, out);
+      count = 4;
+    }
+    for (int i = 0; i < count; i++)
+      out[i] = colliderToWorld(shape, out[i]);
+    return count;
+  }
+
+  // fills a convex polygon as a triangle fan around its first point
+  void fillPolygon(SDL_Renderer *renderer, const Camera &camera, const Vec2 *points, int count, const SDL_FColor &color)
+  {
+    SDL_Vertex verts[MAX_POINTS];
+    int indices[(MAX_POINTS - 2) * 3];
+    for (int i = 0; i < count; i++)
+      verts[i] = vertex(camera.toScreen(points[i]), color);
+    for (int i = 0; i < count - 2; i++)
+    {
+      indices[i * 3] = 0;
+      indices[i * 3 + 1] = i + 1;
+      indices[i * 3 + 2] = i + 2;
+    }
+
+    SDL_RenderGeometry(renderer, nullptr, verts, count, indices, (count - 2) * 3);
+  }
+
+  // outlines a closed polygon
+  void drawLoop(SDL_Renderer *renderer, const Camera &camera, const Vec2 *points, int count, const SDL_FColor &color)
+  {
+    SDL_FPoint screen[MAX_POINTS + 1];
+    for (int i = 0; i < count; i++)
+      screen[i] = camera.toScreen(points[i]);
+    screen[count] = screen[0];
+
+    setColor(renderer, color);
+    SDL_RenderLines(renderer, screen, count + 1);
+  }
+
+  void drawLine(SDL_Renderer *renderer, const Camera &camera, const Vec2 &a, const Vec2 &b, const SDL_FColor &color)
+  {
+    SDL_FPoint sa = camera.toScreen(a), sb = camera.toScreen(b);
+    setColor(renderer, color);
+    SDL_RenderLine(renderer, sa.x, sa.y, sb.x, sb.y);
   }
 }
 
-void drawScene(SDL_Renderer *renderer, const Scene &scene, const Camera &camera)
+SDL_FColor shapeColor(size_t index)
 {
-  size_t i = 0;
-  for (const Shape &shape : scene.getShapes())
-  {
-    const SDL_FColor &color = palette[i++ % PALETTE_SIZE];
-    Vec2 pos = shape.body->getPos();
+  return palette[index % PALETTE_SIZE];
+}
 
-    if (shape.type == Shape::Type::Circle)
-      drawCircle(renderer, camera, pos, shape.radius, color);
-    else
-      drawBox(renderer, camera, pos, shape.body->getAngle(), shape.halfSize, color);
+void drawScene(SDL_Renderer *renderer, const Scene &scene, const Camera &camera, const RenderOptions &options)
+{
+  const std::vector<Shape> &shapes = scene.getShapes();
+  Vec2 points[MAX_POINTS];
+
+  for (size_t i = 0; i < shapes.size(); i++)
+  {
+    int count = shapePoints(shapes[i], points);
+    fillPolygon(renderer, camera, points, count, shapeColor(i));
+  }
+
+  // overlays go on top of every fill
+  for (const Shape &shape : shapes)
+  {
+    if (options.colliders)
+    {
+      int count = colliderPoints(shape, points);
+      drawLoop(renderer, camera, points, count, COLLIDER_COLOR);
+      // line along the collider's +x axis, so its rotation is visible on circles too
+      Vec2 axis = shape.type == Shape::Type::Circle ? Vec2(shape.radius, 0) : Vec2(shape.halfSize.x, 0);
+      drawLine(renderer, camera, colliderToWorld(shape, Vec2(0, 0)), colliderToWorld(shape, axis), COLLIDER_COLOR);
+    }
+    if (options.velocities)
+    {
+      Vec2 pos = shape.body->getPos();
+      drawLine(renderer, camera, pos, pos + shape.body->getVel() * VELOCITY_SCALE, VELOCITY_COLOR);
+    }
+  }
+
+  if (options.selected >= 0 && options.selected < (int)shapes.size())
+  {
+    int count = shapePoints(shapes[options.selected], points);
+    drawLoop(renderer, camera, points, count, SELECTED_COLOR);
   }
 }
