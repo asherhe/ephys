@@ -9,18 +9,22 @@
 struct Camera
 {
   float x = 0, y = 0;
-  float size = 40; // pixels per unit
+  float size = 40; // unscaled pixels per unit
 
-  // viewport size in pixels, updated every frame
+  // viewport size in render pixels and render pixels per unscaled pixel
+  // (SDL_GetWindowDisplayScale), updated every frame
   float width = 0, height = 0;
+  float scale = 1;
 
   inline SDL_FPoint toScreen(const ephys::Vec2 &p) const
   {
-    return {(p.x - x) * size + width / 2, (y - p.y) * size + height / 2};
+    float ppu = size * scale;
+    return {(p.x - x) * ppu + width / 2, (y - p.y) * ppu + height / 2};
   }
   inline ephys::Vec2 toWorld(const SDL_FPoint &s) const
   {
-    return ephys::Vec2((s.x - width / 2) / size + x, y - (s.y - height / 2) / size);
+    float ppu = size * scale;
+    return ephys::Vec2((s.x - width / 2) / ppu + x, y - (s.y - height / 2) / ppu);
   }
 };
 

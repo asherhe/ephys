@@ -21,15 +21,13 @@ set(EPHYS_SOURCES
 list(TRANSFORM EPHYS_SOURCES PREPEND ${EPHYS_SRC_DIR})
 file(GLOB EPHYS_HEADER_FILES ${EPHYS_INCLUDE_DIR}/ephys/*.h)
 
-# each build directory has one frontend, picked by the toolchain (see CMakePresets.json)
-if(EMSCRIPTEN)
-  # wasm target: ephys
-  add_subdirectory(web)
-else()
-  # native target: ephys_desktop
-  add_library(ephys_core STATIC ${EPHYS_SOURCES})
-  target_include_directories(ephys_core PUBLIC ${EPHYS_INCLUDE_DIR})
-  target_compile_features(ephys_core PUBLIC cxx_std_17)
+add_library(ephys_core STATIC ${EPHYS_SOURCES})
+target_include_directories(ephys_core PUBLIC ${EPHYS_INCLUDE_DIR})
+target_compile_features(ephys_core PUBLIC cxx_std_17)
 
-  add_subdirectory(desktop)
+# the SDL3 + ImGui app (target ephys_app) builds for every toolchain (see CMakePresets.json)
+add_subdirectory(desktop)
+if(EMSCRIPTEN)
+  # wasm link options and the static site around the app
+  add_subdirectory(web)
 endif()
