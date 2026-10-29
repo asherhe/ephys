@@ -61,9 +61,9 @@ namespace ephys
     Vec2 anchor, endAnchor;
 
   public:
-    float k, length;
+    float k, length, damping;
 
-    Spring(Rigidbody &end, const Vec2 &anchor, const Vec2 &endAnchor, float k, float length) : end(&end), anchor(anchor), endAnchor(endAnchor), k(k), length(length) {}
+    Spring(Rigidbody &end, const Vec2 &anchor, const Vec2 &endAnchor, float k, float length, float damping = 0) : end(&end), anchor(anchor), endAnchor(endAnchor), k(k), length(length), damping(damping) {}
 
     inline Rigidbody &getEnd() const { return *end; }
     inline void setEnd(Rigidbody &body) { end = &body; }
