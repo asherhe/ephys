@@ -56,17 +56,17 @@ namespace ephys
   class Spring : public ForceGenerator
   {
   protected:
-    Rigidbody &end;
+    Rigidbody *end;
     // the connection points, in local coordinates
     Vec2 anchor, endAnchor;
 
   public:
     float k, length;
 
-    Spring(Rigidbody &end, const Vec2 &anchor, const Vec2 &endAnchor, float k, float length) : end(end), anchor(anchor), endAnchor(endAnchor), k(k), length(length) {}
+    Spring(Rigidbody &end, const Vec2 &anchor, const Vec2 &endAnchor, float k, float length) : end(&end), anchor(anchor), endAnchor(endAnchor), k(k), length(length) {}
 
-    inline Rigidbody getEnd() const { return end; }
-    inline void setEnd(const Rigidbody &body) { end = body; }
+    inline Rigidbody &getEnd() const { return *end; }
+    inline void setEnd(Rigidbody &body) { end = &body; }
 
     void updateForce(Rigidbody &body, float dt);
   };

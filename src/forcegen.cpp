@@ -37,9 +37,12 @@ void Gravity::updateForce(Rigidbody &body, float dt)
 void Spring::updateForce(Rigidbody &body, float dt)
 {
   // get anchors in world space
-  Vec2 anchorWS = body.local2World(anchor), endAnchorWS = end.local2World(anchor);
+  Vec2 anchorWS = body.local2World(anchor), endAnchorWS = end->local2World(endAnchor);
 
   Vec2 displacement = endAnchorWS - anchorWS;
   float restDisplacement = displacement.norm() - length;
-  body.addForceAtLocal(displacement.normalize() * k * restDisplacement, anchor);
+  Vec2 force = displacement.normalize() * k * restDisplacement;
+
+  body.addForceAtLocal(force, anchor);
+  end->addForceAtLocal(-force, endAnchor);
 }

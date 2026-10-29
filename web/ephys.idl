@@ -219,8 +219,8 @@ interface Spring : ForceGenerator {
 
   void Spring([Ref] Rigidbody end, [Const, Ref] Vec2 anchor, [Const, Ref] Vec2 endAnchor, float k, float length);
 
-  [Value] Rigidbody getEnd();
-  void setEnd([Const, Ref] Rigidbody body);
+  [Ref] Rigidbody getEnd();
+  void setEnd([Ref] Rigidbody body);
 
   void updateForce([Ref] Rigidbody body, float dt);
 };
