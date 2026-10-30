@@ -25,6 +25,8 @@ class Scene
 {
   std::unique_ptr<ephys::World> world;
   std::vector<Shape> shapes;
+  // tightest box around the shapes' starting positions, set by reset()
+  ephys::Vec2 startMin, startMax;
 
   // virtual anchor that follows the mouse while dragging; static and never added to the world
   ephys::Rigidbody mouseBody;
@@ -66,6 +68,13 @@ public:
   // the drag spring's current parameters, 0 when nothing is dragged
   inline float getDragStiffness() const { return dragSpring ? dragSpring->k : 0; }
   inline float getDragDamping() const { return dragSpring ? dragSpring->damping : 0; }
+
+  // corners of the box around the shapes' starting positions, for framing the camera
+  inline void getStartBounds(ephys::Vec2 &min, ephys::Vec2 &max) const
+  {
+    min = startMin;
+    max = startMax;
+  }
 
   inline std::vector<Shape> &getShapes() { return shapes; }
   inline const std::vector<Shape> &getShapes() const { return shapes; }

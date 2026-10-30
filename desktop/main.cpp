@@ -27,7 +27,11 @@ constexpr float MIN_TIME_SCALE = 0.05f, MAX_TIME_SCALE = 4;
 // how much h/l change the time scale; they stop at this as their lowest, short of zero
 constexpr float TIME_SCALE_STEP = 0.25f;
 
+// DEFAULT_ZOOM is only a fallback, for when there's no viewport to fit the scene into
 constexpr float DEFAULT_ZOOM = 40, MIN_ZOOM = 4, MAX_ZOOM = 400;
+// on startup and "reset camera", the camera fits this multiple of the box around the scene's
+// starting positions
+constexpr float START_VIEW_SCALE = 3;
 constexpr float WHEEL_ZOOM_FACTOR = 1.1f;
 
 struct App
@@ -44,6 +48,7 @@ struct App
   bool panning = false;
   SDL_FPoint mouse = {0, 0}; // last cursor position, in render pixels
   bool showHelp = false;     // shortcuts window, toggled with '?'
+  bool cameraFitPending = true; // fit the camera once the viewport has a size, see SDL_AppIterate
 
   void reset()
   {
@@ -51,10 +56,29 @@ struct App
     render.selected = -1;
   }
 
+  // centers on the box around the scene's starting positions, zoomed so START_VIEW_SCALE times
+  // it fits the viewport; needs the viewport size, so call after updateViewport
   void resetCamera()
   {
-    camera.x = camera.y = 0;
-    camera.size = DEFAULT_ZOOM;
+    Vec2 min, max;
+    scene.getStartBounds(min, max);
+    camera.x = (min.x + max.x) / 2;
+    camera.y = (min.y + max.y) / 2;
+
+    // render pixels per unit that fit each axis; an axis with no extent doesn't limit the zoom
+    float w = (max.x - min.x) * START_VIEW_SCALE, h = (max.y - min.y) * START_VIEW_SCALE;
+    float ppu = INFINITY;
+    if (w > 0)
+      ppu = camera.width / w;
+    if (h > 0)
+      ppu = SDL_min(ppu, camera.height / h);
+    // minimized, or every shape starts at one point
+    if (camera.width <= 0 || camera.height <= 0 || ppu == INFINITY)
+    {
+      camera.size = DEFAULT_ZOOM;
+      return;
+    }
+    camera.size = SDL_clamp(ppu / camera.scale, MIN_ZOOM, MAX_ZOOM);
   }
 };
 
@@ -544,6 +568,15 @@ SDL_AppResult SDL_AppIterate(void *appstate)
   state.prevTicks = ticks;
 
   updateViewport(state);
+
+  // fit the camera on the first frame with a real viewport rather than in SDL_AppInit: by now
+  // the canvas has its css size and any resize events from setting it up have been handled;
+  // waiting on a nonzero size also covers starting minimized
+  if (app.cameraFitPending && app.camera.width > 0 && app.camera.height > 0)
+  {
+    app.resetCamera();
+    app.cameraFitPending = false;
+  }
 
   // simulated time this frame
   float dt = app.paused ? (app.stepOnce ? PHYSICS_STEP : 0) : elapsed * app.timeScale;

@@ -35,6 +35,14 @@ void Scene::reset()
     b2.setVel(Vec2(-7.5, 0));
     b2.setAngVel(0.5);
   }
+
+  startMin = startMax = shapes.empty() ? Vec2(0, 0) : shapes.front().body->getPos();
+  for (const Shape &shape : shapes)
+  {
+    Vec2 p = shape.body->getPos();
+    startMin = Vec2(fminf(startMin.x, p.x), fminf(startMin.y, p.y));
+    startMax = Vec2(fmaxf(startMax.x, p.x), fmaxf(startMax.y, p.y));
+  }
 }
 
 void Scene::step(float dt)
