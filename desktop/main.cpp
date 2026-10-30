@@ -23,6 +23,10 @@ constexpr float PHYSICS_STEP = 1 / 120.f;
 // most frames rendered per second; fewer when frames run long
 constexpr int MAX_FPS = 120;
 
+constexpr float MIN_TIME_SCALE = 0.05f, MAX_TIME_SCALE = 4;
+// how much j/l change the time scale; they stop at this as their lowest, short of zero
+constexpr float TIME_SCALE_STEP = 0.25f;
+
 constexpr float DEFAULT_ZOOM = 40, MIN_ZOOM = 4, MAX_ZOOM = 400;
 constexpr float WHEEL_ZOOM_FACTOR = 1.1f;
 
@@ -58,7 +62,13 @@ static bool isHotkey(const SDL_KeyboardEvent &key)
 {
   if (key.mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT | SDL_KMOD_GUI))
     return false;
-  return key.key == SDLK_SPACE || key.key == SDLK_RIGHT || key.key == SDLK_R;
+  switch (key.key)
+  {
+  case SDLK_SPACE: case SDLK_K: case SDLK_PERIOD: case SDLK_R: case SDLK_J: case SDLK_L:
+    return true;
+  default:
+    return false;
+  }
 }
 
 #ifdef SDL_PLATFORM_EMSCRIPTEN
@@ -100,9 +110,15 @@ static void handleEvent(App &app, const SDL_Event &event)
   case SDL_EVENT_KEY_DOWN:
     if (io.WantCaptureKeyboard || !isHotkey(event.key))
       break;
-    if (event.key.key == SDLK_SPACE && !event.key.repeat)
+    if ((event.key.key == SDLK_SPACE || event.key.key == SDLK_K) && !event.key.repeat)
       app.paused = !app.paused;
-    else if (event.key.key == SDLK_RIGHT && app.paused)
+    // j/l repeat while held; neither moves the speed the wrong way if the slider set it
+    // outside the range they step through
+    else if (event.key.key == SDLK_J)
+      app.timeScale = SDL_min(app.timeScale, SDL_max(app.timeScale - TIME_SCALE_STEP, TIME_SCALE_STEP));
+    else if (event.key.key == SDLK_L)
+      app.timeScale = SDL_max(app.timeScale, SDL_min(app.timeScale + TIME_SCALE_STEP, MAX_TIME_SCALE));
+    else if (event.key.key == SDLK_PERIOD && app.paused)
       app.stepOnce = true;
     else if (event.key.key == SDLK_R && !event.key.repeat)
       app.reset();
@@ -227,7 +243,12 @@ static void drawUI(App &app)
 
   if (ImGui::CollapsingHeader("simulation", ImGuiTreeNodeFlags_DefaultOpen))
   {
-    ImGui::Checkbox("paused", &app.paused);
+    // sized for the longer label so the buttons after it don't shift when it toggles;
+    // ### keeps the same id across both labels
+    const ImGuiStyle &style = ImGui::GetStyle();
+    float pauseWidth = ImGui::CalcTextSize("resume").x + style.FramePadding.x * 2;
+    if (ImGui::Button(app.paused ? "resume###pause" : "pause###pause", ImVec2(pauseWidth, 0)))
+      app.paused = !app.paused;
     ImGui::SameLine();
     ImGui::BeginDisabled(!app.paused);
     if (ImGui::Button("step"))
@@ -236,9 +257,10 @@ static void drawUI(App &app)
     ImGui::SameLine();
     if (ImGui::Button("reset"))
       app.reset();
-    ImGui::SliderFloat("time scale", &app.timeScale, 0.05f, 4, "%.2fx", ImGuiSliderFlags_Logarithmic);
+    ImGui::SliderFloat("time scale", &app.timeScale, MIN_TIME_SCALE, MAX_TIME_SCALE, "%.2fx", ImGuiSliderFlags_Logarithmic);
     ImGui::Text("%.1f fps, step %.2f ms", ImGui::GetIO().Framerate, app.stepMs);
-    ImGui::TextDisabled("space: pause, right: step, r: reset");
+    ImGui::TextDisabled("space/k: pause, .: step, r: reset");
+    ImGui::TextDisabled("j/l: speed -/+ %.2fx", TIME_SCALE_STEP);
   }
 
   if (ImGui::CollapsingHeader("view", ImGuiTreeNodeFlags_DefaultOpen))
