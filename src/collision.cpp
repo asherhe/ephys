@@ -127,44 +127,41 @@ std::list<Contact> &CollisionDetector::boxCircle(const BoxCollider &bc, const Ci
 
   Vec2 center = bc.object2Collider(bc.getBody()->world2Local(cc.getBody()->local2World(cc.origin())));
 
-  Vec2 closest = center,
+  // closest point on the box to the circle's center
+  Vec2 closest(fmaxf(-bc.halfSize.x, fminf(center.x, bc.halfSize.x)),
+               fmaxf(-bc.halfSize.y, fminf(center.y, bc.halfSize.y)));
+
+  Vec2 displacement = center - closest,
        normal;
+  float distance = displacement.norm(),
+        penetration;
 
-  if (closest.x > bc.halfSize.x)
+  if (distance > 0)
   {
-    closest.x = bc.halfSize.x;
-    ++normal.x;
+    // center outside the box: push away from the closest point, which also gets corners right
+    if (distance > cc.radius)
+      return *contacts;
+    normal = displacement / distance;
+    penetration = cc.radius - distance;
   }
-  else if (closest.x < -bc.halfSize.x)
+  else
   {
-    closest.x = -bc.halfSize.x;
-    --normal.x;
-  }
-
-  if (closest.y > bc.halfSize.y)
-  {
-    closest.y = bc.halfSize.y;
-    ++normal.y;
-  }
-  else if (closest.y < -bc.halfSize.y)
-  {
-    closest.y = -bc.halfSize.y;
-    --normal.y;
-  }
-
-  if (normal.x == 0 && normal.y == 0)
-  {
-    if (center.x == 0 && center.y == 0)
-      normal.set(0, 1);
+    // center inside the box: push out through the nearest face
+    float dx = bc.halfSize.x - fabsf(center.x),
+          dy = bc.halfSize.y - fabsf(center.y);
+    if (dx < dy)
+    {
+      normal.set(center.x < 0 ? -1.f : 1.f, 0);
+      closest.x = normal.x * bc.halfSize.x;
+      penetration = cc.radius + dx;
+    }
     else
-      normal = center;
+    {
+      normal.set(0, center.y < 0 ? -1.f : 1.f);
+      closest.y = normal.y * bc.halfSize.y;
+      penetration = cc.radius + dy;
+    }
   }
-  normal.normalize();
-
-  Vec2 displacement = center - closest;
-  float distance = displacement.norm();
-  if (distance > cc.radius)
-    return *contacts;
 
   Contact contact;
   Mat3 bcToWorld = bc.getBody()->getTransform() * bc.getTransform();
@@ -172,7 +169,7 @@ std::list<Contact> &CollisionDetector::boxCircle(const BoxCollider &bc, const Ci
   contact.bodies[1] = cc.getBody();
   contact.contactPoint = bcToWorld * closest;
   contact.normal = bcToWorld.getRotation() * normal;
-  contact.penetration = distance - cc.radius;
+  contact.penetration = penetration;
   contact.restitution = properties.restitution;
 
   contacts->push_back(contact);

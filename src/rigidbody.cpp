@@ -66,11 +66,14 @@ void Rigidbody::addImpulsiveTorque(Pseudovec torque)
 void Rigidbody::displace(const Vec2 &displacement)
 {
   pos += displacement;
+  // keep the colliders and local2World in step with the new position
+  calcTransform();
 }
 
 void Rigidbody::rotate(Pseudovec v)
 {
   angle += v;
+  calcTransform();
 }
 
 void Rigidbody::step(float dt)
