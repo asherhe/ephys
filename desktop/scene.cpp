@@ -4,8 +4,21 @@
 
 using namespace ephys;
 
+// a critically damped spring decays as (1 + wt) e^-wt, which is within 2% of rest at wt = 5.83
+constexpr float SETTLE_RATIO = 5.83f;
+
+Scene::Scene()
+{
+  mouseBody.setStatic(true);
+  // the constructor leaves these uninitialized, and the spring's damping reads angVel
+  mouseBody.setAngle(0);
+  mouseBody.setAngVel(0);
+  reset();
+}
+
 void Scene::reset()
 {
+  endDrag();
   shapes.clear();
   world = std::make_unique<World>();
 
@@ -22,6 +35,79 @@ void Scene::reset()
     b2.setVel(Vec2(-7.5, 0));
     b2.setAngVel(0.5);
   }
+}
+
+void Scene::step(float dt)
+{
+  world->step(dt);
+  // the spring pushes back on mouseBody, which is never stepped, so clear what it accumulated
+  mouseBody.clearAccums();
+}
+
+int Scene::startDrag(const Vec2 &point)
+{
+  endDrag();
+  int index = pick(point);
+  if (index < 0)
+    return -1;
+
+  Rigidbody &body = *shapes[index].body;
+  mouseBody.setPos(point);
+  mouseBody.setVel(Vec2(0, 0));
+  prevMouse = point;
+  dragAnchor = body.world2Local(point);
+  // zero rest length: the grabbed point is pulled onto the mouse
+  dragSpring = std::make_unique<Spring>(mouseBody, dragAnchor, Vec2(0, 0), 0, 0, 0);
+  world->addFGen(*dragSpring, body);
+  dragged = index;
+  tuneDragSpring();
+  return index;
+}
+
+void Scene::tuneDragSpring()
+{
+  const Rigidbody &body = *shapes[dragged].body;
+  // static bodies don't move, and their infinite mass would make the force NaN
+  if (body.getStatic())
+  {
+    dragSpring->k = dragSpring->damping = 0;
+    return;
+  }
+  // fixing w = sqrt(k / m) fixes the settle time for every mass: k = m w^2, and critical damping
+  // c = 2 sqrt(k m) = 2 m w (m is the whole reduced mass, since the mouse anchor is static)
+  float w = SETTLE_RATIO / dragSettleTime, m = body.getMass();
+  dragSpring->k = m * w * w;
+  dragSpring->damping = 2 * m * w;
+}
+
+void Scene::moveDrag(const Vec2 &point, float dt)
+{
+  if (!dragSpring)
+    return;
+  // the anchor moves with the mouse, so damping only resists motion relative to the mouse
+  mouseBody.setVel(dt > 0 ? (point - prevMouse) / dt : Vec2(0, 0));
+  // tracked while paused too, so unpausing doesn't see one big jump
+  prevMouse = point;
+  mouseBody.setPos(point);
+  // recomputed every frame, so settle time or mass edits mid-drag take effect
+  tuneDragSpring();
+}
+
+void Scene::endDrag()
+{
+  if (dragSpring)
+    world->removeFGen(*dragSpring, *shapes[dragged].body);
+  dragSpring.reset();
+  dragged = -1;
+}
+
+bool Scene::getDragLine(Vec2 &from, Vec2 &to) const
+{
+  if (!dragSpring)
+    return false;
+  from = shapes[dragged].body->local2World(dragAnchor);
+  to = mouseBody.getPos();
+  return true;
 }
 
 int Scene::pick(const Vec2 &point) const

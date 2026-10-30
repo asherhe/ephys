@@ -28,6 +28,9 @@ namespace
   const SDL_FColor SELECTED_COLOR = {1, 1, 1, 1};
   const SDL_FColor COLLIDER_COLOR = {0.4f, 1, 0.4f, 1};
   const SDL_FColor VELOCITY_COLOR = {0.8f, 0.8f, 0.8f, 1};
+  const SDL_FColor DRAG_COLOR = {1, 1, 1, 1};
+  // drag lines shorter than this, in unscaled pixels, fade out towards zero length
+  constexpr float DRAG_FADE_LENGTH = 20;
 
   inline SDL_Vertex vertex(const SDL_FPoint &p, const SDL_FColor &color)
   {
@@ -289,5 +292,16 @@ void drawScene(SDL_Renderer *renderer, const Scene &scene, const Camera &camera,
   {
     int count = shapePoints(shapes[options.selected], points);
     drawLoop(renderer, camera, points, count, SELECTED_COLOR);
+  }
+
+  Vec2 from, to;
+  if (scene.getDragLine(from, to))
+  {
+    // fully opaque at DRAG_FADE_LENGTH and longer, fully transparent at zero length
+    SDL_FPoint a = camera.toScreen(from), b = camera.toScreen(to);
+    float length = SDL_sqrtf((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+    SDL_FColor color = DRAG_COLOR;
+    color.a *= SDL_clamp(length / (DRAG_FADE_LENGTH * camera.scale), 0.f, 1.f);
+    drawLine(renderer, camera, from, to, color);
   }
 }

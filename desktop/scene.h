@@ -26,8 +26,23 @@ class Scene
   std::unique_ptr<ephys::World> world;
   std::vector<Shape> shapes;
 
+  // virtual anchor that follows the mouse while dragging; static and never added to the world
+  ephys::Rigidbody mouseBody;
+  ephys::Vec2 prevMouse;
+  // links the dragged shape to mouseBody, null when nothing is dragged
+  std::unique_ptr<ephys::Spring> dragSpring;
+  int dragged = -1;
+  ephys::Vec2 dragAnchor; // grabbed point, in the dragged body's local space
+
+  // sets the drag spring's stiffness and damping from dragSettleTime and the dragged mass
+  void tuneDragSpring();
+
 public:
-  Scene() { reset(); }
+  // seconds for a dragged body to settle within 2% of the mouse, whatever its mass;
+  // the spring's stiffness and (critical) damping follow from it, applied every frame
+  float dragSettleTime = 0.5f;
+
+  Scene();
 
   // rebuilds the demo scene from web/js/main.js
   void reset();
@@ -35,10 +50,22 @@ public:
   ephys::Rigidbody &circle(float radius);
   ephys::Rigidbody &box(float width, float height);
 
-  inline void step(float dt) { world->step(dt); }
+  void step(float dt);
 
   // index of the topmost shape whose collider contains a world-space point, or -1
   int pick(const ephys::Vec2 &point) const;
+
+  // starts dragging the shape under a world-space point, returning its index or -1
+  int startDrag(const ephys::Vec2 &point);
+  // moves the drag anchor to a world-space point; dt is the simulated time this frame
+  void moveDrag(const ephys::Vec2 &point, float dt);
+  void endDrag();
+  // world-space ends of the drag spring, false when nothing is dragged
+  bool getDragLine(ephys::Vec2 &from, ephys::Vec2 &to) const;
+  inline bool isDragging() const { return dragSpring != nullptr; }
+  // the drag spring's current parameters, 0 when nothing is dragged
+  inline float getDragStiffness() const { return dragSpring ? dragSpring->k : 0; }
+  inline float getDragDamping() const { return dragSpring ? dragSpring->damping : 0; }
 
   inline std::vector<Shape> &getShapes() { return shapes; }
   inline const std::vector<Shape> &getShapes() const { return shapes; }

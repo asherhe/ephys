@@ -34,6 +34,7 @@ struct App
   float timeScale = 1;
   float stepMs = 0; // smoothed time spent in World::step per frame
   bool panning = false;
+  SDL_FPoint mouse = {0, 0}; // last cursor position, in render pixels
 
   void reset()
   {
@@ -104,21 +105,27 @@ static void handleEvent(App &app, const SDL_Event &event)
     break;
 
   case SDL_EVENT_MOUSE_BUTTON_DOWN:
+    app.mouse = {event.button.x, event.button.y};
     if (io.WantCaptureMouse)
       break;
-    // left click selects (or deselects on empty space), right/middle drag pans
+    // left click selects and drags (or deselects on empty space), right/middle drag pans
     if (event.button.button == SDL_BUTTON_LEFT)
-      app.render.selected = app.scene.pick(app.camera.toWorld({event.button.x, event.button.y}));
+      app.render.selected = app.scene.startDrag(app.camera.toWorld(app.mouse));
     else
       app.panning = true;
     break;
 
   case SDL_EVENT_MOUSE_BUTTON_UP:
-    if (event.button.button != SDL_BUTTON_LEFT)
+    app.mouse = {event.button.x, event.button.y};
+    // not gated on imgui, so releasing over a window still ends the drag
+    if (event.button.button == SDL_BUTTON_LEFT)
+      app.scene.endDrag();
+    else
       app.panning = false;
     break;
 
   case SDL_EVENT_MOUSE_MOTION:
+    app.mouse = {event.motion.x, event.motion.y};
     if (app.panning)
     {
       // screen is y-down, world is y-up; motion is in render pixels
@@ -241,11 +248,21 @@ static void drawUI(App &app)
     ImGui::TextDisabled("right drag: pan, wheel: zoom");
   }
 
+  if (ImGui::CollapsingHeader("dragging", ImGuiTreeNodeFlags_DefaultOpen))
+  {
+    // shorter times stiffen the spring, which the explicit integrator can't keep stable
+    ImGui::SliderFloat("settle time", &app.scene.dragSettleTime, 0.2f, 5, "%.2f s", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_AlwaysClamp);
+    if (app.scene.isDragging())
+      ImGui::Text("stiffness %.1f, damping %.2f", app.scene.getDragStiffness(), app.scene.getDragDamping());
+    else
+      ImGui::TextDisabled("stiffness and damping scale with mass");
+  }
+
   std::vector<Shape> &shapes = app.scene.getShapes();
   if (ImGui::CollapsingHeader("bodies", ImGuiTreeNodeFlags_DefaultOpen))
   {
     ImGui::Text("%d bodies", (int)shapes.size());
-    ImGui::TextDisabled("click a body to select it");
+    ImGui::TextDisabled("click a body to select it, drag to pull it");
 
     float swatch = ImGui::GetTextLineHeight();
     ImGui::BeginChild("body list", ImVec2(260 * scale, 8 * ImGui::GetTextLineHeightWithSpacing()), ImGuiChildFlags_Borders);
@@ -397,6 +414,9 @@ SDL_AppResult SDL_AppIterate(void *appstate)
   float dt = app.paused ? (app.stepOnce ? STEP_TIME : 0) : elapsed;
   dt *= app.timeScale;
   app.stepOnce = false;
+
+  // every frame, so the anchor stays under the cursor while panning or zooming
+  app.scene.moveDrag(app.camera.toWorld(app.mouse), dt);
 
   // physics runs at twice the render rate, like the web demo
   // Rigidbody::step asserts dt > 0, so skip frames where no time has passed
