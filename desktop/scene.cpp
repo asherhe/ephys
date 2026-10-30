@@ -4,8 +4,23 @@
 
 using namespace ephys;
 
+// a critically damped spring decays as (1 + wt) e^-wt, which is within 2% of rest at wt = 5.83
+constexpr float SETTLE_RATIO = 5.83f;
+// thick enough that nothing in the demo moves far enough in one step to tunnel through
+constexpr float WALL_THICKNESS = 8;
+// how far the side walls reach into the top and bottom walls, so no seam shows at the corners;
+// covers the 1px antialiasing fade on each edge down to MIN_ZOOM (4 px/unit)
+constexpr float WALL_OVERLAP = 0.5f;
+
+Scene::Scene()
+{
+  mouseBody.setStatic(true);
+  reset();
+}
+
 void Scene::reset()
 {
+  endDrag();
   shapes.clear();
   world = std::make_unique<World>();
 
@@ -22,6 +37,125 @@ void Scene::reset()
     b2.setVel(Vec2(-7.5, 0));
     b2.setAngVel(0.5);
   }
+
+  startMin = startMax = shapes.empty() ? Vec2(0, 0) : shapes.front().body->getPos();
+  for (const Shape &shape : shapes)
+  {
+    Vec2 p = shape.body->getPos();
+    startMin = Vec2(fminf(startMin.x, p.x), fminf(startMin.y, p.y));
+    startMax = Vec2(fmaxf(startMax.x, p.x), fmaxf(startMax.y, p.y));
+  }
+
+  // after the bounds, so the walls don't count towards them; last, so the bodies keep their colors
+  if (hasWalls)
+    addWalls();
+}
+
+void Scene::setWalls(const Vec2 &min, const Vec2 &max)
+{
+  if (hasWalls)
+    return;
+  hasWalls = true;
+  wallMin = min;
+  wallMax = max;
+  addWalls();
+}
+
+void Scene::addWalls()
+{
+  const float t = WALL_THICKNESS;
+  float width = wallMax.x - wallMin.x, height = wallMax.y - wallMin.y;
+  Vec2 center = (wallMin + wallMax) / 2;
+  // top and bottom cover the corners, and the sides overlap into them; overlapping walls are
+  // fine since the engine skips contacts between two static bodies
+  addWall(Vec2(center.x, wallMax.y + t / 2), Vec2(width + 2 * t, t));
+  addWall(Vec2(center.x, wallMin.y - t / 2), Vec2(width + 2 * t, t));
+  addWall(Vec2(wallMin.x - t / 2, center.y), Vec2(t, height + 2 * WALL_OVERLAP));
+  addWall(Vec2(wallMax.x + t / 2, center.y), Vec2(t, height + 2 * WALL_OVERLAP));
+}
+
+void Scene::addWall(const Vec2 &center, const Vec2 &size)
+{
+  Rigidbody &body = box(size.x, size.y);
+  shapes.back().wall = true;
+  // setStatic only stops linear motion; without zero inverse inertia, contact impulses would
+  // still spin the wall and feed that spin back into every contact with it
+  body.setStatic(true);
+  body.setInvInertia(0);
+  body.setPos(center);
+}
+
+void Scene::step(float dt)
+{
+  world->step(dt);
+  // the spring pushes back on mouseBody, which is never stepped, so clear what it accumulated
+  mouseBody.clearAccums();
+}
+
+int Scene::startDrag(const Vec2 &point)
+{
+  endDrag();
+  int index = pick(point);
+  if (index < 0)
+    return -1;
+
+  Rigidbody &body = *shapes[index].body;
+  mouseBody.setPos(point);
+  mouseBody.setVel(Vec2(0, 0));
+  prevMouse = point;
+  dragAnchor = body.world2Local(point);
+  // zero rest length: the grabbed point is pulled onto the mouse
+  dragSpring = std::make_unique<Spring>(mouseBody, dragAnchor, Vec2(0, 0), 0, 0, 0);
+  world->addFGen(*dragSpring, body);
+  dragged = index;
+  tuneDragSpring();
+  return index;
+}
+
+void Scene::tuneDragSpring()
+{
+  const Rigidbody &body = *shapes[dragged].body;
+  // static bodies don't move, and their infinite mass would make the force NaN
+  if (body.getStatic())
+  {
+    dragSpring->k = dragSpring->damping = 0;
+    return;
+  }
+  // fixing w = sqrt(k / m) fixes the settle time for every mass: k = m w^2, and critical damping
+  // c = 2 sqrt(k m) = 2 m w (m is the whole reduced mass, since the mouse anchor is static)
+  float w = SETTLE_RATIO / dragSettleTime, m = body.getMass();
+  dragSpring->k = m * w * w;
+  dragSpring->damping = 2 * m * w;
+}
+
+void Scene::moveDrag(const Vec2 &point, float dt)
+{
+  if (!dragSpring)
+    return;
+  // the anchor moves with the mouse, so damping only resists motion relative to the mouse
+  mouseBody.setVel(dt > 0 ? (point - prevMouse) / dt : Vec2(0, 0));
+  // tracked while paused too, so unpausing doesn't see one big jump
+  prevMouse = point;
+  mouseBody.setPos(point);
+  // recomputed every frame, so settle time or mass edits mid-drag take effect
+  tuneDragSpring();
+}
+
+void Scene::endDrag()
+{
+  if (dragSpring)
+    world->removeFGen(*dragSpring, *shapes[dragged].body);
+  dragSpring.reset();
+  dragged = -1;
+}
+
+bool Scene::getDragLine(Vec2 &from, Vec2 &to) const
+{
+  if (!dragSpring)
+    return false;
+  from = shapes[dragged].body->local2World(dragAnchor);
+  to = mouseBody.getPos();
+  return true;
 }
 
 int Scene::pick(const Vec2 &point) const

@@ -17,10 +17,21 @@ using namespace ephys;
 
 // longest frame the sim will advance by, so stopping at a breakpoint doesn't blow up the next step
 constexpr float MAX_FRAME_TIME = 0.05f;
-// how far a single step advances the sim while paused
-constexpr float STEP_TIME = 1 / 60.f;
+// the sim always advances in steps of this size, whatever the frame rate; also what a single
+// step advances it by while paused
+constexpr float PHYSICS_STEP = 1 / 120.f;
+// most frames rendered per second; fewer when frames run long
+constexpr int MAX_FPS = 120;
 
+constexpr float MIN_TIME_SCALE = 0.05f, MAX_TIME_SCALE = 4;
+// how much h/l change the time scale; they stop at this as their lowest, short of zero
+constexpr float TIME_SCALE_STEP = 0.25f;
+
+// DEFAULT_ZOOM is only a fallback, for when there's no viewport to fit the scene into
 constexpr float DEFAULT_ZOOM = 40, MIN_ZOOM = 4, MAX_ZOOM = 400;
+// on startup and "reset camera", the camera fits this multiple of the box around the scene's
+// starting positions
+constexpr float START_VIEW_SCALE = 3;
 constexpr float WHEEL_ZOOM_FACTOR = 1.1f;
 
 struct App
@@ -30,10 +41,14 @@ struct App
   RenderOptions render;
 
   bool paused = false;
-  bool stepOnce = false; // advance by STEP_TIME on the next frame while paused
+  bool stepOnce = false; // advance by PHYSICS_STEP on the next frame while paused
+  float pendingTime = 0; // simulated time not yet stepped, carried over to the next frame
   float timeScale = 1;
   float stepMs = 0; // smoothed time spent in World::step per frame
   bool panning = false;
+  SDL_FPoint mouse = {0, 0}; // last cursor position, in render pixels
+  bool showHelp = false;     // shortcuts window, toggled with '?'
+  bool cameraFitPending = true; // fit the camera once the viewport has a size, see SDL_AppIterate
 
   void reset()
   {
@@ -41,19 +56,51 @@ struct App
     render.selected = -1;
   }
 
+  // centers on the box around the scene's starting positions, zoomed so START_VIEW_SCALE times
+  // it fits the viewport; needs the viewport size, so call after updateViewport
   void resetCamera()
   {
-    camera.x = camera.y = 0;
-    camera.size = DEFAULT_ZOOM;
+    Vec2 min, max;
+    scene.getStartBounds(min, max);
+    camera.x = (min.x + max.x) / 2;
+    camera.y = (min.y + max.y) / 2;
+
+    // render pixels per unit that fit each axis; an axis with no extent doesn't limit the zoom
+    float w = (max.x - min.x) * START_VIEW_SCALE, h = (max.y - min.y) * START_VIEW_SCALE;
+    float ppu = INFINITY;
+    if (w > 0)
+      ppu = camera.width / w;
+    if (h > 0)
+      ppu = SDL_min(ppu, camera.height / h);
+    // minimized, or every shape starts at one point
+    if (camera.width <= 0 || camera.height <= 0 || ppu == INFINITY)
+    {
+      camera.size = DEFAULT_ZOOM;
+      return;
+    }
+    camera.size = SDL_clamp(ppu / camera.scale, MIN_ZOOM, MAX_ZOOM);
   }
 };
+
+// '?' comes through shifted on the web, but desktop key events carry the unshifted key (like '/'
+// with shift held), so also map the scancode through the current layout with the modifiers
+static bool isHelpKey(const SDL_KeyboardEvent &key)
+{
+  return key.key == SDLK_QUESTION || SDL_GetKeyFromScancode(key.scancode, key.mod, false) == SDLK_QUESTION;
+}
 
 // keys handleEvent acts on, without ctrl/alt/gui so browser and OS shortcuts like ctrl+r keep working
 static bool isHotkey(const SDL_KeyboardEvent &key)
 {
   if (key.mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT | SDL_KMOD_GUI))
     return false;
-  return key.key == SDLK_SPACE || key.key == SDLK_RIGHT || key.key == SDLK_R;
+  switch (key.key)
+  {
+  case SDLK_SPACE: case SDLK_K: case SDLK_PERIOD: case SDLK_R: case SDLK_H: case SDLK_J: case SDLK_L:
+    return true;
+  default:
+    return isHelpKey(key);
+  }
 }
 
 #ifdef SDL_PLATFORM_EMSCRIPTEN
@@ -95,30 +142,49 @@ static void handleEvent(App &app, const SDL_Event &event)
   case SDL_EVENT_KEY_DOWN:
     if (io.WantCaptureKeyboard || !isHotkey(event.key))
       break;
-    if (event.key.key == SDLK_SPACE && !event.key.repeat)
+    if (isHelpKey(event.key))
+    {
+      if (!event.key.repeat)
+        app.showHelp = !app.showHelp;
+    }
+    else if ((event.key.key == SDLK_SPACE || event.key.key == SDLK_K) && !event.key.repeat)
       app.paused = !app.paused;
-    else if (event.key.key == SDLK_RIGHT && app.paused)
+    // h/l repeat while held; neither moves the speed the wrong way if the slider set it
+    // outside the range they step through
+    else if (event.key.key == SDLK_H)
+      app.timeScale = SDL_min(app.timeScale, SDL_max(app.timeScale - TIME_SCALE_STEP, TIME_SCALE_STEP));
+    else if (event.key.key == SDLK_J)
+      app.timeScale = 1;
+    else if (event.key.key == SDLK_L)
+      app.timeScale = SDL_max(app.timeScale, SDL_min(app.timeScale + TIME_SCALE_STEP, MAX_TIME_SCALE));
+    else if (event.key.key == SDLK_PERIOD && app.paused)
       app.stepOnce = true;
     else if (event.key.key == SDLK_R && !event.key.repeat)
       app.reset();
     break;
 
   case SDL_EVENT_MOUSE_BUTTON_DOWN:
+    app.mouse = {event.button.x, event.button.y};
     if (io.WantCaptureMouse)
       break;
-    // left click selects (or deselects on empty space), right/middle drag pans
+    // left click selects and drags (or deselects on empty space), right/middle drag pans
     if (event.button.button == SDL_BUTTON_LEFT)
-      app.render.selected = app.scene.pick(app.camera.toWorld({event.button.x, event.button.y}));
+      app.render.selected = app.scene.startDrag(app.camera.toWorld(app.mouse));
     else
       app.panning = true;
     break;
 
   case SDL_EVENT_MOUSE_BUTTON_UP:
-    if (event.button.button != SDL_BUTTON_LEFT)
+    app.mouse = {event.button.x, event.button.y};
+    // not gated on imgui, so releasing over a window still ends the drag
+    if (event.button.button == SDL_BUTTON_LEFT)
+      app.scene.endDrag();
+    else
       app.panning = false;
     break;
 
   case SDL_EVENT_MOUSE_MOTION:
+    app.mouse = {event.motion.x, event.motion.y};
     if (app.panning)
     {
       // screen is y-down, world is y-up; motion is in render pixels
@@ -206,6 +272,65 @@ static void drawInspector(Shape &shape)
     body.setAngularDamping(f);
 }
 
+// every keyboard shortcut handleEvent acts on, plus the mouse controls
+static void drawHelp(App &app)
+{
+  // fixed sizes below are in unscaled pixels
+  const float scale = ImGui::GetStyle().FontScaleDpi;
+  const ImGuiIO &io = ImGui::GetIO();
+  // top right each time it opens, pivoting on the window's own top right corner
+  ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 8 * scale, 8 * scale), ImGuiCond_Appearing, ImVec2(1, 0));
+  if (ImGui::Begin("help", &app.showHelp, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
+  {
+    char speed[32];
+    SDL_snprintf(speed, sizeof(speed), "slow down / speed up by %.2fx", TIME_SCALE_STEP);
+    const char *rows[][2] = {
+        {"space, k", "pause / resume"},
+        {".", "step once while paused"},
+        {"r", "reset the scene"},
+        {"h, l", speed},
+        {"j", "reset speed to 1.00x"},
+        {"?", "show / hide this help"},
+        {nullptr, nullptr}, // separator between keyboard and mouse
+        {"left click", "select a body"},
+        {"left drag", "pull a body"},
+        {"right drag", "pan"},
+        {"wheel", "zoom"},
+    };
+    if (ImGui::BeginTable("shortcuts", 2, ImGuiTableFlags_SizingFixedFit))
+    {
+      for (const auto &row : rows)
+      {
+        ImGui::TableNextRow();
+        ImGui::TableNextColumn();
+        if (!row[0])
+        {
+          ImGui::Spacing();
+          continue;
+        }
+        ImGui::TextUnformatted(row[0]);
+        ImGui::TableNextColumn();
+        ImGui::TextDisabled("%s", row[1]);
+      }
+      ImGui::EndTable();
+    }
+  }
+  ImGui::End();
+}
+
+// "help: press ?" in the bottom right corner, drawn behind every imgui window
+static void drawHelpHint()
+{
+  const float scale = ImGui::GetStyle().FontScaleDpi;
+  const ImGuiIO &io = ImGui::GetIO();
+  const char *hint = "help: press ?";
+  ImVec2 size = ImGui::CalcTextSize(hint);
+  // floored so the pixel font lands on whole pixels and stays sharp
+  ImVec2 pos(SDL_floorf(io.DisplaySize.x - size.x - 8 * scale), SDL_floorf(io.DisplaySize.y - size.y - 8 * scale));
+  // a little brighter than the #222 background
+  ImGui::GetBackgroundDrawList()->AddText(pos, IM_COL32(0x77, 0x77, 0x77, 0xff), hint);
+}
+
 static void drawUI(App &app)
 {
   // fixed sizes below are in unscaled pixels
@@ -216,7 +341,12 @@ static void drawUI(App &app)
 
   if (ImGui::CollapsingHeader("simulation", ImGuiTreeNodeFlags_DefaultOpen))
   {
-    ImGui::Checkbox("paused", &app.paused);
+    // sized for the longer label so the buttons after it don't shift when it toggles;
+    // ### keeps the same id across both labels
+    const ImGuiStyle &style = ImGui::GetStyle();
+    float pauseWidth = ImGui::CalcTextSize("resume").x + style.FramePadding.x * 2;
+    if (ImGui::Button(app.paused ? "resume###pause" : "pause###pause", ImVec2(pauseWidth, 0)))
+      app.paused = !app.paused;
     ImGui::SameLine();
     ImGui::BeginDisabled(!app.paused);
     if (ImGui::Button("step"))
@@ -225,9 +355,8 @@ static void drawUI(App &app)
     ImGui::SameLine();
     if (ImGui::Button("reset"))
       app.reset();
-    ImGui::SliderFloat("time scale", &app.timeScale, 0.05f, 4, "%.2fx", ImGuiSliderFlags_Logarithmic);
+    ImGui::SliderFloat("time scale", &app.timeScale, MIN_TIME_SCALE, MAX_TIME_SCALE, "%.2fx", ImGuiSliderFlags_Logarithmic);
     ImGui::Text("%.1f fps, step %.2f ms", ImGui::GetIO().Framerate, app.stepMs);
-    ImGui::TextDisabled("space: pause, right: step, r: reset");
   }
 
   if (ImGui::CollapsingHeader("view", ImGuiTreeNodeFlags_DefaultOpen))
@@ -241,18 +370,28 @@ static void drawUI(App &app)
     ImGui::TextDisabled("right drag: pan, wheel: zoom");
   }
 
+  if (ImGui::CollapsingHeader("dragging"))
+  {
+    // shorter times stiffen the spring, which the explicit integrator can't keep stable
+    ImGui::SliderFloat("settle time", &app.scene.dragSettleTime, 0.2f, 5, "%.2f s", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_AlwaysClamp);
+    if (app.scene.isDragging())
+      ImGui::Text("stiffness %.1f, damping %.2f", app.scene.getDragStiffness(), app.scene.getDragDamping());
+    else
+      ImGui::TextDisabled("stiffness and damping scale with mass");
+  }
+
   std::vector<Shape> &shapes = app.scene.getShapes();
-  if (ImGui::CollapsingHeader("bodies", ImGuiTreeNodeFlags_DefaultOpen))
+  if (ImGui::CollapsingHeader("bodies"))
   {
     ImGui::Text("%d bodies", (int)shapes.size());
-    ImGui::TextDisabled("click a body to select it");
+    ImGui::TextDisabled("click a body to select it, drag to pull it");
 
     float swatch = ImGui::GetTextLineHeight();
     ImGui::BeginChild("body list", ImVec2(260 * scale, 8 * ImGui::GetTextLineHeightWithSpacing()), ImGuiChildFlags_Borders);
     for (int i = 0; i < (int)shapes.size(); i++)
     {
       ImGui::PushID(i);
-      SDL_FColor c = shapeColor(i);
+      SDL_FColor c = shapeColor(shapes[i], i);
       ImGui::ColorButton("##color", ImVec4(c.r, c.g, c.b, c.a), ImGuiColorEditFlags_NoTooltip, ImVec2(swatch, swatch));
       ImGui::SameLine();
       const char *type = shapes[i].type == Shape::Type::Circle ? "circle" : "box";
@@ -263,16 +402,32 @@ static void drawUI(App &app)
       ImGui::PopID();
     }
     ImGui::EndChild();
-
-    if (app.render.selected >= 0 && app.render.selected < (int)shapes.size())
-    {
-      ImGui::SeparatorText("selected");
-      drawInspector(shapes[app.render.selected]);
-    }
   }
 
   ImGui::PopItemWidth();
   ImGui::End();
+
+  if (app.render.selected >= 0 && app.render.selected < (int)shapes.size())
+  {
+    // pinned to the bottom left, pivoting on the window's own bottom left corner
+    const ImGuiIO &io = ImGui::GetIO();
+    ImGui::SetNextWindowPos(ImVec2(8 * scale, io.DisplaySize.y - 8 * scale), ImGuiCond_Always, ImVec2(0, 1));
+    bool open = true;
+    if (ImGui::Begin("selected", &open, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+    {
+      ImGui::PushItemWidth(160 * scale);
+      drawInspector(shapes[app.render.selected]);
+      ImGui::PopItemWidth();
+    }
+    ImGui::End();
+    // the close button deselects
+    if (!open)
+      app.render.selected = -1;
+  }
+
+  drawHelpHint();
+  if (app.showHelp)
+    drawHelp(app);
 }
 
 // everything the SDL callbacks share, passed around as appstate
@@ -282,6 +437,9 @@ struct State
   SDL_Renderer *renderer = nullptr;
   App app;
   Uint64 prevTicks = 0;
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+  Uint64 nextFrame = 0; // earliest time the next frame renders, see SDL_AppIterate
+#endif
   ImFont *pixelFont = nullptr;  // ProggyClean, only sharp at whole multiples of its 13px size
   ImFont *vectorFont = nullptr; // scalable, for fractional display scales
 };
@@ -355,6 +513,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 
 #ifdef SDL_PLATFORM_EMSCRIPTEN
   SDL_SetEventFilter(filterKeys, nullptr);
+#else
+  // SDL sleeps between iterations to hold this rate; vsync can still lower it
+  char rate[16];
+  SDL_snprintf(rate, sizeof(rate), "%d", MAX_FPS);
+  SDL_SetHint(SDL_HINT_MAIN_CALLBACK_RATE, rate);
 #endif
 
   updateViewport(*state);
@@ -389,22 +552,50 @@ SDL_AppResult SDL_AppIterate(void *appstate)
   App &app = state.app;
 
   Uint64 ticks = SDL_GetTicksNS();
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+  // the browser calls this from requestAnimationFrame at the display's refresh rate (the rate
+  // hint would swap that for imprecise timers), so cap the rate by skipping frames instead;
+  // the deadline falls at most one frame behind, so a 144 Hz display still averages MAX_FPS,
+  // and the tolerance keeps timing jitter from halving the rate on a MAX_FPS display
+  constexpr Uint64 FRAME_NS = SDL_NS_PER_SECOND / MAX_FPS, FRAME_TOLERANCE_NS = SDL_NS_PER_MS;
+  if (ticks + FRAME_TOLERANCE_NS < state.nextFrame)
+    return SDL_APP_CONTINUE;
+  if (state.nextFrame + FRAME_NS < ticks)
+    state.nextFrame = ticks - FRAME_NS;
+  state.nextFrame += FRAME_NS;
+#endif
   float elapsed = SDL_min((ticks - state.prevTicks) / 1e9f, MAX_FRAME_TIME);
   state.prevTicks = ticks;
 
   updateViewport(state);
 
-  float dt = app.paused ? (app.stepOnce ? STEP_TIME : 0) : elapsed;
-  dt *= app.timeScale;
+  // fit the camera on the first frame with a real viewport rather than in SDL_AppInit: by now
+  // the canvas has its css size and any resize events from setting it up have been handled;
+  // waiting on a nonzero size also covers starting minimized
+  if (app.cameraFitPending && app.camera.width > 0 && app.camera.height > 0)
+  {
+    app.resetCamera();
+    app.cameraFitPending = false;
+    // wall the scene in at the edges of this first view, once; screen is y-down, world is y-up
+    Vec2 min = app.camera.toWorld({0, app.camera.height}), max = app.camera.toWorld({app.camera.width, 0});
+    app.scene.setWalls(min, max);
+  }
+
+  // simulated time this frame
+  float dt = app.paused ? (app.stepOnce ? PHYSICS_STEP : 0) : elapsed * app.timeScale;
   app.stepOnce = false;
 
-  // physics runs at twice the render rate, like the web demo
-  // Rigidbody::step asserts dt > 0, so skip frames where no time has passed
-  if (dt > 0)
+  // every frame, so the anchor stays under the cursor while panning or zooming
+  app.scene.moveDrag(app.camera.toWorld(app.mouse), dt);
+
+  // fixed steps, so the sim behaves the same at any frame rate or time scale;
+  // whatever is left under a step carries over to the next frame
+  app.pendingTime += dt;
+  if (app.pendingTime >= PHYSICS_STEP)
   {
     Uint64 start = SDL_GetPerformanceCounter();
-    app.scene.step(dt / 2);
-    app.scene.step(dt / 2);
+    for (; app.pendingTime >= PHYSICS_STEP; app.pendingTime -= PHYSICS_STEP)
+      app.scene.step(PHYSICS_STEP);
     float ms = (SDL_GetPerformanceCounter() - start) * 1000.f / SDL_GetPerformanceFrequency();
     app.stepMs = app.stepMs == 0 ? ms : app.stepMs * 0.95f + ms * 0.05f;
   }

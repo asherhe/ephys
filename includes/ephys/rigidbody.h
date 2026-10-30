@@ -40,7 +40,8 @@ namespace ephys
 
   public:
     size_t id; // for debug
-    Rigidbody() : linearDamping(0.9), angularDamping(0.9),
+    Rigidbody() : angle(0), angVel(0), torqueAccum(0),
+                  linearDamping(0.9), angularDamping(0.9),
                   restitution(0.5),
                   mass(1), invMass(1),
                   inertia(1), invInertia(1), collider(nullptr), id(Rigidbody::idCount++)

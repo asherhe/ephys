@@ -216,11 +216,12 @@ interface Gravity : ForceGenerator {
 interface Spring : ForceGenerator {
   attribute float k;
   attribute float length;
+  attribute float damping;
 
-  void Spring([Ref] Rigidbody end, [Const, Ref] Vec2 anchor, [Const, Ref] Vec2 endAnchor, float k, float length);
+  void Spring([Ref] Rigidbody end, [Const, Ref] Vec2 anchor, [Const, Ref] Vec2 endAnchor, float k, float length, optional float damping);
 
-  [Value] Rigidbody getEnd();
-  void setEnd([Const, Ref] Rigidbody body);
+  [Ref] Rigidbody getEnd();
+  void setEnd([Ref] Rigidbody body);
 
   void updateForce([Ref] Rigidbody body, float dt);
 };

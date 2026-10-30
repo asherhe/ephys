@@ -21,17 +21,21 @@ namespace ephys
 
     float penetration, restitution;
 
-    Contact() : bodies{nullptr, nullptr} {}
+    Contact() : bodies{nullptr, nullptr}, velFromAcc(0) {}
 
   protected:
-    // the offset of the contact point, in object space
+    // the offset of the contact point from each body's center, in world space
     Vec2 relativePos[2];
 
-    // separating velocity (at the contact point, not the objects)
+    // velocity of bodies[1] relative to bodies[0] (at the contact point, not the objects)
     // in world cordinates
     Vec2 closingVelocity;
 
     float desiredDv;
+
+    // part of the closing velocity along the normal that the bodies' accelerations built up
+    // over the last step, set by ContactSolver::prepareContacts
+    float velFromAcc;
 
     // recalculates derived data in case any original data is modified
     void calculateDerivedData();
@@ -39,7 +43,8 @@ namespace ephys
     void calculateDesiredDv();
 
     void solveVelocity();
-    void solvePenetration();
+    // moves the bodies apart, writing how far each one moved to moved[0] and moved[1]
+    void solvePenetration(Vec2 moved[2]);
 
     // determines the impulse generated normal to the contact
     // i.e. no friction involved

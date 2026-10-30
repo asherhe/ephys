@@ -8,7 +8,7 @@ ephys: a 2D rigidbody physics engine in C++ (modeled on cyclone physics), with o
 - **Web:** `cmake --workflow --preset web-debug` (or `web-release` for `-O3`). Requires the `EMSDK` env var (the preset loads Emscripten's toolchain file from it). Output goes to `web/dist/`.
 - **Run web demo:** build, then serve `web/dist/` with any static HTTP server (e.g. `python -m http.server -d web/dist`) and open `index.html` (wasm needs HTTP, not `file://`).
 - **Desktop:** `cmake --workflow --preset desktop-debug` (or `desktop-release`).
-- **Run desktop:** `build/desktop-debug/desktop/ephys_app.exe`. Space pauses, right arrow steps, `r` resets; left click selects, right drag pans, wheel zooms. Same controls on the web.
+- **Run desktop:** `build/desktop-debug/desktop/ephys_app.exe`. Space or `k` pauses, `.` steps, `r` resets, `h`/`l` change speed by 0.25x, `j` resets speed, `?` shows all shortcuts; left click selects, right drag pans, wheel zooms. Same controls on the web.
 - No test suite or linter exists.
 
 ## Architecture

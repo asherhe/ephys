@@ -13,8 +13,8 @@ struct RenderOptions
   bool velocities = false; // draw velocity vectors
 };
 
-// fill color of the shape at an index, cycling through the demo palette
-SDL_FColor shapeColor(size_t index);
+// fill color of the shape at an index: grey for walls, otherwise cycling through the demo palette
+SDL_FColor shapeColor(const Shape &shape, size_t index);
 
 // draws every shape in the scene, plus any debug overlays enabled in options
 void drawScene(SDL_Renderer *renderer, const Scene &scene, const Camera &camera, const RenderOptions &options);

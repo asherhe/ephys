@@ -14,18 +14,19 @@ void Contact::calculateDerivedData()
   if (bodies[1])
     relativePos[1] = contactPoint - bodies[1]->getPos();
 
+  // velocity of each body at the contact point is v + w x r, with its own r;
   // we can't cross a pseudovector with a vector so instead we use axb=-bxa
-  closingVelocity = (bodies[1]->getVel() - relativePos[0].cross(bodies[1]->getAngVel())) - (bodies[0]->getVel() - relativePos[0].cross(bodies[0]->getAngVel()));
+  closingVelocity = (bodies[1]->getVel() - relativePos[1].cross(bodies[1]->getAngVel())) - (bodies[0]->getVel() - relativePos[0].cross(bodies[0]->getAngVel()));
 
   calculateDesiredDv();
 }
 
 void Contact::calculateDesiredDv()
 {
-  float velFromAcc = bodies[0]->getAcc() * normal -
-                     bodies[1]->getAcc() * normal,
-        normalClosingVel = closingVelocity * normal;
+  float normalClosingVel = closingVelocity * normal;
 
+  // velocity that built up from acceleration over the last step doesn't bounce, so resting
+  // contacts settle instead of jittering
   desiredDv = -normalClosingVel - restitution * (normalClosingVel - velFromAcc);
 }
 
@@ -41,8 +42,9 @@ void Contact::solveVelocity()
   calculateDerivedData();
 }
 
-void Contact::solvePenetration()
+void Contact::solvePenetration(Vec2 moved[2])
 {
+  moved[0] = moved[1] = Vec2(0, 0);
   if (penetration <= 0)
     return;
 
@@ -52,8 +54,10 @@ void Contact::solvePenetration()
 
   Vec2 displacementPerInvMass = penetration / sumInvMass * normal;
 
-  bodies[0]->displace(-displacementPerInvMass * bodies[0]->getInvMass());
-  bodies[1]->displace(displacementPerInvMass * bodies[1]->getInvMass());
+  moved[0] = -displacementPerInvMass * bodies[0]->getInvMass();
+  moved[1] = displacementPerInvMass * bodies[1]->getInvMass();
+  bodies[0]->displace(moved[0]);
+  bodies[1]->displace(moved[1]);
 
   calculateDerivedData();
 }
@@ -73,16 +77,14 @@ float Contact::normalImpulse()
   float dvPerImpulse = dvPerImpulse1 * normal + bodies[0]->getInvMass() +
                        dvPerImpulse2 * normal + bodies[1]->getInvMass();
 
-  float contactVelocity = closingVelocity * normal,
-        dv = -(restitution + 1) * contactVelocity;
+  // both bodies immovable, or an earlier impulse (from another contact between the same bodies)
+  // already has them separating here: a negative impulse would pull them into each other
+  if (dvPerImpulse <= 0 || desiredDv <= 0)
+    return 0;
 
-  std::cout << "normal impulse:\n"
-            << "  dv " << dv << "\n"
-            << "  per impulse " << dvPerImpulse << "\n"
-            << "  impulse " << dv / dvPerImpulse << "\n";
-
+  // the same desiredDv the solver picks contacts by
   // impulse in world coords
-  return dv / dvPerImpulse;
+  return desiredDv / dvPerImpulse;
 }
 
 void ContactSolver::solveContacts(std::list<Contact> &contacts, float dt) const
@@ -98,7 +100,11 @@ void ContactSolver::solveContacts(std::list<Contact> &contacts, float dt) const
 void ContactSolver::prepareContacts(std::list<Contact> &contacts, float dt) const
 {
   for (auto it = contacts.begin(); it != contacts.end(); ++it)
+  {
+    // in the same sense as closingVelocity: bodies[1] relative to bodies[0], along the normal
+    it->velFromAcc = (it->bodies[1]->getAcc() - it->bodies[0]->getAcc()) * it->normal * dt;
     it->calculateDerivedData();
+  }
 }
 
 void ContactSolver::solvePenetration(std::list<Contact> &contacts, float dt) const
@@ -114,7 +120,20 @@ void ContactSolver::solvePenetration(std::list<Contact> &contacts, float dt) con
       return;
 
     max->calculateDerivedData(); // in case related objects have been modified
-    max->solvePenetration();
+    Vec2 moved[2];
+    max->solvePenetration(moved);
+
+    // moving the bodies changes the penetration of every contact they're in, this one included;
+    // without this the same contact is picked and pushed apart again on every iteration
+    for (auto it = contacts.begin(); it != contacts.end(); ++it)
+      for (int b = 0; b < 2; ++b)
+      {
+        // a contact closes as its bodies[0] moves along its normal, and opens as bodies[1] does
+        if (it->bodies[0] == max->bodies[b])
+          it->penetration += moved[b] * it->normal;
+        if (it->bodies[1] == max->bodies[b])
+          it->penetration -= moved[b] * it->normal;
+      }
   }
 }
 
