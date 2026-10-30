@@ -407,7 +407,9 @@ static void drawUI(App &app)
   ImGui::PopItemWidth();
   ImGui::End();
 
-  if (app.render.selected >= 0 && app.render.selected < (int)shapes.size())
+  // hidden while a body is being dragged, so it doesn't flicker through values or sit under the
+  // cursor; it comes back once the drag is released
+  if (app.render.selected >= 0 && app.render.selected < (int)shapes.size() && !app.scene.isDragging())
   {
     // pinned to the bottom left, pivoting on the window's own bottom left corner
     const ImGuiIO &io = ImGui::GetIO();
