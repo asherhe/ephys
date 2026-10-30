@@ -114,4 +114,4 @@ The presets use whichever C++ compiler CMake finds first. To pick a specific one
 
 On Windows the executable is `ephys_app.exe`.
 
-Space or `K` pauses, `.` steps once while paused, `R` resets the scene, and `J`/`L` slow down or speed up the simulation by 0.25x. Left click selects a body, right drag pans, and the scroll wheel zooms.
+Space or `K` pauses, `.` steps once while paused, `R` resets the scene, `H`/`L` slow down or speed up the simulation by 0.25x, and `J` resets the speed to 1x. `?` shows every shortcut. Left click selects a body, right drag pans, and the scroll wheel zooms.

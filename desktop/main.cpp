@@ -24,7 +24,7 @@ constexpr float PHYSICS_STEP = 1 / 120.f;
 constexpr int MAX_FPS = 120;
 
 constexpr float MIN_TIME_SCALE = 0.05f, MAX_TIME_SCALE = 4;
-// how much j/l change the time scale; they stop at this as their lowest, short of zero
+// how much h/l change the time scale; they stop at this as their lowest, short of zero
 constexpr float TIME_SCALE_STEP = 0.25f;
 
 constexpr float DEFAULT_ZOOM = 40, MIN_ZOOM = 4, MAX_ZOOM = 400;
@@ -43,6 +43,7 @@ struct App
   float stepMs = 0; // smoothed time spent in World::step per frame
   bool panning = false;
   SDL_FPoint mouse = {0, 0}; // last cursor position, in render pixels
+  bool showHelp = false;     // shortcuts window, toggled with '?'
 
   void reset()
   {
@@ -57,6 +58,13 @@ struct App
   }
 };
 
+// '?' comes through shifted on the web, but desktop key events carry the unshifted key (like '/'
+// with shift held), so also map the scancode through the current layout with the modifiers
+static bool isHelpKey(const SDL_KeyboardEvent &key)
+{
+  return key.key == SDLK_QUESTION || SDL_GetKeyFromScancode(key.scancode, key.mod, false) == SDLK_QUESTION;
+}
+
 // keys handleEvent acts on, without ctrl/alt/gui so browser and OS shortcuts like ctrl+r keep working
 static bool isHotkey(const SDL_KeyboardEvent &key)
 {
@@ -64,10 +72,10 @@ static bool isHotkey(const SDL_KeyboardEvent &key)
     return false;
   switch (key.key)
   {
-  case SDLK_SPACE: case SDLK_K: case SDLK_PERIOD: case SDLK_R: case SDLK_J: case SDLK_L:
+  case SDLK_SPACE: case SDLK_K: case SDLK_PERIOD: case SDLK_R: case SDLK_H: case SDLK_J: case SDLK_L:
     return true;
   default:
-    return false;
+    return isHelpKey(key);
   }
 }
 
@@ -110,12 +118,19 @@ static void handleEvent(App &app, const SDL_Event &event)
   case SDL_EVENT_KEY_DOWN:
     if (io.WantCaptureKeyboard || !isHotkey(event.key))
       break;
-    if ((event.key.key == SDLK_SPACE || event.key.key == SDLK_K) && !event.key.repeat)
+    if (isHelpKey(event.key))
+    {
+      if (!event.key.repeat)
+        app.showHelp = !app.showHelp;
+    }
+    else if ((event.key.key == SDLK_SPACE || event.key.key == SDLK_K) && !event.key.repeat)
       app.paused = !app.paused;
-    // j/l repeat while held; neither moves the speed the wrong way if the slider set it
+    // h/l repeat while held; neither moves the speed the wrong way if the slider set it
     // outside the range they step through
-    else if (event.key.key == SDLK_J)
+    else if (event.key.key == SDLK_H)
       app.timeScale = SDL_min(app.timeScale, SDL_max(app.timeScale - TIME_SCALE_STEP, TIME_SCALE_STEP));
+    else if (event.key.key == SDLK_J)
+      app.timeScale = 1;
     else if (event.key.key == SDLK_L)
       app.timeScale = SDL_max(app.timeScale, SDL_min(app.timeScale + TIME_SCALE_STEP, MAX_TIME_SCALE));
     else if (event.key.key == SDLK_PERIOD && app.paused)
@@ -233,6 +248,65 @@ static void drawInspector(Shape &shape)
     body.setAngularDamping(f);
 }
 
+// every keyboard shortcut handleEvent acts on, plus the mouse controls
+static void drawHelp(App &app)
+{
+  // fixed sizes below are in unscaled pixels
+  const float scale = ImGui::GetStyle().FontScaleDpi;
+  const ImGuiIO &io = ImGui::GetIO();
+  // top right each time it opens, pivoting on the window's own top right corner
+  ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 8 * scale, 8 * scale), ImGuiCond_Appearing, ImVec2(1, 0));
+  if (ImGui::Begin("help", &app.showHelp, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
+  {
+    char speed[32];
+    SDL_snprintf(speed, sizeof(speed), "slow down / speed up by %.2fx", TIME_SCALE_STEP);
+    const char *rows[][2] = {
+        {"space, k", "pause / resume"},
+        {".", "step once while paused"},
+        {"r", "reset the scene"},
+        {"h, l", speed},
+        {"j", "reset speed to 1.00x"},
+        {"?", "show / hide this help"},
+        {nullptr, nullptr}, // separator between keyboard and mouse
+        {"left click", "select a body"},
+        {"left drag", "pull a body"},
+        {"right drag", "pan"},
+        {"wheel", "zoom"},
+    };
+    if (ImGui::BeginTable("shortcuts", 2, ImGuiTableFlags_SizingFixedFit))
+    {
+      for (const auto &row : rows)
+      {
+        ImGui::TableNextRow();
+        ImGui::TableNextColumn();
+        if (!row[0])
+        {
+          ImGui::Spacing();
+          continue;
+        }
+        ImGui::TextUnformatted(row[0]);
+        ImGui::TableNextColumn();
+        ImGui::TextDisabled("%s", row[1]);
+      }
+      ImGui::EndTable();
+    }
+  }
+  ImGui::End();
+}
+
+// "help: press ?" in the bottom right corner, drawn behind every imgui window
+static void drawHelpHint()
+{
+  const float scale = ImGui::GetStyle().FontScaleDpi;
+  const ImGuiIO &io = ImGui::GetIO();
+  const char *hint = "help: press ?";
+  ImVec2 size = ImGui::CalcTextSize(hint);
+  // floored so the pixel font lands on whole pixels and stays sharp
+  ImVec2 pos(SDL_floorf(io.DisplaySize.x - size.x - 8 * scale), SDL_floorf(io.DisplaySize.y - size.y - 8 * scale));
+  // a little brighter than the #222 background
+  ImGui::GetBackgroundDrawList()->AddText(pos, IM_COL32(0x77, 0x77, 0x77, 0xff), hint);
+}
+
 static void drawUI(App &app)
 {
   // fixed sizes below are in unscaled pixels
@@ -259,8 +333,6 @@ static void drawUI(App &app)
       app.reset();
     ImGui::SliderFloat("time scale", &app.timeScale, MIN_TIME_SCALE, MAX_TIME_SCALE, "%.2fx", ImGuiSliderFlags_Logarithmic);
     ImGui::Text("%.1f fps, step %.2f ms", ImGui::GetIO().Framerate, app.stepMs);
-    ImGui::TextDisabled("space/k: pause, .: step, r: reset");
-    ImGui::TextDisabled("j/l: speed -/+ %.2fx", TIME_SCALE_STEP);
   }
 
   if (ImGui::CollapsingHeader("view", ImGuiTreeNodeFlags_DefaultOpen))
@@ -316,6 +388,10 @@ static void drawUI(App &app)
 
   ImGui::PopItemWidth();
   ImGui::End();
+
+  drawHelpHint();
+  if (app.showHelp)
+    drawHelp(app);
 }
 
 // everything the SDL callbacks share, passed around as appstate
