@@ -18,6 +18,7 @@ struct Shape
   // heap-allocated so the raw pointers World keeps stay valid as the vector grows
   std::unique_ptr<ephys::Rigidbody> body;
   std::unique_ptr<ephys::Collider> collider;
+  bool wall = false; // one of the static boundary walls
 };
 
 // owns the world and every body in it (the JS demo's `bodies` array + `world`)
@@ -27,6 +28,12 @@ class Scene
   std::vector<Shape> shapes;
   // tightest box around the shapes' starting positions, set by reset()
   ephys::Vec2 startMin, startMax;
+
+  // inner faces of the boundary walls, set once by setWalls and rebuilt by every reset()
+  bool hasWalls = false;
+  ephys::Vec2 wallMin, wallMax;
+  void addWalls();
+  void addWall(const ephys::Vec2 &center, const ephys::Vec2 &size);
 
   // virtual anchor that follows the mouse while dragging; static and never added to the world
   ephys::Rigidbody mouseBody;
@@ -51,6 +58,10 @@ public:
 
   ephys::Rigidbody &circle(float radius);
   ephys::Rigidbody &box(float width, float height);
+
+  // walls the region between two world-space corners in with static boxes, outside it;
+  // they stay put from then on, through resets too
+  void setWalls(const ephys::Vec2 &min, const ephys::Vec2 &max);
 
   void step(float dt);
 

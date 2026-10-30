@@ -29,6 +29,7 @@ namespace
   const SDL_FColor COLLIDER_COLOR = {0.4f, 1, 0.4f, 1};
   const SDL_FColor VELOCITY_COLOR = {0.8f, 0.8f, 0.8f, 1};
   const SDL_FColor DRAG_COLOR = {1, 1, 1, 1};
+  const SDL_FColor WALL_COLOR = {0x33 / 255.f, 0x33 / 255.f, 0x33 / 255.f, 1};
   // drag lines shorter than this, in unscaled pixels, fade out towards zero length
   constexpr float DRAG_FADE_LENGTH = 20;
 
@@ -251,9 +252,9 @@ namespace
   }
 }
 
-SDL_FColor shapeColor(size_t index)
+SDL_FColor shapeColor(const Shape &shape, size_t index)
 {
-  return palette[index % PALETTE_SIZE];
+  return shape.wall ? WALL_COLOR : palette[index % PALETTE_SIZE];
 }
 
 void drawScene(SDL_Renderer *renderer, const Scene &scene, const Camera &camera, const RenderOptions &options)
@@ -267,7 +268,7 @@ void drawScene(SDL_Renderer *renderer, const Scene &scene, const Camera &camera,
   for (size_t i = 0; i < shapes.size(); i++)
   {
     int count = shapePoints(shapes[i], points);
-    fillPolygon(renderer, camera, points, count, shapeColor(i));
+    fillPolygon(renderer, camera, points, count, shapeColor(shapes[i], i));
   }
 
   // overlays go on top of every fill

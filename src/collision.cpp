@@ -497,6 +497,11 @@ std::list<Contact> &CollisionContactGenerator::generateContacts() const
 
   for (auto it = potentialContacts.begin(); it != potentialContacts.end(); ++it)
   {
+    // neither body can move, so there is nothing to resolve; the solver would divide by their
+    // zero combined inverse mass, and keep picking the contact since its penetration never drops
+    if (it->bodies[0]->getStatic() && it->bodies[1]->getStatic())
+      continue;
+
     short colliderFlags = 0;
 
     Collider *c0 = (it->bodies[0]->getCollider()),

@@ -6,6 +6,11 @@ using namespace ephys;
 
 // a critically damped spring decays as (1 + wt) e^-wt, which is within 2% of rest at wt = 5.83
 constexpr float SETTLE_RATIO = 5.83f;
+// thick enough that nothing in the demo moves far enough in one step to tunnel through
+constexpr float WALL_THICKNESS = 8;
+// how far the side walls reach into the top and bottom walls, so no seam shows at the corners;
+// covers the 1px antialiasing fade on each edge down to MIN_ZOOM (4 px/unit)
+constexpr float WALL_OVERLAP = 0.5f;
 
 Scene::Scene()
 {
@@ -43,6 +48,47 @@ void Scene::reset()
     startMin = Vec2(fminf(startMin.x, p.x), fminf(startMin.y, p.y));
     startMax = Vec2(fmaxf(startMax.x, p.x), fmaxf(startMax.y, p.y));
   }
+
+  // after the bounds, so the walls don't count towards them; last, so the bodies keep their colors
+  if (hasWalls)
+    addWalls();
+}
+
+void Scene::setWalls(const Vec2 &min, const Vec2 &max)
+{
+  if (hasWalls)
+    return;
+  hasWalls = true;
+  wallMin = min;
+  wallMax = max;
+  addWalls();
+}
+
+void Scene::addWalls()
+{
+  const float t = WALL_THICKNESS;
+  float width = wallMax.x - wallMin.x, height = wallMax.y - wallMin.y;
+  Vec2 center = (wallMin + wallMax) / 2;
+  // top and bottom cover the corners, and the sides overlap into them; overlapping walls are
+  // fine since the engine skips contacts between two static bodies
+  addWall(Vec2(center.x, wallMax.y + t / 2), Vec2(width + 2 * t, t));
+  addWall(Vec2(center.x, wallMin.y - t / 2), Vec2(width + 2 * t, t));
+  addWall(Vec2(wallMin.x - t / 2, center.y), Vec2(t, height + 2 * WALL_OVERLAP));
+  addWall(Vec2(wallMax.x + t / 2, center.y), Vec2(t, height + 2 * WALL_OVERLAP));
+}
+
+void Scene::addWall(const Vec2 &center, const Vec2 &size)
+{
+  Rigidbody &body = box(size.x, size.y);
+  shapes.back().wall = true;
+  // setStatic only stops linear motion; without zero inverse inertia, contact impulses would
+  // still spin the wall and feed that spin back into every contact with it
+  body.setStatic(true);
+  body.setInvInertia(0);
+  // the constructor leaves these uninitialized
+  body.setAngle(0);
+  body.setAngVel(0);
+  body.setPos(center);
 }
 
 void Scene::step(float dt)

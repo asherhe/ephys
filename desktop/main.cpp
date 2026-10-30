@@ -391,7 +391,7 @@ static void drawUI(App &app)
     for (int i = 0; i < (int)shapes.size(); i++)
     {
       ImGui::PushID(i);
-      SDL_FColor c = shapeColor(i);
+      SDL_FColor c = shapeColor(shapes[i], i);
       ImGui::ColorButton("##color", ImVec4(c.r, c.g, c.b, c.a), ImGuiColorEditFlags_NoTooltip, ImVec2(swatch, swatch));
       ImGui::SameLine();
       const char *type = shapes[i].type == Shape::Type::Circle ? "circle" : "box";
@@ -576,6 +576,9 @@ SDL_AppResult SDL_AppIterate(void *appstate)
   {
     app.resetCamera();
     app.cameraFitPending = false;
+    // wall the scene in at the edges of this first view, once; screen is y-down, world is y-up
+    Vec2 min = app.camera.toWorld({0, app.camera.height}), max = app.camera.toWorld({app.camera.width, 0});
+    app.scene.setWalls(min, max);
   }
 
   // simulated time this frame
