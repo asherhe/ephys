@@ -346,7 +346,7 @@ static void drawUI(App &app)
     ImGui::TextDisabled("right drag: pan, wheel: zoom");
   }
 
-  if (ImGui::CollapsingHeader("dragging", ImGuiTreeNodeFlags_DefaultOpen))
+  if (ImGui::CollapsingHeader("dragging"))
   {
     // shorter times stiffen the spring, which the explicit integrator can't keep stable
     ImGui::SliderFloat("settle time", &app.scene.dragSettleTime, 0.2f, 5, "%.2f s", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_AlwaysClamp);
@@ -357,7 +357,7 @@ static void drawUI(App &app)
   }
 
   std::vector<Shape> &shapes = app.scene.getShapes();
-  if (ImGui::CollapsingHeader("bodies", ImGuiTreeNodeFlags_DefaultOpen))
+  if (ImGui::CollapsingHeader("bodies"))
   {
     ImGui::Text("%d bodies", (int)shapes.size());
     ImGui::TextDisabled("click a body to select it, drag to pull it");
@@ -378,16 +378,28 @@ static void drawUI(App &app)
       ImGui::PopID();
     }
     ImGui::EndChild();
-
-    if (app.render.selected >= 0 && app.render.selected < (int)shapes.size())
-    {
-      ImGui::SeparatorText("selected");
-      drawInspector(shapes[app.render.selected]);
-    }
   }
 
   ImGui::PopItemWidth();
   ImGui::End();
+
+  if (app.render.selected >= 0 && app.render.selected < (int)shapes.size())
+  {
+    // pinned to the bottom left, pivoting on the window's own bottom left corner
+    const ImGuiIO &io = ImGui::GetIO();
+    ImGui::SetNextWindowPos(ImVec2(8 * scale, io.DisplaySize.y - 8 * scale), ImGuiCond_Always, ImVec2(0, 1));
+    bool open = true;
+    if (ImGui::Begin("selected", &open, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse))
+    {
+      ImGui::PushItemWidth(160 * scale);
+      drawInspector(shapes[app.render.selected]);
+      ImGui::PopItemWidth();
+    }
+    ImGui::End();
+    // the close button deselects
+    if (!open)
+      app.render.selected = -1;
+  }
 
   drawHelpHint();
   if (app.showHelp)
