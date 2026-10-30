@@ -15,9 +15,6 @@ constexpr float WALL_OVERLAP = 0.5f;
 Scene::Scene()
 {
   mouseBody.setStatic(true);
-  // the constructor leaves these uninitialized, and the spring's damping reads angVel
-  mouseBody.setAngle(0);
-  mouseBody.setAngVel(0);
   reset();
 }
 
@@ -85,9 +82,6 @@ void Scene::addWall(const Vec2 &center, const Vec2 &size)
   // still spin the wall and feed that spin back into every contact with it
   body.setStatic(true);
   body.setInvInertia(0);
-  // the constructor leaves these uninitialized
-  body.setAngle(0);
-  body.setAngVel(0);
   body.setPos(center);
 }
 
