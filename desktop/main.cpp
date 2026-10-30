@@ -17,8 +17,11 @@ using namespace ephys;
 
 // longest frame the sim will advance by, so stopping at a breakpoint doesn't blow up the next step
 constexpr float MAX_FRAME_TIME = 0.05f;
-// how far a single step advances the sim while paused
-constexpr float STEP_TIME = 1 / 60.f;
+// the sim always advances in steps of this size, whatever the frame rate; also what a single
+// step advances it by while paused
+constexpr float PHYSICS_STEP = 1 / 120.f;
+// most frames rendered per second; fewer when frames run long
+constexpr int MAX_FPS = 120;
 
 constexpr float DEFAULT_ZOOM = 40, MIN_ZOOM = 4, MAX_ZOOM = 400;
 constexpr float WHEEL_ZOOM_FACTOR = 1.1f;
@@ -30,7 +33,8 @@ struct App
   RenderOptions render;
 
   bool paused = false;
-  bool stepOnce = false; // advance by STEP_TIME on the next frame while paused
+  bool stepOnce = false; // advance by PHYSICS_STEP on the next frame while paused
+  float pendingTime = 0; // simulated time not yet stepped, carried over to the next frame
   float timeScale = 1;
   float stepMs = 0; // smoothed time spent in World::step per frame
   bool panning = false;
@@ -299,6 +303,9 @@ struct State
   SDL_Renderer *renderer = nullptr;
   App app;
   Uint64 prevTicks = 0;
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+  Uint64 nextFrame = 0; // earliest time the next frame renders, see SDL_AppIterate
+#endif
   ImFont *pixelFont = nullptr;  // ProggyClean, only sharp at whole multiples of its 13px size
   ImFont *vectorFont = nullptr; // scalable, for fractional display scales
 };
@@ -372,6 +379,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 
 #ifdef SDL_PLATFORM_EMSCRIPTEN
   SDL_SetEventFilter(filterKeys, nullptr);
+#else
+  // SDL sleeps between iterations to hold this rate; vsync can still lower it
+  char rate[16];
+  SDL_snprintf(rate, sizeof(rate), "%d", MAX_FPS);
+  SDL_SetHint(SDL_HINT_MAIN_CALLBACK_RATE, rate);
 #endif
 
   updateViewport(*state);
@@ -406,25 +418,38 @@ SDL_AppResult SDL_AppIterate(void *appstate)
   App &app = state.app;
 
   Uint64 ticks = SDL_GetTicksNS();
+#ifdef SDL_PLATFORM_EMSCRIPTEN
+  // the browser calls this from requestAnimationFrame at the display's refresh rate (the rate
+  // hint would swap that for imprecise timers), so cap the rate by skipping frames instead;
+  // the deadline falls at most one frame behind, so a 144 Hz display still averages MAX_FPS,
+  // and the tolerance keeps timing jitter from halving the rate on a MAX_FPS display
+  constexpr Uint64 FRAME_NS = SDL_NS_PER_SECOND / MAX_FPS, FRAME_TOLERANCE_NS = SDL_NS_PER_MS;
+  if (ticks + FRAME_TOLERANCE_NS < state.nextFrame)
+    return SDL_APP_CONTINUE;
+  if (state.nextFrame + FRAME_NS < ticks)
+    state.nextFrame = ticks - FRAME_NS;
+  state.nextFrame += FRAME_NS;
+#endif
   float elapsed = SDL_min((ticks - state.prevTicks) / 1e9f, MAX_FRAME_TIME);
   state.prevTicks = ticks;
 
   updateViewport(state);
 
-  float dt = app.paused ? (app.stepOnce ? STEP_TIME : 0) : elapsed;
-  dt *= app.timeScale;
+  // simulated time this frame
+  float dt = app.paused ? (app.stepOnce ? PHYSICS_STEP : 0) : elapsed * app.timeScale;
   app.stepOnce = false;
 
   // every frame, so the anchor stays under the cursor while panning or zooming
   app.scene.moveDrag(app.camera.toWorld(app.mouse), dt);
 
-  // physics runs at twice the render rate, like the web demo
-  // Rigidbody::step asserts dt > 0, so skip frames where no time has passed
-  if (dt > 0)
+  // fixed steps, so the sim behaves the same at any frame rate or time scale;
+  // whatever is left under a step carries over to the next frame
+  app.pendingTime += dt;
+  if (app.pendingTime >= PHYSICS_STEP)
   {
     Uint64 start = SDL_GetPerformanceCounter();
-    app.scene.step(dt / 2);
-    app.scene.step(dt / 2);
+    for (; app.pendingTime >= PHYSICS_STEP; app.pendingTime -= PHYSICS_STEP)
+      app.scene.step(PHYSICS_STEP);
     float ms = (SDL_GetPerformanceCounter() - start) * 1000.f / SDL_GetPerformanceFrequency();
     app.stepMs = app.stepMs == 0 ? ms : app.stepMs * 0.95f + ms * 0.05f;
   }
