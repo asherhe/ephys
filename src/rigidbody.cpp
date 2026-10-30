@@ -39,7 +39,8 @@ void Rigidbody::addForceAt(const Vec2 &force, const Vec2 &pos)
 void Rigidbody::addForceAtLocal(const Vec2 &force, const Vec2 &pos)
 {
   forceAccum += force;
-  torqueAccum += pos.cross(force);
+  // force is in world space, so the lever arm must be too
+  torqueAccum += rotLocal2World(pos).cross(force);
 }
 
 void Rigidbody::addTorque(Pseudovec torque)
